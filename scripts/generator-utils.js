@@ -8,7 +8,7 @@ export const signedTerm=(n,variable='x')=>{
   return `${sign} ${a===1?'':a}${variable}`;
 };
 export const superscript=n=>String(n).split('').map(c=>({'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'}[c]||c)).join('');
-export const power=(base,exp)=>exp===1?base:`${base}${superscript(exp)}`;
+export const power=(base,exp)=>exp===1?base:`${base}^{${exp}}`;
 export const normalizeSpaces=s=>s.replace(/\+ −/g,'− ').replace(/\+ \+/g,'+ ').replace(/\s+/g,' ').trim();
 import{legacyHtmlToSegments,normalizeSegments,normalizeSteps}from'./math/math-segments.js';
 export const createQuestion=data=>({
