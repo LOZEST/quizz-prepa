@@ -8,237 +8,122 @@
   <meta name="apple-mobile-web-app-title" content="Quiz TSI">
   <meta name="theme-color" content="#f5f7fb">
   <link rel="manifest" href="manifest.webmanifest">
-  <title>Quiz TSI — iPad</title>
-  <style>
-    :root{
-      --bg:#f5f7fb; --card:#fff; --ink:#111827; --muted:#6b7280;
-      --line:#d1d5db; --accent:#2563eb; --accent-soft:#dbeafe;
-      --safe-top:env(safe-area-inset-top,0px);
-      --safe-right:env(safe-area-inset-right,0px);
-      --safe-bottom:env(safe-area-inset-bottom,0px);
-      --safe-left:env(safe-area-inset-left,0px);
-    }
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    html,body{
-      width:100%; height:100%; margin:0; overflow:hidden;
-      overscroll-behavior:none; background:var(--bg); color:var(--ink);
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    }
-    body{position:fixed; inset:0}
-    button,select,input{font:inherit}
-    button,select{
-      border:1px solid var(--line); border-radius:12px; background:#fff;
-      color:var(--ink); padding:10px 13px;
-    }
-    button{cursor:pointer}
-    button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-    button:disabled{opacity:.45}
-    #app{
-      position:fixed;
-      top:var(--safe-top); right:var(--safe-right);
-      bottom:var(--safe-bottom); left:var(--safe-left);
-      display:grid;
-      grid-template-rows:auto auto auto minmax(0,1fr) auto auto;
-      gap:10px;
-      padding:10px;
-      overflow:hidden;
-    }
-    .stats{
-      display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px;
-    }
-    .stat,.panel,.question,.feedback{
-      background:var(--card); border:1px solid var(--line); border-radius:15px;
-    }
-    .stat{padding:9px 11px;min-width:0}
-    .stat small{display:block;color:var(--muted);font-size:.76rem}
-    .stat strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .question{padding:11px 13px;background:var(--accent-soft);border-color:#bfdbfe}
-    .tag{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;padding:3px 8px;font-size:.75rem;margin-bottom:5px}
-    .question h1{margin:0;font-size:1rem;line-height:1.35;font-weight:600}
-    .toolbar{display:flex;gap:8px;align-items:center;padding:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .toolbar .range{display:flex;align-items:center;gap:7px;min-width:180px}
-    .toolbar input[type=range]{width:125px}
-    .board-wrap{
-      position:relative; min-height:0; overflow:hidden; border:1px solid var(--line);
-      border-radius:15px; background:#fff; touch-action:none; overscroll-behavior:none;
-    }
-    #board{
-      display:block; width:100%; height:100%;
-      touch-action:none!important; -webkit-user-select:none; user-select:none;
-      -webkit-touch-callout:none; overscroll-behavior:none;
-      background-color:#fff;
-      background-image:
-        linear-gradient(to right,rgba(100,100,100,.11) 1px,transparent 1px),
-        linear-gradient(to bottom,rgba(100,100,100,.11) 1px,transparent 1px);
-      background-size:28px 28px;
-    }
-    #board.no-grid{background-image:none}
-    .empty{
-      position:absolute; inset:0; display:grid; place-items:center; pointer-events:none;
-      text-align:center; color:var(--muted); padding:20px;
-    }
-    .actions{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .actions button{white-space:nowrap}
-    .feedback{padding:10px 12px;max-height:22vh;overflow:auto}
-    .feedback h2{font-size:.95rem;margin:0 0 5px}
-    .feedback p{font-size:.9rem;line-height:1.35;margin:0 0 8px}
-    .hidden{display:none!important}
-    @media (orientation:landscape){
-      #app{grid-template-columns:290px minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr) auto;gap:10px}
-      .stats{grid-column:1;grid-row:1}
-      .question{grid-column:1;grid-row:2}
-      .toolbar{grid-column:1;grid-row:3;align-content:start;flex-wrap:wrap;overflow:auto}
-      .board-wrap{grid-column:2;grid-row:1/4}
-      .actions{grid-column:1/3;grid-row:4}
-      .feedback{position:absolute;right:18px;bottom:66px;width:min(520px,55vw);z-index:5;box-shadow:0 12px 30px rgba(0,0,0,.15)}
-    }
-  </style>
+  <link rel="stylesheet" href="styles/app.css">
+  <title>Quiz TSI au stylet</title>
 </head>
 <body>
-<main id="app">
-  <section class="stats">
-    <div class="stat"><small>Question</small><strong id="progress"></strong></div>
-    <div class="stat"><small>Thème</small><strong id="theme"></strong></div>
-    <div class="stat"><small>Niveau</small><strong id="level"></strong></div>
-  </section>
+  <main id="app" class="app-shell">
+    <header class="topbar">
+      <section class="stats" aria-label="Progression">
+        <div class="metric"><small>Notion</small><strong id="currentNotion">—</strong></div>
+        <div class="metric"><small>Maîtrise</small><strong id="mastery">0 %</strong></div>
+        <div class="metric"><small>Sauvegarde</small><strong id="saveStatus">Locale</strong></div>
+      </section>
+      <button id="settingsButton" class="icon-button" type="button" aria-label="Ouvrir les réglages">⚙︎</button>
+    </header>
 
-  <section class="question">
-    <span id="kind" class="tag"></span>
-    <h1 id="questionText"></h1>
-  </section>
+    <section id="filters" class="filters panel">
+      <label>Mode
+        <select id="modeSelect">
+          <option value="free">Parcours libre</option>
+          <option value="daily">Révision du jour</option>
+          <option value="weak">Notions à revoir</option>
+          <option value="chapter-test">Test de chapitre</option>
+        </select>
+      </label>
+      <label>Partie<select id="partSelect"></select></label>
+      <label>Chapitre<select id="chapterSelect"></select></label>
+      <label>Notion<select id="notionSelect"></select></label>
+      <label>Niveau
+        <select id="difficultySelect">
+          <option value="adaptive">Adaptatif</option>
+          <option value="1">Fondamental</option>
+          <option value="2">Standard</option>
+          <option value="3">Réflexe prépa</option>
+          <option value="4">Piège</option>
+        </select>
+      </label>
+      <button id="applyFilters" class="primary" type="button">Nouvelle question</button>
+    </section>
 
-  <section class="panel toolbar">
-    <select id="tool" aria-label="Outil">
-      <option value="pen">Stylo</option>
-      <option value="eraser">Gomme</option>
-    </select>
-    <div class="range">
-      <span>Épaisseur <b id="sizeValue">3</b></span>
-      <input id="size" type="range" min="1" max="22" value="3">
-    </div>
-    <button id="undo" type="button">Annuler</button>
-    <button id="redo" type="button">Rétablir</button>
-    <button id="clear" type="button">Effacer</button>
-    <label><input id="gridToggle" type="checkbox" checked> Quadrillage</label>
-  </section>
+    <section class="question-card">
+      <div class="question-meta">
+        <span id="questionKind" class="badge">Question</span>
+        <span id="questionDifficulty" class="muted">Niveau 1</span>
+      </div>
+      <div id="questionText" class="question-text"></div>
+    </section>
 
-  <section id="boardWrap" class="board-wrap">
-    <canvas id="board" aria-label="Tableau de résolution"></canvas>
-    <div id="emptyHint" class="empty">Écris ici avec l’Apple Pencil.<br>La page ne se déplace pas.</div>
-  </section>
+    <section class="board-toolbar panel" aria-label="Outils du tableau">
+      <select id="toolSelect" aria-label="Outil">
+        <option value="pen">Stylo</option>
+        <option value="eraser">Gomme</option>
+      </select>
+      <label class="range-control">Épaisseur <b id="sizeValue">3</b>
+        <input id="sizeRange" type="range" min="1" max="24" value="3">
+      </label>
+      <button id="undoButton" type="button">Annuler</button>
+      <button id="redoButton" type="button">Rétablir</button>
+      <button id="clearButton" type="button">Effacer</button>
+      <label class="check"><input id="gridToggle" type="checkbox" checked> Quadrillage</label>
+    </section>
 
-  <nav class="actions">
-    <button id="hint" type="button">Indice</button>
-    <button id="correction" type="button">Correction</button>
-    <button id="previous" type="button">Précédente</button>
-    <button id="next" type="button" class="primary">Suivante</button>
-  </nav>
+    <section id="boardWrap" class="board-wrap">
+      <canvas id="board" aria-label="Tableau de résolution au stylet"></canvas>
+      <div id="boardHint" class="board-hint">Écris ici avec l’Apple Pencil.<br>La page reste fixe pendant l’écriture.</div>
+    </section>
 
-  <section id="feedback" class="feedback hidden" aria-live="polite">
-    <h2 id="feedbackTitle"></h2>
-    <p id="feedbackText"></p>
-    <div id="extra" class="hidden">
-      <h2>Notion cachée</h2><p id="hiddenText"></p>
-      <h2>Formulation prépa</h2><p id="oralText"></p>
-    </div>
-  </section>
-</main>
+    <nav class="actions" aria-label="Actions de la question">
+      <button id="hintButton" type="button">Indice</button>
+      <button id="correctionButton" type="button">Voir la correction</button>
+      <button id="skipButton" type="button">Passer</button>
+    </nav>
 
-<script>
-const questions=[
-{theme:'Puissances',level:'Base',kind:'Calcul réfléchi',q:'Simplifie a³ × a⁻⁵ avec un exposant négatif, puis uniquement avec des exposants positifs. Précise la condition sur a.',hint:'Dans un produit de puissances de même base, on additionne les exposants.',correction:'a³ × a⁻⁵ = a⁻² = 1/a², avec a ≠ 0.',hidden:'La simplification ne doit pas faire oublier les conditions d’existence.',oral:'« Les puissances ont la même base, donc j’additionne les exposants. »'},
-{theme:'Factorisation',level:'Base',kind:'Méthode',q:'Factorise x² − 9 puis résous x² − 9 = 0.',hint:'Reconnais une différence de deux carrés.',correction:'x²−9=(x−3)(x+3). Par le produit nul : x=3 ou x=−3.',hidden:'Factoriser et résoudre sont deux étapes distinctes.',oral:'« Je factorise, puis j’applique le théorème du produit nul. »'},
-{theme:'Factorisation',level:'Réflexe prépa',kind:'Stratégie',q:'Factorise sans tout développer : (3x−2)(x+5)² − 9(3x−2).',hint:'Cherche d’abord le facteur commun visible.',correction:'(3x−2)[(x+5)²−9]=(3x−2)(x+2)(x+8).',hidden:'Développer immédiatement détruit souvent une structure utile.',oral:'« Je conserve la structure et je cherche un facteur commun. »'},
-{theme:'Fractions',level:'Piège',kind:'Domaine',q:'Simplifie (x²−1)/(x−1), puis indique précisément son ensemble de définition.',hint:'Détermine le domaine avant la simplification.',correction:'Pour x≠1, la fraction vaut x+1. Son domaine reste ℝ\\\\{1}.',hidden:'Une valeur interdite ne disparaît pas après simplification.',oral:'« Je détermine d’abord le domaine de l’expression initiale. »'},
-{theme:'Second degré',level:'Réflexe prépa',kind:'Calcul mental',q:'Résous x²−3x−10=0 sans utiliser la formule du discriminant.',hint:'Cherche deux nombres de produit −10 et de somme −3.',correction:'x²−3x−10=(x−5)(x+2), donc x=5 ou x=−2.',hidden:'Le discriminant n’est pas toujours la méthode la plus efficace.',oral:'« Je cherche d’abord une factorisation simple. »'},
-{theme:'Suites',level:'Piège',kind:'Condition cachée',q:'On sait que uₙ₊₁/uₙ > 1. Peut-on conclure que la suite est croissante ?',hint:'Que se passe-t-il lorsque uₙ est négatif ?',correction:'Seulement si uₙ>0. On peut alors multiplier sans changer le sens de l’inégalité.',hidden:'Toute opération sur une inégalité exige de contrôler le signe.',oral:'« Comme uₙ est positif, je multiplie sans changer le sens. »'},
-{theme:'Dérivation',level:'Base',kind:'Cours',q:'Écris l’équation de la tangente à la courbe de f au point d’abscisse a.',hint:'Elle passe par (a,f(a)) et sa pente vaut f′(a).',correction:'y=f′(a)(x−a)+f(a).',hidden:'f′(a) est un nombre tandis que f′ est une fonction.',oral:'« La tangente passe par le point de contact et a pour pente le nombre dérivé. »'},
-{theme:'Dérivation',level:'Piège',kind:'Interprétation',q:'Si f′(a)=0, peut-on conclure que f possède un extremum en a ? Donne un contre-exemple.',hint:'Pense à f(x)=x³ en 0.',correction:'Non. Pour f(x)=x³, f′(0)=0 mais il n’y a pas d’extremum.',hidden:'Une condition nécessaire n’est pas toujours suffisante.',oral:'« Le changement de signe de f′ permet de conclure. »'},
-{theme:'Primitives',level:'Réflexe prépa',kind:'Reconnaissance',q:'Donne une primitive de u′(x)/u(x) et précise les conditions.',hint:'Reconnais une dérivée logarithmique.',correction:'ln|u(x)| sur tout intervalle où u ne s’annule pas.',hidden:'La valeur absolue et l’intervalle de définition sont indispensables.',oral:'« Je reconnais la dérivée logarithmique u′/u. »'},
-{theme:'Trigonométrie',level:'Base',kind:'Cercle trigonométrique',q:'Retrouve géométriquement cos(π−x) et sin(π−x).',hint:'Utilise la symétrie par rapport à l’axe des ordonnées.',correction:'cos(π−x)=−cos x et sin(π−x)=sin x.',hidden:'Il faut savoir reconstruire les relations sur le cercle.',oral:'« La symétrie conserve l’ordonnée et change le signe de l’abscisse. »'},
-{theme:'Équations différentielles',level:'Réflexe prépa',kind:'Cours',q:'Donne les solutions de y′=ay+b avec a≠0.',hint:'Résous l’homogène puis ajoute une solution constante.',correction:'y(x)=Ce^{ax}−b/a, C∈ℝ.',hidden:'La condition initiale détermine ensuite C.',oral:'« Je résous l’homogène puis j’ajoute une solution particulière. »'}
-];
+    <section id="feedback" class="feedback panel hidden" aria-live="polite">
+      <div class="feedback-head">
+        <h2 id="feedbackTitle">Correction</h2>
+        <button id="closeFeedback" class="icon-button" type="button" aria-label="Fermer">×</button>
+      </div>
+      <div id="feedbackText"></div>
+      <div id="conceptBlock" class="hidden">
+        <h3>Notion cachée à retenir</h3>
+        <p id="hiddenConcept"></p>
+        <h3>Formulation propre en prépa</h3>
+        <p id="oralFormulation"></p>
+      </div>
+      <div id="evaluationButtons" class="evaluation hidden">
+        <p>Après comparaison avec la correction :</p>
+        <button id="successButton" class="success" type="button">Réussi</button>
+        <button id="almostButton" type="button">Presque réussi</button>
+        <button id="failedButton" class="danger" type="button">Raté</button>
+      </div>
+      <div id="resultBanner" class="result-banner hidden"></div>
+      <button id="nextButton" class="primary wide hidden" type="button">Question suivante</button>
+    </section>
 
-const $=id=>document.getElementById(id);
-const canvas=$('board'), wrap=$('boardWrap'), ctx=canvas.getContext('2d',{alpha:true});
-let index=0,drawing=false,pointerId=null,lastX=0,lastY=0,history=[],future=[],hasInk=false;
-
-function resizeCanvas(){
-  const old=document.createElement('canvas');
-  old.width=canvas.width; old.height=canvas.height;
-  if(old.width&&old.height) old.getContext('2d').drawImage(canvas,0,0);
-  const rect=wrap.getBoundingClientRect(), dpr=Math.max(1,devicePixelRatio||1);
-  canvas.width=Math.round(rect.width*dpr); canvas.height=Math.round(rect.height*dpr);
-  canvas.style.width=rect.width+'px'; canvas.style.height=rect.height+'px';
-  ctx.setTransform(dpr,0,0,dpr,0,0); ctx.lineCap='round'; ctx.lineJoin='round';
-  if(old.width&&old.height) ctx.drawImage(old,0,0,old.width,old.height,0,0,rect.width,rect.height);
-}
-function p(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
-function save(){history.push(canvas.toDataURL());if(history.length>35)history.shift();future=[]}
-function restore(url){const img=new Image();img.onload=()=>{const r=canvas.getBoundingClientRect();ctx.clearRect(0,0,r.width,r.height);ctx.drawImage(img,0,0,r.width,r.height)};img.src=url}
-function clearBoard(store=true){if(store)save();const r=canvas.getBoundingClientRect();ctx.clearRect(0,0,r.width,r.height);hasInk=false;$('emptyHint').classList.remove('hidden')}
-
-function begin(e){
-  if(e.pointerType==='touch') return;
-  e.preventDefault(); e.stopPropagation();
-  pointerId=e.pointerId; canvas.setPointerCapture(pointerId); save(); drawing=true;
-  const pt=p(e); lastX=pt.x; lastY=pt.y; $('emptyHint').classList.add('hidden');
-}
-function move(e){
-  if(!drawing||e.pointerId!==pointerId)return;
-  e.preventDefault(); e.stopPropagation();
-  const pt=p(e), pressure=e.pressure>0?e.pressure:.5, base=+$('size').value;
-  const erase=$('tool').value==='eraser';
-  ctx.globalCompositeOperation=erase?'destination-out':'source-over';
-  ctx.strokeStyle='#111'; ctx.lineWidth=erase?base*3:Math.max(1,base*(.75+pressure*.55));
-  ctx.beginPath(); ctx.moveTo(lastX,lastY); ctx.lineTo(pt.x,pt.y); ctx.stroke();
-  lastX=pt.x; lastY=pt.y; hasInk=true;
-}
-function end(e){
-  if(!drawing||e.pointerId!==pointerId)return;
-  e.preventDefault(); drawing=false;
-  if(canvas.hasPointerCapture(pointerId))canvas.releasePointerCapture(pointerId);
-  pointerId=null;
-}
-canvas.addEventListener('pointerdown',begin,{passive:false});
-canvas.addEventListener('pointermove',move,{passive:false});
-canvas.addEventListener('pointerup',end,{passive:false});
-canvas.addEventListener('pointercancel',end,{passive:false});
-canvas.addEventListener('touchstart',e=>e.preventDefault(),{passive:false});
-canvas.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
-document.addEventListener('gesturestart',e=>e.preventDefault(),{passive:false});
-document.addEventListener('gesturechange',e=>e.preventDefault(),{passive:false});
-document.addEventListener('gestureend',e=>e.preventDefault(),{passive:false});
-
-function render(clear=true){
-  const q=questions[index];
-  $('progress').textContent=(index+1)+' / '+questions.length;
-  $('theme').textContent=q.theme;$('level').textContent=q.level;$('kind').textContent=q.kind;$('questionText').textContent=q.q;
-  $('previous').disabled=index===0;$('next').textContent=index===questions.length-1?'Recommencer':'Suivante';
-  $('feedback').classList.add('hidden');
-  if(clear){history=[];future=[];clearBoard(false)}
-}
-function feedback(type){
-  const q=questions[index];$('feedback').classList.remove('hidden');
-  $('feedbackTitle').textContent=type==='hint'?'Indice':'Correction raisonnée';
-  $('feedbackText').textContent=type==='hint'?q.hint:q.correction;
-  $('extra').classList.toggle('hidden',type!=='correction');
-  if(type==='correction'){$('hiddenText').textContent=q.hidden;$('oralText').textContent=q.oral}
-}
-
-$('size').addEventListener('input',()=>{$('sizeValue').textContent=$('size').value});
-$('gridToggle').addEventListener('change',e=>canvas.classList.toggle('no-grid',!e.target.checked));
-$('undo').addEventListener('click',()=>{if(!history.length)return;future.push(canvas.toDataURL());restore(history.pop())});
-$('redo').addEventListener('click',()=>{if(!future.length)return;history.push(canvas.toDataURL());restore(future.pop())});
-$('clear').addEventListener('click',()=>clearBoard(true));
-$('hint').addEventListener('click',()=>feedback('hint'));
-$('correction').addEventListener('click',()=>feedback('correction'));
-$('previous').addEventListener('click',()=>{if(index>0){index--;render(true)}});
-$('next').addEventListener('click',()=>{index=index<questions.length-1?index+1:0;render(true)});
-window.addEventListener('resize',()=>{clearTimeout(window._r);window._r=setTimeout(resizeCanvas,100)});
-
-if('serviceWorker' in navigator){navigator.serviceWorker.register('./service-worker.js').catch(()=>{})}
-resizeCanvas();render(false);
-</script>
+    <dialog id="settingsDialog" class="settings-dialog">
+      <form method="dialog">
+        <header><h2>Réglages et sauvegarde</h2><button value="close" class="icon-button" aria-label="Fermer">×</button></header>
+        <section>
+          <h3>Sauvegarde actuelle</h3>
+          <p>La progression est enregistrée immédiatement dans le navigateur de l’iPad.</p>
+          <div class="button-row">
+            <button id="exportButton" type="button">Exporter la sauvegarde</button>
+            <label class="file-button">Importer une sauvegarde<input id="importInput" type="file" accept="application/json"></label>
+          </div>
+        </section>
+        <section>
+          <h3>Google Drive</h3>
+          <p id="driveStatus">Le connecteur Drive est préparé, mais il doit être déployé avec Google Apps Script.</p>
+          <button id="driveSyncButton" type="button" disabled>Synchroniser avec Drive</button>
+        </section>
+        <section>
+          <h3>Statistiques</h3>
+          <div id="statsSummary" class="stats-summary"></div>
+        </section>
+      </form>
+    </dialog>
+  </main>
+  <script type="module" src="scripts/app.js"></script>
 </body>
 </html>
