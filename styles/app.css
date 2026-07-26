@@ -8,3 +8,5 @@
 @media (max-width:650px){.question-card{left:8px;right:8px;width:auto;top:112px}.question-card.collapsed{right:auto;max-width:calc(100% - 16px)}.indicators{flex:1;max-width:none}.metric{flex:1}.actions{left:8px;right:8px;transform:none}.actions button{flex:1;padding-inline:6px}.board-toolbar span{display:none}.tool-toggle{width:62px}.tool-right .tool-toggle{right:8px}.tool-left .tool-toggle{left:8px}}
 @media (orientation:landscape){.question-card{top:62px}.feedback{left:auto;right:14px;width:min(560px,60vw)}}
 @media (prefers-reduced-motion:reduce){.drawer{transition:none}}
+
+.board-wrap canvas.line-snapped{box-shadow:inset 0 0 0 2px rgba(37,99,235,.18)}

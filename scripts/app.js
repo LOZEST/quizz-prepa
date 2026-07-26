@@ -8,7 +8,7 @@ import{readHandedness,writeHandedness,setDrawerState,setQuestionCollapsed,setToo
 const $=id=>document.getElementById(id);
 let state=loadState(),current=null,hintUsed=false,correctionSeen=false,sessionAnswered=0,questionNumber=0;
 const engine=new QuizEngine();
-const board=new DrawingBoard({canvas:$('board'),wrap:$('boardWrap'),hint:$('boardHint'),tool:$('toolSelect'),size:$('sizeRange'),grid:$('gridToggle')});
+const board=new DrawingBoard({canvas:$('board'),wrap:$('boardWrap'),hint:$('boardHint'),tool:$('toolSelect'),size:$('sizeRange'),grid:$('gridToggle'),straightToggle:$('straightToggle'),scribbleToggle:$('scribbleToggle')});
 
 function option(select,value,label){const o=document.createElement('option');o.value=value;o.textContent=label;select.append(o)}
 function initCourseSelectors(){option($('partSelect'),'all','Toutes les parties');for(const p of COURSE_MAP)option($('partSelect'),p.id,p.label);refreshChapters();$('partSelect').addEventListener('change',refreshChapters);$('chapterSelect').addEventListener('change',refreshNotions)}
