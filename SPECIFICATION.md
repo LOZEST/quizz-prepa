@@ -82,3 +82,6 @@ L’extraction automatique propose des objets structurés : propriété, conditi
 - Workflow correction puis autoévaluation.
 - Sauvegarde locale, export et import.
 - Tests automatiques de génération.
+
+## 11. Format mathématique
+Les contenus affichables séparent le texte des mathématiques dans une liste `segments`. Un segment `text` est toujours inséré comme texte DOM ; un segment `math` contient uniquement une source LaTeX KaTeX et peut activer `display`. Les corrections utilisent une liste `steps`, chaque étape contenant ses propres segments. Le moteur commun rend questions, indices, corrections, notion cachée et formulation attendue. Une chaîne historique est normalisée sans interpréter de HTML arbitraire. Toute erreur KaTeX produit un fallback textuel repérable par `data-math-fallback="true"` sans interrompre le parcours.
