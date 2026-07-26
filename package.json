@@ -6,7 +6,11 @@
   "scripts": {
     "test": "node --test tests/*.test.mjs"
   },
+<<<<<<< HEAD
   "dependencies": {
     "katex": "0.16.22"
   }
+=======
+  "dependencies": {"katex": "0.16.22"}
+>>>>>>> d621511a09b75a7cb31330e6e96f4f4be6f876b8
 }

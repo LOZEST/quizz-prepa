@@ -9,121 +9,71 @@
   <meta name="theme-color" content="#f5f7fb">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="styles/app.css">
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="styles/katex-overrides.css">
   <title>Quiz TSI au stylet</title>
 </head>
 <body>
-  <main id="app" class="app-shell">
-    <header class="topbar">
-      <section class="stats" aria-label="Progression">
-        <div class="metric"><small>Notion</small><strong id="currentNotion">—</strong></div>
-        <div class="metric"><small>Maîtrise</small><strong id="mastery">0 %</strong></div>
-        <div class="metric"><small>Sauvegarde</small><strong id="saveStatus">Locale</strong></div>
-      </section>
-      <button id="settingsButton" class="icon-button" type="button" aria-label="Ouvrir les réglages">⚙︎</button>
-    </header>
-
-    <section id="filters" class="filters panel">
-      <label>Mode
-        <select id="modeSelect">
-          <option value="free">Parcours libre</option>
-          <option value="daily">Révision du jour</option>
-          <option value="weak">Notions à revoir</option>
-          <option value="chapter-test">Test de chapitre</option>
-        </select>
-      </label>
-      <label>Partie<select id="partSelect"></select></label>
-      <label>Chapitre<select id="chapterSelect"></select></label>
-      <label>Notion<select id="notionSelect"></select></label>
-      <label>Niveau
-        <select id="difficultySelect">
-          <option value="adaptive">Adaptatif</option>
-          <option value="1">Fondamental</option>
-          <option value="2">Standard</option>
-          <option value="3">Réflexe prépa</option>
-          <option value="4">Piège</option>
-        </select>
-      </label>
-      <button id="applyFilters" class="primary" type="button">Nouvelle question</button>
-    </section>
-
-    <section class="question-card">
-      <div class="question-meta">
-        <span id="questionKind" class="badge">Question</span>
-        <span id="questionDifficulty" class="muted">Niveau 1</span>
-      </div>
-      <div id="questionText" class="question-text"></div>
-    </section>
-
-    <section class="board-toolbar panel" aria-label="Outils du tableau">
-      <select id="toolSelect" aria-label="Outil">
-        <option value="pen">Stylo</option>
-        <option value="eraser">Gomme</option>
-      </select>
-      <label class="range-control">Épaisseur <b id="sizeValue">3</b>
-        <input id="sizeRange" type="range" min="1" max="24" value="3">
-      </label>
-      <button id="undoButton" type="button">Annuler</button>
-      <button id="redoButton" type="button">Rétablir</button>
-      <button id="clearButton" type="button">Effacer</button>
-      <label class="check"><input id="gridToggle" type="checkbox" checked> Quadrillage</label>
-    </section>
-
+  <main id="app" class="app-shell tool-right">
     <section id="boardWrap" class="board-wrap">
       <canvas id="board" aria-label="Tableau de résolution au stylet"></canvas>
       <div id="boardHint" class="board-hint">Écris ici avec l’Apple Pencil.<br>La page reste fixe pendant l’écriture.</div>
     </section>
 
-    <nav class="actions" aria-label="Actions de la question">
-      <button id="hintButton" type="button">Indice</button>
-      <button id="correctionButton" type="button">Voir la correction</button>
-      <button id="skipButton" type="button">Passer</button>
-    </nav>
+    <header class="topbar">
+      <button id="drawerButton" class="icon-button" type="button" aria-label="Ouvrir le menu" aria-controls="settingsDrawer" aria-expanded="false">☰</button>
+      <section class="indicators" aria-label="Indicateurs de travail">
+        <div class="metric"><small>Progression de la séance</small><strong id="sessionProgress">Question 1 · 0 réponse</strong></div>
+        <div class="metric"><small>Maîtrise de la notion</small><strong id="mastery">0 %</strong></div>
+      </section>
+    </header>
 
-    <section id="feedback" class="feedback panel hidden" aria-live="polite">
-      <div class="feedback-head">
-        <h2 id="feedbackTitle">Correction</h2>
-        <button id="closeFeedback" class="icon-button" type="button" aria-label="Fermer">×</button>
+    <section id="questionCard" class="question-card" aria-label="Question en cours">
+      <div class="question-head">
+        <div class="question-meta">
+          <span id="questionChapter" class="meta-item">Chapitre</span>
+          <span id="questionNotion" class="meta-item">Notion</span>
+          <span id="questionDifficulty" class="meta-item">Niveau 1</span>
+          <span id="questionKind" class="badge">Question</span>
+          <span id="questionProgress" class="meta-item">Question 1</span>
+        </div>
+        <button id="questionToggle" class="icon-button compact-button" type="button" aria-label="Réduire la question" aria-expanded="true">⌃</button>
       </div>
-      <div id="feedbackText"></div>
-      <div id="conceptBlock" class="hidden">
-        <h3>Notion cachée à retenir</h3>
-        <p id="hiddenConcept"></p>
-        <h3>Formulation propre en prépa</h3>
-        <p id="oralFormulation"></p>
-      </div>
-      <div id="evaluationButtons" class="evaluation hidden">
-        <p>Après comparaison avec la correction :</p>
-        <button id="successButton" class="success" type="button">Réussi</button>
-        <button id="almostButton" type="button">Presque réussi</button>
-        <button id="failedButton" class="danger" type="button">Raté</button>
-      </div>
-      <div id="resultBanner" class="result-banner hidden"></div>
-      <button id="nextButton" class="primary wide hidden" type="button">Question suivante</button>
+      <div id="questionText" class="question-text"></div>
     </section>
 
-    <dialog id="settingsDialog" class="settings-dialog">
-      <form method="dialog">
-        <header><h2>Réglages et sauvegarde</h2><button value="close" class="icon-button" aria-label="Fermer">×</button></header>
-        <section>
-          <h3>Sauvegarde actuelle</h3>
-          <p>La progression est enregistrée immédiatement dans le navigateur de l’iPad.</p>
-          <div class="button-row">
-            <button id="exportButton" type="button">Exporter la sauvegarde</button>
-            <label class="file-button">Importer une sauvegarde<input id="importInput" type="file" accept="application/json"></label>
-          </div>
-        </section>
-        <section>
-          <h3>Google Drive</h3>
-          <p id="driveStatus">Le connecteur Drive est préparé, mais il doit être déployé avec Google Apps Script.</p>
-          <button id="driveSyncButton" type="button" disabled>Synchroniser avec Drive</button>
-        </section>
-        <section>
-          <h3>Statistiques</h3>
-          <div id="statsSummary" class="stats-summary"></div>
-        </section>
-      </form>
-    </dialog>
+    <div id="drawerBackdrop" class="drawer-backdrop hidden" aria-hidden="true"></div>
+    <aside id="settingsDrawer" class="drawer" aria-label="Menu et réglages" aria-hidden="true" inert>
+      <header class="drawer-head"><h2>Menu</h2><button id="closeDrawer" class="icon-button" type="button" aria-label="Fermer le menu">×</button></header>
+      <section id="filters" class="drawer-section filters">
+        <label>Mode<select id="modeSelect"><option value="free">Parcours libre</option><option value="daily">Révision du jour</option><option value="weak">Notions à revoir</option><option value="chapter-test">Test de chapitre</option></select></label>
+        <label>Partie<select id="partSelect"></select></label>
+        <label>Chapitre<select id="chapterSelect"></select></label>
+        <label>Notion<select id="notionSelect"></select></label>
+        <label>Niveau<select id="difficultySelect"><option value="adaptive">Adaptatif</option><option value="1">Fondamental</option><option value="2">Standard</option><option value="3">Réflexe prépa</option><option value="4">Piège</option></select></label>
+        <button id="applyFilters" class="primary" type="button">Nouvelle question</button>
+      </section>
+      <section class="drawer-section board-settings" aria-label="Réglages du tableau">
+        <label class="range-control">Taille du stylo <b id="sizeValue">3</b><input id="sizeRange" type="range" min="1" max="24" value="3"></label>
+        <label class="check"><input id="gridToggle" type="checkbox" checked> Quadrillage</label>
+        <label class="check"><input id="straightToggle" type="checkbox" checked> Maintenir pour tracer une ligne droite</label>
+        <label class="check"><input id="scribbleToggle" type="checkbox" checked> Griffonner pour effacer</label>
+        <button id="clearButton" type="button">Tout effacer</button>
+        <fieldset><legend>Position du bouton d’outil</legend><label><input type="radio" name="handedness" value="right" checked> Droitier</label><label><input type="radio" name="handedness" value="left"> Gaucher</label></fieldset>
+      </section>
+      <section class="drawer-section"><h3>Sauvegarde</h3><p id="saveStatus">Sauvegardé localement</p><button id="exportButton" type="button">Exporter la sauvegarde</button><label class="file-button">Importer une sauvegarde<input id="importInput" type="file" accept="application/json"></label></section>
+      <section class="drawer-section"><h3>Statistiques</h3><div id="statsSummary" class="stats-summary"></div></section>
+    </aside>
+
+    <button id="toolToggle" class="tool-toggle" type="button" aria-label="Outil actif : stylo. Passer à la gomme" aria-pressed="false"><span aria-hidden="true">✎</span><strong>Stylo</strong></button>
+    <select id="toolSelect" class="visually-hidden" aria-label="Outil"><option value="pen">Stylo</option><option value="eraser">Gomme</option></select>
+
+    <section class="board-toolbar" aria-label="Historique du tableau"><button id="undoButton" type="button">↶ <span>Annuler</span></button><button id="redoButton" type="button">↷ <span>Rétablir</span></button></section>
+    <nav class="actions" aria-label="Actions de la question"><button id="hintButton" type="button">Indice</button><button id="correctionButton" class="primary" type="button">Voir la correction</button><button id="skipButton" type="button">Passer</button></nav>
+
+    <section id="feedback" class="feedback hidden" aria-live="polite"><div class="feedback-head"><h2 id="feedbackTitle">Correction</h2><button id="closeFeedback" class="icon-button" type="button" aria-label="Fermer">×</button></div><div id="feedbackText"></div><div id="conceptBlock" class="hidden"><h3>Notion cachée à retenir</h3><p id="hiddenConcept"></p><h3>Formulation propre en prépa</h3><p id="oralFormulation"></p></div><div id="evaluationButtons" class="evaluation hidden"><p>Après comparaison avec la correction :</p><button id="successButton" class="success" type="button">Réussi</button><button id="almostButton" type="button">Presque réussi</button><button id="failedButton" class="danger" type="button">Raté</button></div><div id="resultBanner" class="result-banner hidden"></div><button id="nextButton" class="primary wide hidden" type="button">Question suivante</button></section>
   </main>
+  <script src="vendor/katex/katex.min.js"></script>
   <script type="module" src="scripts/app.js"></script>
 </body>
 </html>
