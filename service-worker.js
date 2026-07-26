@@ -1,5 +1,5 @@
-const CACHE='quiz-tsi-v0.1.0';
-const CORE=['./','./index.html','./styles/app.css','./scripts/app.js','./manifest.webmanifest','./icon.svg'];
+const CACHE='quiz-tsi-ipad-v1';
+const CORE=['./','./index.html','./styles/app.css','./manifest.webmanifest','./icon.svg','./scripts/app.js','./scripts/board.js','./scripts/ui-state.js','./scripts/storage.js','./scripts/course-map.js','./scripts/quiz-engine.js','./scripts/scheduler.js','./scripts/fixed-questions.js','./scripts/generator-utils.js','./scripts/generators/powers.js','./scripts/generators/factorisation.js','./scripts/generators/fractions.js','./scripts/generators/quadratic.js','./scripts/generators/sequences.js','./scripts/generators/derivatives.js','./scripts/generators/primitives.js','./scripts/generators/trigonometry.js','./scripts/generators/ode.js','./data/course-concepts.json'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE))));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))));
 self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));
