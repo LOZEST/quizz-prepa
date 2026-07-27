@@ -46,3 +46,16 @@ Les énoncés, indices et corrections acceptent des segments `{type: "text", val
 
 ## Prochaine étape recommandée
 Tester cette V0.1 sur l’iPad, puis corriger l’ergonomie avant d’ajouter la synchronisation Drive et d’élargir les générateurs.
+
+## Niveaux pédagogiques et banque de pièges
+
+Les niveaux sont désormais validés : **Fondamental** (application immédiate), **Standard** (procédure de cours en plusieurs étapes), **Réflexe prépa** (méthode à reconnaître) et **Piège** (misconception tentante identifiée). Le niveau 4 est exclusivement alimenté par le registre validé de 25 modèles génératifs; une notion sans modèle renvoie une lacune explicite, jamais une question générique.
+
+Chaque piège possède une taxonomie, un oracle exact, une graine reproductible, une signature de variante et une correction qui n’affiche l’analyse de l’erreur qu’après la demande de correction. La banque reste entièrement locale et utilise les segments KaTeX existants.
+
+```bash
+npm test
+npm run traps:coverage
+```
+
+Le rapport réel se trouve dans `reports/trap-coverage.md`. La procédure d’ajout et de validation est détaillée dans `docs/ADDING-A-TRAP.md`.

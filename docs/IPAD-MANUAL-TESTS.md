@@ -42,3 +42,17 @@ Ces contrôles nécessitent un iPad réel et un Apple Pencil. Ils restent à eff
 - Les traits sont stockés sous forme de points simplifiés (écart minimal de 0,7 unité), et non comme quarante PNG Retina.
 - Pendant l'écriture libre, seul le nouveau segment est rendu. La scène complète est reconstruite uniquement lors d'une rotation, d'un redimensionnement, d'une aimantation, d'une suppression ou d'une action d'historique.
 - Les opérations d'historique contiennent uniquement les traits ajoutés ou supprimés ; un griffonnage constitue une opération atomique.
+
+## PR 3 — niveaux et pièges (à effectuer sur iPad réel)
+
+Ces contrôles matériels n’ont pas été exécutés dans l’environnement terminal :
+
+- Sélectionner successivement les quatre niveaux et comparer 1/2 puis 2/3.
+- Vérifier qu’un niveau 4 contient une erreur réellement tentante sans la révéler avant la correction.
+- Ouvrir la correction et contrôler les quatre titres : « Erreur classique », « Pourquoi c’est tentant », « Pourquoi c’est faux », « Réflexe à retenir ».
+- Générer plusieurs variantes d’un même modèle et vérifier nombres, formulation et ordre lorsque pertinent.
+- Contrôler fractions verticales, exposants, indices, trigonométrie et corrections longues.
+- Changer de chapitre, puis demander un niveau 4 indisponible et vérifier l’état explicite sans question hors sujet.
+- Tester portrait, paysage, texte agrandi et VoiceOver.
+- Installer puis relancer hors connexion et accomplir un parcours de piège complet.
+- Vérifier que le tableau, la pression, la gomme, le griffonnage, la ligne maintenue, Annuler et Rétablir restent inchangés.

@@ -9,9 +9,11 @@
 - [x] Sauvegarde locale.
 
 ## V0.2 — Qualité pédagogique
-- [ ] Ajouter des validations mathématiques spécifiques à chaque générateur.
+- [x] Ajouter une politique validée des niveaux et des oracles pour la banque générative de pièges.
+- [ ] Étendre les validations mathématiques spécifiques à tous les générateurs historiques.
 - [ ] Étendre les questions de cours à toutes les notions.
-- [ ] Ajouter des variantes « repérer l’erreur », « condition manquante » et « contre-exemple ».
+- [x] Ajouter des variantes génératives « repérer l’erreur », « condition manquante » et « contre-exemple » pour les chapitres centraux.
+- [ ] Étendre les pièges aux 25 notions encore non couvertes.
 - [ ] Ajouter un tableau de bord par chapitre.
 - [ ] Ajouter une session de test chronométrée sans indice.
 
