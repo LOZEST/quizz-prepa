@@ -1,0 +1,1 @@
+export function setPageHeader(title,subtitle=''){document.title=`${title} · Quiz TSI`;const h=document.querySelector('h1');if(h)h.textContent=title;const p=document.querySelector('[data-page-subtitle]');if(p)p.textContent=subtitle}

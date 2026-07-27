@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Quiz TSI">
+  <meta name="theme-color" content="#f5f7fb">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles/app.css">
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="styles/katex-overrides.css">
+  <title>Quiz TSI au stylet</title>
+</head>
+<body>
+  <section id="authView" class="auth-view" aria-labelledby="authTitle"><form id="loginForm" class="auth-card"><h1 id="authTitle">Quiz TSI au stylet</h1><p>Connectez-vous à votre espace personnel.</p><label>Adresse e-mail<input id="authEmail" name="email" type="email" autocomplete="username" required></label><label>Mot de passe<input id="authPassword" name="password" type="password" autocomplete="current-password" required></label><button id="togglePassword" type="button" aria-controls="authPassword">Afficher le mot de passe</button><button id="loginButton" class="primary" type="submit">Se connecter</button><p id="authError" class="auth-error" role="alert" aria-live="assertive"></p></form></section>
+  <main id="app" class="app-shell tool-right hidden" aria-hidden="true">
+    <section id="boardWrap" class="board-wrap">
+      <canvas id="board" aria-label="Tableau de résolution au stylet"></canvas>
+      <div id="boardHint" class="board-hint">Écris ici avec l’Apple Pencil.<br>La page reste fixe pendant l’écriture.</div>
+    </section>
+
+    <header class="topbar">
+      <button id="drawerButton" class="icon-button" type="button" aria-label="Ouvrir le menu" aria-controls="settingsDrawer" aria-expanded="false">☰</button>
+      <section class="indicators" aria-label="Indicateurs de travail">
+        <div class="metric"><small>Progression de la séance</small><strong id="sessionProgress">Question 1 · 0 réponse</strong></div>
+        <div class="metric"><small>Maîtrise de la notion (estimée)</small><strong id="mastery">Pas encore évaluée</strong></div>
+        <div class="metric"><small>Confiance</small><strong id="confidence">Aucune preuve</strong></div>
+        <div class="metric"><small>Prochaine révision</small><strong id="nextReview">À déterminer</strong></div>
+      </section>
+    </header>
+
+    <section id="questionCard" class="question-card" aria-label="Question en cours">
+      <div class="question-head">
+        <div class="question-meta">
+          <span id="questionChapter" class="meta-item">Chapitre</span>
+          <span id="questionNotion" class="meta-item">Notion</span>
+          <span id="questionDifficulty" class="meta-item">Niveau 1</span>
+          <span id="questionKind" class="badge">Question</span>
+          <span id="questionProgress" class="meta-item">Question 1</span>
+        </div>
+        <button id="questionToggle" class="icon-button compact-button" type="button" aria-label="Réduire la question" aria-expanded="true">⌃</button>
+      </div>
+      <div id="questionText" class="question-text"></div>
+    </section>
+
+    <div id="drawerBackdrop" class="drawer-backdrop hidden" aria-hidden="true"></div>
+    <aside id="settingsDrawer" class="drawer" aria-label="Menu et réglages" aria-hidden="true" inert>
+      <header class="drawer-head"><h2>Menu</h2><button id="closeDrawer" class="icon-button" type="button" aria-label="Fermer le menu">×</button></header>
+      <nav class="drawer-section quiz-primary-nav" aria-label="Navigation principale"><a href="./index.html">⌂ Accueil</a><a href="./session.html">▶ Commencer une séance</a><a href="./quiz.html" aria-current="page">✎ Quiz en cours</a><a href="./questions.html">▤ Banque de questions</a><a href="./stats.html">▥ Statistiques</a><a href="./settings.html">⚙ Réglages</a></nav><section class="drawer-section account-summary" aria-label="Compte"><strong id="accountIdentity"></strong><span id="accountRole" class="badge"></span><span id="offlineMode" class="offline-badge hidden">Mode hors connexion</span><button id="logoutButton" type="button">Se déconnecter</button></section>
+      <section id="filters" class="drawer-section legacy-quiz-controls filters">
+        <label>Mode<select id="modeSelect"><option value="daily">Révisions du jour</option><option value="consolidation">Consolidation</option><option value="new">Nouvelles notions</option><option value="reflex">Réflexes prépa</option><option value="mix">Mix intelligent</option><option value="free">Révision libre</option><option value="chapter-test">Test de chapitre</option></select></label>
+        <label>Partie<select id="partSelect"></select></label>
+        <label>Chapitre<select id="chapterSelect"></select></label>
+        <label>Notion<select id="notionSelect"></select></label>
+        <label>Niveau<select id="difficultySelect"><option value="adaptive">Adaptatif</option><option value="1">Fondamental</option><option value="2">Standard</option><option value="3">Réflexe prépa</option><option value="4">Piège</option></select></label>
+        <button id="applyFilters" class="primary" type="button">Nouvelle question</button>
+      </section>
+      <section class="drawer-section legacy-quiz-controls board-settings" aria-label="Réglages du tableau">
+        <label class="range-control">Taille du stylo <b id="sizeValue">3</b><input id="sizeRange" type="range" min="1" max="24" value="3"></label>
+        <label class="check"><input id="gridToggle" type="checkbox" checked> Quadrillage</label>
+        <label class="check"><input id="straightToggle" type="checkbox" checked> Maintenir pour tracer une forme parfaite</label>
+        <label class="check"><input id="scribbleToggle" type="checkbox" checked> Griffonner pour effacer</label>
+        <button id="clearButton" type="button">Tout effacer</button>
+        <fieldset><legend>Position du bouton d’outil</legend><label><input type="radio" name="handedness" value="right" checked> Droitier</label><label><input type="radio" name="handedness" value="left"> Gaucher</label></fieldset>
+      </section>
+      <section class="drawer-section legacy-quiz-controls"><h3>Sauvegarde</h3><p id="saveStatus">Sauvegardé localement</p><button id="exportButton" type="button">Exporter la sauvegarde</button><label class="file-button">Importer une sauvegarde<input id="importInput" type="file" accept="application/json"></label></section>
+      <section class="drawer-section legacy-quiz-controls sync-section" aria-labelledby="progressSyncHeading"><h3 id="progressSyncHeading">Progression du compte</h3><p id="progressSyncStatus" role="status">Progression synchronisée</p><small id="progressSyncLast">Dernière synchronisation : Jamais</small><button id="progressSyncNow" type="button">Synchroniser la progression</button></section>
+      <section class="drawer-section legacy-quiz-controls"><h3>Contenu</h3><button id="openQuestionBank" type="button">Banque de questions</button></section>
+      <section class="drawer-section legacy-quiz-controls sync-section" aria-labelledby="syncHeading"><h3 id="syncHeading">Sauvegardes Google Drive</h3><button id="syncStatus" class="sync-status" type="button" aria-haspopup="dialog"><span aria-hidden="true">↻</span> <span>Non configurée</span></button><button id="syncNow" type="button" disabled>Synchroniser maintenant</button><button id="openSyncSettings" type="button">Configurer</button></section>
+      <section class="drawer-section legacy-quiz-controls"><h3>Statistiques</h3><div id="statsSummary" class="stats-summary"></div></section>
+    </aside>
+
+    <dialog id="syncDialog" class="sync-dialog" aria-labelledby="syncDialogTitle"><form method="dialog"><header><h2 id="syncDialogTitle">Synchronisation Google Drive</h2><button value="cancel" class="icon-button" aria-label="Fermer">×</button></header></form><section class="sync-form"><label>URL de l’application Web Apps Script<input id="syncEndpoint" type="url" inputmode="url" autocomplete="off" placeholder="VOTRE_URL_APPS_SCRIPT"></label><label>Clé de synchronisation<input id="syncKey" type="password" autocomplete="new-password" placeholder="VOTRE_CLE_DE_SYNCHRONISATION"></label><button id="replaceSyncKey" type="button" class="hidden">Remplacer la clé</button><label class="check"><input id="autoSync" type="checkbox"> Synchroniser automatiquement lorsque l’appareil est en ligne</label><p class="privacy-note">La clé reste sur cet appareil, mais ce stockage local n’est pas un coffre-fort sécurisé. La synchronisation n’est pas chiffrée de bout en bout. Google Drive est facultatif.</p><p id="syncMessage" role="status" aria-live="polite"></p><div class="dialog-actions"><button id="testSync" type="button">Tester la connexion</button><button id="saveSync" class="primary" type="button">Enregistrer</button><button id="deleteSync" class="danger" type="button">Supprimer la configuration</button></div><hr><h3>Outils</h3><div class="dialog-actions"><button id="createFullBackup" type="button">Créer une sauvegarde Drive complète</button><button id="createLightBackup" type="button">Créer une sauvegarde Drive légère</button><button id="listBackups" type="button">Lister les sauvegardes</button><button id="showConflicts" type="button">Conflits</button><button id="copyDiagnostic" type="button">Copier le diagnostic</button></div><div id="syncDetails" class="sync-details" aria-live="polite"></div></section></dialog>
+
+    <dialog id="questionBankDialog" class="sync-dialog question-bank-dialog" aria-labelledby="questionBankTitle"><header><h2 id="questionBankTitle">Banque de questions</h2><button type="button" data-bank-close class="icon-button" aria-label="Fermer">×</button></header><nav class="bank-tabs" aria-label="Sections de la banque"><button type="button" data-bank-tab="common">Banque commune</button><button type="button" data-bank-tab="private">Mes questions</button><button type="button" data-bank-tab="create">Créer une question</button></nav><p data-bank-status role="status" aria-live="polite"></p><section data-bank-body></section></dialog>
+
+    <button id="toolToggle" class="tool-toggle" type="button" aria-label="Outil actif : stylo. Passer à la gomme" aria-pressed="false"><span aria-hidden="true">✎</span><strong>Stylo</strong></button>
+    <button id="shapeToggle" class="shape-toggle" type="button" aria-label="Choisir une forme mathématique" aria-controls="shapeMenu" aria-expanded="false"><span aria-hidden="true">○</span></button>
+    <section id="shapeMenu" class="shape-menu hidden" aria-label="Formes mathématiques">
+      <fieldset><legend>Taille</legend><label><input type="radio" name="shapeSize" value="small"> Petite</label><label><input type="radio" name="shapeSize" value="medium" checked> Moyenne</label><label><input type="radio" name="shapeSize" value="large"> Grande</label></fieldset>
+      <div class="shape-buttons"><button type="button" data-board-shape="circle"><i aria-hidden="true">○</i>Cercle</button><button type="button" data-board-shape="trig-circle"><i aria-hidden="true">⊕</i>Cercle trigonométrique</button><button type="button" data-board-shape="orthonormal-frame"><i aria-hidden="true">↗</i>Repère orthonormé</button><button type="button" data-board-shape="axes"><i aria-hidden="true">┼</i>Axes gradués</button><button type="button" data-board-shape="line"><i aria-hidden="true">—</i>Droite</button><button type="button" data-board-shape="arrow"><i aria-hidden="true">→</i>Flèche</button><button type="button" data-board-shape="rectangle"><i aria-hidden="true">▭</i>Rectangle</button><button type="button" data-board-shape="square"><i aria-hidden="true">□</i>Carré</button><button type="button" data-board-shape="triangle"><i aria-hidden="true">△</i>Triangle</button></div>
+      <button id="cancelShape" type="button">Annuler le placement</button>
+    </section>
+    <p id="shapeStatus" class="visually-hidden" role="status" aria-live="polite"></p>
+    <select id="toolSelect" class="visually-hidden" aria-label="Outil"><option value="pen">Stylo</option><option value="eraser">Gomme</option></select>
+
+    <section class="board-toolbar" aria-label="Historique du tableau"><button id="undoButton" type="button">↶ <span>Annuler</span></button><button id="redoButton" type="button">↷ <span>Rétablir</span></button></section>
+    <nav class="actions" aria-label="Actions de la question"><button id="hintButton" type="button">Indice</button><button id="correctionButton" class="primary" type="button">Voir la correction</button><button id="skipButton" type="button">Passer</button></nav>
+
+    <section id="feedback" class="feedback hidden" aria-live="polite"><div class="feedback-head"><h2 id="feedbackTitle">Correction</h2><button id="closeFeedback" class="icon-button" type="button" aria-label="Fermer">×</button></div><div id="feedbackText"></div><section id="trapBlock" class="trap-explanation hidden" aria-labelledby="trapTitle"><h3 id="trapTitle">Analyse du piège</h3><h4>Erreur classique</h4><p id="trapMistake"></p><h4>Pourquoi c’est tentant</h4><p id="trapTempting"></p><h4>Pourquoi c’est faux</h4><p id="trapWrong"></p><h4>Réflexe à retenir</h4><p id="trapReflex"></p></section><div id="conceptBlock" class="hidden"><h3>Notion cachée à retenir</h3><p id="hiddenConcept"></p><h3>Formulation propre en prépa</h3><p id="oralFormulation"></p></div><div id="evaluationButtons" class="evaluation hidden"><p>Après comparaison avec la correction :</p><button id="successButton" class="success" type="button">Réussi</button><button id="almostButton" type="button">Presque réussi</button><button id="failedButton" class="danger" type="button">Raté</button></div><div id="resultBanner" class="result-banner hidden"></div><button id="nextButton" class="primary wide hidden" type="button">Question suivante</button></section>
+    <section id="testApp" class="test-app hidden" aria-live="polite">
+      <div data-view="setup" class="test-panel"><h2>Préparer un test noté</h2><form class="test-grid"><fieldset><legend>Format</legend><label><input name="scale" type="radio" value="20" checked> Sur 20</label><label><input name="scale" type="radio" value="40"> Sur 40</label></fieldset><label>Composition<select name="composition"><option value="balanced">Équilibrée</option><option value="course">Dominante cours</option><option value="exercise">Dominante exercices</option></select></label><label>Niveau maximal<select name="level"><option value="1">Fondamental</option><option value="2">Standard</option><option value="3" selected>Réflexe prépa</option><option value="4">Piège</option></select></label><label>Pièges<select name="traps"><option value="none">Aucun</option><option value="standard" selected>Proportion standard</option><option value="reinforced">Renforcée</option></select></label><label>Durée<select name="durationMode"><option value="recommended">Recommandée</option><option value="none">Sans chrono</option><option value="custom">Personnalisée</option></select><input name="duration" type="number" min="1" max="240" value="30" aria-label="Durée en minutes"></label><label>Ordre<select name="order"><option value="progressive">Progression pédagogique</option><option value="random">Aléatoire contrôlé</option><option value="difficulty">Difficulté croissante</option></select></label><label>Graine<input name="seed" maxlength="80" placeholder="Générée automatiquement"></label></form><p data-preview></p><p class="warning">Indices, corrections et autoévaluation seront bloqués. L’écriture n’est jamais reconnue automatiquement.</p><button class="primary" data-test-action="start">Commencer</button> <button data-test-action="close">Annuler</button></div>
+      <div data-view="runner" class="hidden"><header class="test-runner-head"><strong data-counter></strong><span data-timer>Sans chrono</span><button data-test-action="submit">Rendre le test</button></header><progress data-progress></progress><div class="test-statement" data-statement></div><nav data-navigator class="test-navigator" aria-label="Questions du test"></nav><footer class="test-controls"><button data-test-action="prev">Précédente</button><button data-test-action="review">⚑ À revoir</button><button data-test-action="next">Suivante</button><button class="danger" data-test-action="abandon">Abandonner</button></footer></div>
+      <div data-view="grading" class="test-panel hidden"><h2>Correction guidée</h2><p>Comparez la copie figée au corrigé. Aucune reconnaissance de l’écriture n’est effectuée.</p><p data-grading-progress aria-live="polite"></p><div data-grading-list></div><button class="primary" data-test-action="finalize" disabled>Finaliser la note</button></div>
+      <div data-view="results" class="test-panel hidden"><h2>Résultat</h2><strong data-result></strong><div data-notions></div><button data-test-action="close">Fermer</button></div>
+      <p data-message class="test-message" role="alert" aria-live="assertive" hidden></p>
+      <dialog data-test-dialog class="test-dialog" aria-labelledby="test-dialog-title" aria-describedby="test-dialog-text"><h2 id="test-dialog-title" data-dialog-title></h2><p id="test-dialog-text" data-dialog-text></p><div class="dialog-actions"><button data-test-action="cancel-dialog">Continuer le test</button><button class="danger" data-dialog-confirm></button></div></dialog>
+    </section>
+  </main>
+  <script src="vendor/katex/katex.min.js"></script>
+  <script type="module" src="scripts/auth/auth-controller.js"></script>
+</body>
+</html>

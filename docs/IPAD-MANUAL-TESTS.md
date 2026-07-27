@@ -76,3 +76,11 @@ Ces contrôles matériels n’ont pas été exécutés dans l’environnement te
 4. Vérifier qu’un doigt ne pose ni ne déplace la forme et que le tableau ne fait pas défiler la page. Aucun Apple Pencil Hover ne doit être activé pour cette recette.
 5. Annuler avant le contact avec le bouton Formes, l’option d’annulation, Échap, puis Stylo/Gomme ; vérifier qu’aucun dessin ni historique n’est modifié.
 6. En test de chapitre, placer une forme dans deux brouillons, changer de question et revenir. Après remise, vérifier le mode lecture seule, puis quitter et confirmer que le tableau normal est intact.
+
+## Recette multipage
+
+- Tester le menu en portrait et paysage : ouverture, fermeture, focus, zones tactiles et page active.
+- Préparer une révision libre puis vérifier que `quiz.html` retrouve la séance et le tableau non effacé.
+- Créer chaque type de question, afficher KaTeX, générer dix variantes et vérifier que le JSON avancé reste fermé par défaut.
+- Couper le réseau puis ouvrir directement `questions.html` et `settings.html` après un premier chargement.
+- Vérifier au Pencil que la séparation des pages n'altère ni pression, ni gomme, ni rotation, ni brouillons de test.
