@@ -14,7 +14,8 @@
   <title>Quiz TSI au stylet</title>
 </head>
 <body>
-  <main id="app" class="app-shell tool-right">
+  <section id="authView" class="auth-view" aria-labelledby="authTitle"><form id="loginForm" class="auth-card"><h1 id="authTitle">Quiz TSI au stylet</h1><p>Connectez-vous à votre espace personnel.</p><label>Adresse e-mail<input id="authEmail" name="email" type="email" autocomplete="username" required></label><label>Mot de passe<input id="authPassword" name="password" type="password" autocomplete="current-password" required></label><button id="togglePassword" type="button" aria-controls="authPassword">Afficher le mot de passe</button><button id="loginButton" class="primary" type="submit">Se connecter</button><p id="authError" class="auth-error" role="alert" aria-live="assertive"></p></form></section>
+  <main id="app" class="app-shell tool-right hidden" aria-hidden="true">
     <section id="boardWrap" class="board-wrap">
       <canvas id="board" aria-label="Tableau de résolution au stylet"></canvas>
       <div id="boardHint" class="board-hint">Écris ici avec l’Apple Pencil.<br>La page reste fixe pendant l’écriture.</div>
@@ -47,6 +48,7 @@
     <div id="drawerBackdrop" class="drawer-backdrop hidden" aria-hidden="true"></div>
     <aside id="settingsDrawer" class="drawer" aria-label="Menu et réglages" aria-hidden="true" inert>
       <header class="drawer-head"><h2>Menu</h2><button id="closeDrawer" class="icon-button" type="button" aria-label="Fermer le menu">×</button></header>
+      <section class="drawer-section account-summary" aria-label="Compte"><strong id="accountIdentity"></strong><span id="accountRole" class="badge"></span><span id="offlineMode" class="offline-badge hidden">Mode hors connexion</span><button id="logoutButton" type="button">Se déconnecter</button></section>
       <section id="filters" class="drawer-section filters">
         <label>Mode<select id="modeSelect"><option value="daily">Révisions du jour</option><option value="consolidation">Consolidation</option><option value="new">Nouvelles notions</option><option value="reflex">Réflexes prépa</option><option value="mix">Mix intelligent</option><option value="free">Révision libre</option><option value="chapter-test">Test de chapitre</option></select></label>
         <label>Partie<select id="partSelect"></select></label>
@@ -94,6 +96,6 @@
     </section>
   </main>
   <script src="vendor/katex/katex.min.js"></script>
-  <script type="module" src="scripts/app.js"></script>
+  <script type="module" src="scripts/auth/auth-controller.js"></script>
 </body>
 </html>
