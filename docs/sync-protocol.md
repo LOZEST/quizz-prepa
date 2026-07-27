@@ -32,7 +32,7 @@ Toute écriture à synchroniser est d'abord ajoutée à l'outbox IndexedDB `quiz
 
 Le client envoie un `POST HTTPS`, `Content-Type: text/plain;charset=utf-8`, avec un corps JSON. La clé est dans le corps, jamais dans l'URL. Aucun lancement automatique n'est connecté à l'interface dans cette PR.
 
-Actions : `health`, `initialize`, `push`, `pull`, `sync`, `getManifest`. Une réponse de synchronisation contient `acceptedOperationIds`, `rejectedOperations`, `newServerRevision`, `remoteChanges`, `conflicts`, `protocolVersion`, `serverTime`.
+Actions : `health`, `initialize`, `push`, `pull`, `sync`, `getManifest`, `createBackup`, `listBackups`, `getBackup`, `deleteBackup`. Les quatre dernières constituent l'extension 7B, sans modifier le format central des opérations. Une réponse de synchronisation contient `acceptedOperationIds`, `rejectedOperations`, `newServerRevision`, `remoteChanges`, `conflicts`, `protocolVersion`, `serverTime`.
 
 ## Fusion
 

@@ -71,7 +71,7 @@ Ces valeurs seront recalibrées après usage réel.
 - Drive contient un manifest à révision monotone, les événements, entités, préférences et un snapshot contrôlés par SHA-256.
 - Les événements pédagogiques append-only restent la source de vérité ; brouillons divergents et UUID réutilisés avec un contenu différent produisent des conflits explicites.
 - Le code, KaTeX, les banques, ressources statiques et caches reconstructibles ne sont jamais synchronisés.
-- L'infrastructure n'est pas encore déclenchée automatiquement par l'interface et le fonctionnement hors connexion ne dépend d'aucun endpoint.
+- L'interface déclenche manuellement ou, si l'utilisateur l'active, automatiquement des lots sérialisés. Elle expose états, première fusion guidée, conflits sans perte, sauvegardes/restaurations et diagnostic expurgé. Aucun endpoint n'est requis pour le fonctionnement local.
 
 Le protocole détaillé, la sécurité et le déploiement sont documentés dans `docs/sync-protocol.md`, `docs/sync-security.md` et `docs/apps-script-deployment.md`.
 
