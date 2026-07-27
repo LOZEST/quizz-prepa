@@ -24,7 +24,9 @@
       <button id="drawerButton" class="icon-button" type="button" aria-label="Ouvrir le menu" aria-controls="settingsDrawer" aria-expanded="false">☰</button>
       <section class="indicators" aria-label="Indicateurs de travail">
         <div class="metric"><small>Progression de la séance</small><strong id="sessionProgress">Question 1 · 0 réponse</strong></div>
-        <div class="metric"><small>Maîtrise de la notion</small><strong id="mastery">0 %</strong></div>
+        <div class="metric"><small>Maîtrise de la notion (estimée)</small><strong id="mastery">Pas encore évaluée</strong></div>
+        <div class="metric"><small>Confiance</small><strong id="confidence">Aucune preuve</strong></div>
+        <div class="metric"><small>Prochaine révision</small><strong id="nextReview">À déterminer</strong></div>
       </section>
     </header>
 
@@ -46,7 +48,7 @@
     <aside id="settingsDrawer" class="drawer" aria-label="Menu et réglages" aria-hidden="true" inert>
       <header class="drawer-head"><h2>Menu</h2><button id="closeDrawer" class="icon-button" type="button" aria-label="Fermer le menu">×</button></header>
       <section id="filters" class="drawer-section filters">
-        <label>Mode<select id="modeSelect"><option value="free">Parcours libre</option><option value="daily">Révision du jour</option><option value="weak">Notions à revoir</option><option value="chapter-test">Test de chapitre</option></select></label>
+        <label>Mode<select id="modeSelect"><option value="daily">Révisions du jour</option><option value="consolidation">Consolidation</option><option value="new">Nouvelles notions</option><option value="reflex">Réflexes prépa</option><option value="mix">Mix intelligent</option><option value="free">Révision libre</option><option value="chapter-test">Test de chapitre</option></select></label>
         <label>Partie<select id="partSelect"></select></label>
         <label>Chapitre<select id="chapterSelect"></select></label>
         <label>Notion<select id="notionSelect"></select></label>

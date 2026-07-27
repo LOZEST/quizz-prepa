@@ -66,3 +66,9 @@ npm run traps:coverage
 ```
 
 Le rapport réel se trouve dans `reports/trap-coverage.md`. La procédure d’ajout et de validation est détaillée dans `docs/ADDING-A-TRAP.md`.
+
+## Maîtrise adaptative et révisions
+
+La progression de séance est désormais séparée de la **maîtrise estimée**, de la confiance et de l’échéance. Chaque autoévaluation après correction crée un événement local stable ; consulter la correction ou passer une question ne crée aucune preuve. Les réussites assistées sont normalisées en « difficile ». Le tableau de bord compact indique aussi les révisions dues, notions fragiles, solides actuellement et nouvelles.
+
+Le modèle transparent, sa migration, l’intégration prudente des tests finalisés, l’import/export et les limites sont documentés dans [`docs/ADAPTIVE-MASTERY.md`](docs/ADAPTIVE-MASTERY.md). La couverture réelle se régénère avec `npm run mastery:coverage`.

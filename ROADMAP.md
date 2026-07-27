@@ -37,3 +37,11 @@
 - [ ] Sauvegarde Drive robuste.
 - [ ] Statistiques de maîtrise fiables.
 - [ ] Mode hors connexion stabilisé.
+
+## V0.2 — Maîtrise adaptative
+- [x] Historique événementiel idempotent, migration versionnée et export/import validé.
+- [x] Maîtrise estimée, confiance, niveaux, stabilité, rétention et échéances distinctes.
+- [x] Priorités explicables, six modes de révision et constructeur de séance déterministe.
+- [x] Intégration notion par notion des corrections de tests finalisées.
+- [x] Rapport reproductible de couverture adaptative.
+- [ ] Valider l’ergonomie complète du tableau de bord et des vues détaillées sur iPad réel.
