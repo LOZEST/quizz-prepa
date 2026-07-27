@@ -36,6 +36,8 @@ npm run tests:coverage-report
 La PWA reste intégralement utilisable hors connexion et Google reste facultatif. Le menu propose configuration, test, synchronisation, conflits, sauvegardes et diagnostic. Commencer par [`docs/google-drive-sync.md`](docs/google-drive-sync.md), puis consulter le [protocole](docs/sync-protocol.md), le [déploiement](docs/apps-script-deployment.md), les [conflits](docs/sync-conflicts.md), les [sauvegardes](docs/sync-backups.md), la [reprise](docs/sync-recovery.md) et la [sécurité](docs/sync-security.md).
 
 ## Contenu mathématique
+La carte commence désormais par **Bases indispensables** : calcul algébrique, identités remarquables, fractions, puissances/racines et équations/inéquations élémentaires. Chaque notion de la carte dispose d'au moins trois questions de cours et trois applications distinctes ; une lacune est signalée explicitement et n'est jamais remplacée par une question générique. La structure, les règles de rédaction, la provenance et la validation sont détaillées dans [`docs/COURSE-QUESTION-BANK.md`](docs/COURSE-QUESTION-BANK.md).
+
 Les énoncés, indices et corrections acceptent des segments `{type: "text", value: "…"}` et `{type: "math", value: "…", display: true|false}`. Une correction peut fournir `{steps: [{segments: [...]}]}`. Les anciennes chaînes contenant des `<span class="math">…</span>` restent prises en charge temporairement, sans autoriser d’autre HTML. Si KaTeX refuse une formule, sa source est affichée et le quiz continue.
 
 ### Vérifications manuelles iPad restant à effectuer

@@ -19,6 +19,7 @@ export const createQuestion=data=>({
   notionId:data.notionId,
   difficulty:data.difficulty||1,
   kind:data.kind||'Exercice généré',
+  category:data.category,
   questionHtml:data.questionHtml,
   question:{segments:normalizeSegments(data.question?.segments||legacyHtmlToSegments(data.questionHtml||''))},
   hint:data.hint,
