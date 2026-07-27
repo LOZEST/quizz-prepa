@@ -4,7 +4,7 @@ Première base GitHub-ready du projet défini dans la conversation.
 
 ## Fonctionnel dans cette version
 - Interface iPad fixe et installable comme PWA.
-- Tableau Apple Pencil avec gomme, annulation et quadrillage.
+- Tableau Apple Pencil avec gomme, annulation, quadrillage et maintien pour transformer une ligne ou un cercle régulier en forme vectorielle parfaite.
 - Sélection partie / chapitre / notion / niveau.
 - Questions conceptuelles validées.
 - Générateurs contraints : puissances, factorisation, fractions, second degré, suites, dérivées, primitives, trigonométrie et équations différentielles.

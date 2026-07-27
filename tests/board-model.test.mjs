@@ -1,6 +1,6 @@
 import test from'node:test';
 import assert from'node:assert/strict';
-import{createStroke,deserializeScene,detectScribble,pathLength,sceneTransform,serializeScene,straightCandidate,strokeTouchesGesture,toStraightStroke,transformPoint,VectorHistory}from'../scripts/board-model.js';
+import{circleCandidate,createStroke,deserializeScene,detectScribble,pathLength,sceneTransform,serializeScene,straightCandidate,strokeTouchesGesture,toCircleStroke,toStraightStroke,transformPoint,VectorHistory}from'../scripts/board-model.js';
 const points=(values,step=10)=>values.map(([x,y],i)=>({x,y,pressure:.2+i/values.length*.7,time:i*step}));
 const stroke=(values,extra={})=>createStroke({id:extra.id||`s-${Math.random()}`,points:points(values),width:extra.width||3,...extra});
 
@@ -13,6 +13,11 @@ test('historique annule et rétablit ajout, suppression et effacement complet',(
 test('trait presque droit admissible et refus des traits courts ou courbes',()=>{assert.equal(straightCandidate(points([[0,0],[30,1],[60,-1],[100,0]])),true);assert.equal(straightCandidate(points([[0,0],[10,0],[20,0]])),false);assert.equal(straightCandidate(points([[0,0],[30,40],[60,-30],[100,0]])),false)});
 
 test('transformation en droite et déplacement de son extrémité',()=>{const free=stroke([[0,0],[50,1],[100,0]],{id:'line'}),line=toStraightStroke(free,{x:120,y:40,pressure:.8,time:600});assert.equal(line.type,'line');assert.equal(line.points.length,2);assert.deepEqual(line.points[1],{x:120,y:40,pressure:.8,time:600});assert.equal(pathLength(line.points),Math.hypot(120,40))});
+
+const roundPoints=({cx=100,cy=100,r=60,wobble=0,start=0,end=Math.PI*2,steps=36}={})=>points(Array.from({length:steps+1},(_,i)=>{const angle=start+(end-start)*i/steps,rr=r+(i%3-1)*wobble;return[cx+Math.cos(angle)*rr,cy+Math.sin(angle)*rr]}));
+test('cercle valide et cercle imparfait acceptable sont reconnus',()=>{assert.equal(circleCandidate(roundPoints()),true);assert.equal(circleCandidate(roundPoints({wobble:6})),true)});
+test('geste ouvert et petit gribouillage ne sont pas reconnus comme cercles',()=>{assert.equal(circleCandidate(roundPoints({end:Math.PI*1.5})),false);assert.equal(circleCandidate(roundPoints({r:12,wobble:2})),false)});
+test('cercle vectoriel se sérialise, se restaure, s’annule et se rétablit',()=>{const circle=toCircleStroke(createStroke({id:'circle',points:roundPoints({wobble:4}),width:4}));assert.equal(circle.type,'circle');assert.equal(circle.points.length,49);const restored=deserializeScene(serializeScene({space:{width:400,height:300},strokes:[circle]})).strokes[0];assert.deepEqual(restored,circle);const history=new VectorHistory();history.perform({added:[circle],removed:[]});assert.equal(history.strokes[0].type,'circle');history.undo();assert.equal(history.strokes.length,0);history.redo();assert.equal(history.strokes[0].type,'circle')});
 
 test('redimensionnements et dix rotations conservent les proportions',()=>{const space={width:1000,height:700},a={x:100,y:200},b={x:500,y:400};for(let i=0;i<10;i++){const [w,h]=i%2?[700,1000]:[1000,700],t=sceneTransform(space,w,h),aa=transformPoint(a,t),bb=transformPoint(b,t);assert.ok(Math.abs(Math.hypot(bb.x-aa.x,bb.y-aa.y)-Math.hypot(400,200)*t.scale)<1e-9);assert.equal((bb.x-aa.x)/(bb.y-aa.y),2)}});
 
