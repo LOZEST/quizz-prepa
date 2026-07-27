@@ -46,3 +46,9 @@
 - [x] Intégration notion par notion des corrections de tests finalisées.
 - [x] Rapport reproductible de couverture adaptative.
 - [ ] Valider l’ergonomie complète du tableau de bord et des vues détaillées sur iPad réel.
+
+## V0.5 — Progression Supabase
+- [x] Synchroniser les événements pédagogiques append-only par compte.
+- [x] Conserver une outbox hors connexion isolée et un curseur `server_seq`.
+- [x] Recalculer localement maîtrise et file de révision après fusion multi-appareils.
+- [ ] Valider la recette multi-appareils sur deux iPad réels.
