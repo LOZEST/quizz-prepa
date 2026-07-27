@@ -96,13 +96,13 @@ La politique exécutable de `scripts/pedagogy/level-policy.js` distingue applica
 
 La correction d’un piège est révélée selon le workflow existant, puis expose des rubriques textuelles accessibles. Les variantes sont reproductibles par graine et identifiées par une signature portant sur formulation et paramètres mathématiques. Les identifiants récents de modèle, signature et taxonomie sont évités pendant la séance et journalisés localement sans prétendre diagnostiquer l’erreur manuscrite réelle.
 
-## 13. Tests notés sur 20 et sur 40
+## 13. Tests binaires sur 20 et sur 40
 
-Le mode d'évaluation est séparé du parcours de révision. Sa configuration choisit format, composition, niveau maximal, pièges, durée, ordre et graine. Le démarrage exige un blueprint versionné et valide dont les snapshots figent énoncé, correction, réponse attendue, métadonnées et barème. Le total est exactement 20 ou 40, en demi-points représentés par des unités entières.
+Le mode d’évaluation est séparé du parcours de révision. Un test sur 20 contient exactement 20 questions et un test sur 40 exactement 40 questions. Chaque question vaut un point entier et reçoit uniquement le statut « Réussie » (1) ou « Ratée » (0). Une correction incomplète ne peut pas être finalisée. Le format 40 affiche aussi l’équivalent exact sur 20 obtenu en divisant le nombre de réussites par deux.
 
-Pendant l'épreuve, indice, correction, explication du piège, autoévaluation et filtres pédagogiques sont indisponibles. Chaque question possède une scène vectorielle propre. Une échéance absolue rend le chrono résistant aux suspensions et rechargements. Remise et abandon sont explicites; une remise fige définitivement la copie.
+Le blueprint binaire version 2 refuse les instances, variantes et templates répétés, respecte le périmètre et le niveau maximal, et ne complète jamais une banque insuffisante. Pendant l’épreuve, les scènes Apple Pencil restent isolées et sauvegardées hors connexion. Après remise, la correction et le raisonnement restent visibles à côté des deux choix binaires.
 
-La correction est humaine et guidée, jamais issue d'une reconnaissance manuscrite. Elle accepte une saisie par critères ou directe, borne chaque note au barème, calcule pour /40 un équivalent exact /20 et produit des formulations prudentes par notion. Les sessions volumineuses résident dans IndexedDB; l'export/import JSON est versionné, borné et validé. Aucun résultat de test ne modifie encore l'algorithme de maîtrise.
+Les sessions historiques version 1 à barème partiel restent validées, importables, exportables et consultables sans conversion destructive. Seuls les nouveaux tests utilisent le mode binaire. Chaque question finalisée produit sa propre preuve de maîtrise idempotente, liée à sa notion ; aucun résultat global du test n’est utilisé comme preuve pédagogique.
 
 ## 14. Maîtrise adaptative (schéma 2)
 

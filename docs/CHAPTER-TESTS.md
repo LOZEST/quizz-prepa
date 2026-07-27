@@ -1,39 +1,23 @@
 # Moteur de tests de chapitre
 
-## Architecture et intégrité
+## Format binaire
 
-`test-question-adapter.js` adapte les questions fixes, générateurs et pièges validés sans créer un second moteur mathématique. `test-builder.js` filtre le périmètre et le niveau, élimine les templates répétés, distribue exactement 20 ou 40 points, puis fige énoncé, correction, réponse attendue, métadonnées et barème dans un blueprint versionné. La graine alimente un PRNG local et la signature identifie la sélection ordonnée.
+Les nouveaux blueprints, de version 2, contiennent exactement **20 questions sur 20** ou **40 questions sur 40**. Chaque question vaut exactement un point : **Réussie** vaut 1 et **Ratée** vaut 0. Aucun demi-point, champ numérique ou barème intermédiaire n'est proposé. Le format 40 affiche aussi l'équivalent sur 20 (`réussites / 2`).
 
-Le validateur refuse un total inexact, une source ou un snapshot absent, un ordre/identifiant dupliqué et un barème incohérent. Les points sont représentés en demi-unités entières pour éviter les erreurs flottantes.
+Le constructeur filtre strictement le périmètre, le niveau maximal et l'activation des pièges. Il équilibre autant que possible catégories et notions, puis refuse une banque insuffisante. Une instance, une signature de variante ou un template ne peut apparaître deux fois ; aucun fallback générique n'est utilisé.
 
-## Session, brouillons et chrono
+## Session, Apple Pencil et correction
 
-Une session conserve le blueprint, l'index courant, les états accessibles, un brouillon vectoriel par `instanceId`, les dates et l'échéance. Le chrono continue en arrière-plan : l'affichage recalcule la différence avec `deadlineAt`; un rechargement ne le remet donc pas à zéro. Le canvas existant fournit `capture()`/`restore()` et conserve Pointer Events, pression, gomme et historique. La sauvegarde s'effectue après navigation, statut, remise et notation; la fin de trait demeure sauvegardée par le tableau.
+Chaque question conserve sa scène vectorielle par `instanceId` dans IndexedDB. Le chrono repose sur une échéance absolue et résiste aux suspensions. La remise fige la copie, sans reconnaissance automatique de l'écriture. Pendant la correction, l'énoncé, le corrigé et le raisonnement restent visibles. Les deux gros boutons binaires peuvent être changés jusqu'à la finalisation ; la progression indique le nombre de questions corrigées et la finalisation reste désactivée tant qu'il en manque une.
 
-Les sessions/snapshots/brouillons utilisent IndexedDB `quiz-tsi-tests` version 1. La progression et les préférences légères restent dans leur `localStorage` historique : aucune migration destructive n'est faite. Les erreurs IndexedDB remontent dans l'interface.
+Les brouillons, traits Apple Pencil, exports/imports JSON et la synchronisation Drive conservent leurs formats locaux existants et leur fonctionnement hors connexion.
 
-## Remise et correction
+## Compatibilité et maîtrise
 
-Indices, correction, autoévaluation et filtres ordinaires sont masqués dans le runner. La remise confirmée fige le canvas. L'application ne lit jamais l'écriture : l'élève ou un correcteur compare le brouillon au corrigé et attribue des points manuellement, par demi-point. Un résultat sur 40 expose l'équivalent exact sur 20. La réouverture de correction conserve l'ancien total et ses dates.
+Les blueprints historiques de version 1 et leurs notes partielles restent validés, importables et consultables avec leur ancien barème. Ils ne sont pas convertis silencieusement. Seuls les nouveaux blueprints sont binaires.
 
-## Export, import et hors connexion
+Après finalisation, chaque réponse crée un événement stable `test-question-graded`, associé à sa notion, sa source et son `instanceId`. Une réussite porte un ratio 1, un échec un ratio 0. Les IDs déterministes empêchent une nouvelle synchronisation de recréer les mêmes événements. Aucun événement global du test n'est utilisé comme preuve de maîtrise.
 
-`test-export.js` produit un JSON complet ou léger sans traits. L'import borne la taille, vérifie version, statut, blueprint, nombres et résultat; les segments sont ensuite rendus comme texte/KaTeX local et jamais comme HTML arbitraire. Tous les modules sont pré-cachés par le service worker `quiz-tsi-chapter-tests-v5`.
+## Ajouter des questions
 
-## Rendre une question éligible
-
-1. Ajouter la question au registre existant avec `id`, version, partie, chapitre, notion, niveau et contenu structuré.
-2. Fournir une correction complète, un type `course`, `exercise` ou `trap`, des points conseillés entiers/demi-entiers et un temps estimé.
-3. Pour un piège, passer impérativement le validateur de pièges existant.
-4. Donner un `templateId` stable et une signature de variante afin d'empêcher doublons et variantes sœurs.
-5. Définir un barème dont la somme égale les points; tester 200 variantes pour une nouvelle famille générative.
-6. Exécuter `npm test` et `npm run tests:coverage-report`.
-
-Pour ajouter un format, compléter `TEST_FORMATS`, adapter la distribution entière des points et ajouter les cas de validation/composition correspondants.
-
-## Limites connues
-
-- Aucun diagnostic ni notation automatique du manuscrit.
-- L'historique et l'import/export sont disponibles dans la couche de données; l'écran dédié expose le parcours principal mais pas encore toutes les actions avancées de gestion en lot.
-- Une notion pauvre est refusée plutôt que complétée hors sujet; le rapport de couverture liste ces lacunes.
-- Les essais matériels iPad et mode avion restent manuels.
+Une question éligible doit avoir une source validée, une notion, un niveau, un `templateId`, une signature de variante, un énoncé et une correction complets. Une nouvelle famille générative doit réussir 200 générations et les contrôles du dépôt. Exécuter `npm run verify` après toute évolution.

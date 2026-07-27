@@ -56,7 +56,7 @@ Les énoncés, indices et corrections acceptent des segments `{type: "text", val
 
 ## Tests de chapitre
 
-Choisir **Test de chapitre** ouvre une préparation distincte. Le test fige questions, nombres, ordre, corrections et barèmes dans un blueprint signé. Les sessions et brouillons volumineux sont conservés dans IndexedDB, tandis que les préférences existantes restent dans `localStorage`. La documentation technique, les règles d'éligibilité et les limites se trouvent dans `docs/CHAPTER-TESTS.md`; la recette matérielle dans `docs/CHAPTER-TESTS-IPAD-CHECKLIST.md`.
+Choisir **Test de chapitre** ouvre une préparation distincte. Le test fige exactement 20 ou 40 questions distinctes, chacune à un point, ainsi que leur ordre et leurs corrections dans un blueprint signé. Les sessions et brouillons volumineux sont conservés dans IndexedDB, tandis que les préférences existantes restent dans `localStorage`. La documentation technique, les règles d'éligibilité et les limites se trouvent dans `docs/CHAPTER-TESTS.md`; la recette matérielle dans `docs/CHAPTER-TESTS-IPAD-CHECKLIST.md`.
 
 ## Prochaine étape recommandée
 Tester cette V0.1 sur l’iPad, puis corriger l’ergonomie avant d’ajouter la synchronisation Drive et d’élargir les générateurs.
