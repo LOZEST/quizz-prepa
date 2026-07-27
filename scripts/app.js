@@ -31,6 +31,7 @@ function applyHandedness(value,persist=false){const handedness=persist?writeHand
 
 $('sizeRange').addEventListener('input',()=>$('sizeValue').textContent=$('sizeRange').value);
 $('undoButton').addEventListener('click',()=>board.undo());$('redoButton').addEventListener('click',()=>board.redo());$('clearButton').addEventListener('click',()=>board.clear());
+document.querySelectorAll('[data-board-shape]').forEach(button=>button.addEventListener('click',()=>board.insertShape(button.dataset.boardShape)));
 $('applyFilters').addEventListener('click',()=>{newQuestion();toggleDrawer(false)});$('modeSelect').addEventListener('change',()=>{if($('modeSelect').value==='chapter-test'){testApp.open();toggleDrawer(false)}});$('hintButton').addEventListener('click',()=>showFeedback('hint'));$('correctionButton').addEventListener('click',()=>showFeedback('correction'));$('closeFeedback').addEventListener('click',()=>$('feedback').classList.add('hidden'));
 $('successButton').addEventListener('click',()=>evaluate('success'));$('almostButton').addEventListener('click',()=>evaluate(RESULT.ALMOST));$('failedButton').addEventListener('click',()=>evaluate(RESULT.FAILED));$('skipButton').addEventListener('click',()=>evaluate(RESULT.SKIPPED));$('nextButton').addEventListener('click',newQuestion);
 $('drawerButton').addEventListener('click',()=>toggleDrawer(true));$('closeDrawer').addEventListener('click',()=>toggleDrawer(false));$('drawerBackdrop').addEventListener('click',()=>toggleDrawer(false));

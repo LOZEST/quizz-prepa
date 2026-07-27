@@ -58,3 +58,12 @@ Ces contrôles matériels n’ont pas été exécutés dans l’environnement te
 - Tester portrait, paysage, texte agrandi et VoiceOver.
 - Installer puis relancer hors connexion et accomplir un parcours de piège complet.
 - Vérifier que le tableau, la pression, la gomme, le griffonnage, la ligne maintenue, Annuler et Rétablir restent inchangés.
+
+## Bibliothèque de formes mathématiques
+
+- En portrait puis en paysage, insérer chacune des neuf formes depuis **Formes** et vérifier qu’elle apparaît au centre sans masquer toute la zone d’écriture.
+- Vérifier la lisibilité des quatre angles du cercle trigonométrique, les axes orientés et l’origine O.
+- Vérifier l’unité identique et les graduations régulières du repère orthonormé, puis écrire une courbe au Pencil par-dessus.
+- Pour une forme : Annuler, Rétablir, toucher son contour avec la gomme, Tout effacer, recharger la PWA et refaire une rotation.
+- Dans un test, insérer une forme sur deux questions, naviguer entre elles, rendre puis quitter : chaque brouillon doit rester isolé et le tableau normal doit être restauré.
+- Exporter puis importer la sauvegarde et confirmer que traits et formes restent vectoriels et présents hors connexion.

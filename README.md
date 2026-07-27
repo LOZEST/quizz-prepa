@@ -4,7 +4,7 @@ Première base GitHub-ready du projet défini dans la conversation.
 
 ## Fonctionnel dans cette version
 - Interface iPad fixe et installable comme PWA.
-- Tableau Apple Pencil avec gomme, annulation, quadrillage et maintien pour transformer une ligne ou un cercle régulier en forme vectorielle parfaite.
+- Tableau Apple Pencil avec gomme, annulation, quadrillage, reconnaissance ligne/cercle et bibliothèque de neuf formes mathématiques vectorielles (dont cercle trigonométrique et repère orthonormé).
 - Sélection partie / chapitre / notion / niveau.
 - Questions conceptuelles validées.
 - Générateurs contraints : puissances, factorisation, fractions, second degré, suites, dérivées, primitives, trigonométrie et équations différentielles.
@@ -77,3 +77,9 @@ Le rapport réel se trouve dans `reports/trap-coverage.md`. La procédure d’aj
 La progression de séance est désormais séparée de la **maîtrise estimée**, de la confiance et de l’échéance. Chaque autoévaluation après correction crée un événement local stable ; consulter la correction ou passer une question ne crée aucune preuve. Les réussites assistées sont normalisées en « difficile ». Le tableau de bord compact indique aussi les révisions dues, notions fragiles, solides actuellement et nouvelles.
 
 Le modèle transparent, sa migration, l’intégration prudente des tests finalisés, l’import/export et les limites sont documentés dans [`docs/ADAPTIVE-MASTERY.md`](docs/ADAPTIVE-MASTERY.md). La couverture réelle se régénère avec `npm run mastery:coverage`.
+
+## Formes mathématiques du tableau Apple Pencil
+
+Le menu **Réglages du tableau → Formes** insère au centre de la zone visible un cercle, un cercle trigonométrique, un repère orthonormé, des axes, une droite, une flèche, un rectangle, un carré ou un triangle. Chaque forme est un objet vectoriel léger : une insertion s’annule et se rétablit en une action, la gomme la supprime comme un objet complet, et les traits manuscrits restent indépendants.
+
+Les formes suivent la scène lors d’une rotation ou d’un redimensionnement. Elles sont incluses dans la sauvegarde locale, `capture()`/`restore()`, les brouillons de test et les exports JSON. Les scènes historiques de version 1 sont migrées en mémoire sans modifier ni perdre leurs traits. L’insertion se fait au toucher ; une fois le menu fermé, l’écriture sur le tableau reste réservée au stylet.
