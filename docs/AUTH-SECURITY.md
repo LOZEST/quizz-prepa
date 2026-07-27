@@ -15,3 +15,7 @@ Les diagnostics ne doivent contenir ni session, ni jeton, ni mot de passe. La cl
 ## Confidentialité de la progression
 
 Les événements sont rattachés exclusivement à `auth.uid()`. Les rôles applicatifs admin/owner ne contournent pas la RLS privée de `progress_events`. Le client n'enregistre ni session, ni jeton, ni en-tête Authorization dans l'outbox ou les diagnostics; les erreurs sont expurgées et bornées.
+
+## Confidentialité des banques de questions
+
+RLS interdit tout accès `anon`. Un utilisateur authentifié ne voit que les communes publiées et ses propres privées. Admin et owner voient tous les états communs sans obtenir de droit sur les privées d'autrui. `author_id`, `scope` et `created_at` sont immuables; `DELETE` n'est pas accordé. Le navigateur archive et utilise une version optimiste. Les textes distants sont rendus par création DOM/textContent et segments mathématiques validés, jamais comme HTML.

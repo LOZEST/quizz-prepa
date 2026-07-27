@@ -16,3 +16,7 @@ Désactiver les inscriptions publiques dans les réglages Auth du projet. Les in
 ## Progression personnelle
 
 Appliquer ensuite `supabase/migrations/20260727210000_progress_events.sql` depuis **SQL Editor**. Cette migration append-only est détaillée dans [`SUPABASE-PROGRESS-SYNC.md`](SUPABASE-PROGRESS-SYNC.md). Elle ne requiert ni nouvelle dépendance npm ni clé autre que la publishable key déjà configurée.
+
+## Migration des banques de questions
+
+Après les migrations comptes et progression, ouvrir le **SQL Editor** du tableau de bord Supabase, copier intégralement `supabase/migrations/20260727220000_question_banks.sql`, relire le projet ciblé puis exécuter le script. Contrôler ensuite la table, les trois types, le trigger, RLS, les policies et les privilèges. Cette procédure documente l'opération : la migration n'a pas été appliquée par cette PR au projet Supabase réel.

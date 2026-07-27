@@ -10,16 +10,19 @@ import{trigonometryGenerators}from'./generators/trigonometry.js';
 import{odeGenerators}from'./generators/ode.js';
 import{trapRegistry}from'./traps/trap-registry.js';
 import{validateQuestionLevel}from'./pedagogy/level-validator.js';
+import{adaptQuestion,usableQuestions}from'./question-bank/question-adapter.js';
 const GENERATORS=[...powerGenerators,...factorisationGenerators,...fractionGenerators,...quadraticGenerators,...sequenceGenerators,...derivativeGenerators,...primitiveGenerators,...trigonometryGenerators,...odeGenerators];
 const matches=(q,f)=>['partId','chapterId','notionId'].every(k=>!f[k]||f[k]==='all'||q[k]===f[k]);
 export class QuizEngine{
- constructor(){this.recent=[];this.trapSession={templates:[],signatures:[],taxonomies:[]}}
+ constructor({dynamicProvider=()=>[],userId=null,rng=Math.random}={}){this.recent=[];this.dynamicProvider=dynamicProvider;this.userId=userId;this.rng=rng;this.trapSession={templates:[],signatures:[],taxonomies:[]}}
+ setDynamicProvider(provider,userId){this.dynamicProvider=provider||(()=>[]);this.userId=userId}
  generate(filters,progress){
   const difficulty=filters.difficulty==='adaptive'?this.adaptiveDifficulty(filters.notionId,progress):Number(filters.difficulty);
   if(difficulty===4){const question=trapRegistry.generate(filters,this.trapSession,Date.now());if(question.status==='missing-coverage')return question;this.rememberTrap(question);return question}
   const candidates=[];
   for(const gen of GENERATORS){for(let i=0;i<4;i++){try{const q=gen(difficulty),validation=validateQuestionLevel(q);if(!validation.valid)throw new TypeError(validation.errors.join(' '));if(matches(q,filters))candidates.push(q)}catch(error){const testRuntime=typeof process!=='undefined'&&process.env?.NODE_ENV!=='production',localDevelopment=globalThis.location?.hostname==='localhost';if(testRuntime||localDevelopment)console.error('Générateur exclu',gen.name,error);if(testRuntime)throw error}}}
   for(const q of FIXED_QUESTIONS)if(matches(q,filters)&&q.difficulty<=Math.max(2,difficulty))candidates.push(q);
+  for(const row of usableQuestions(this.dynamicProvider()||[],this.userId))if(matches({partId:row.part_id,chapterId:row.chapter_id,notionId:row.notion_id},filters)&&row.difficulty<=Math.max(2,difficulty))try{candidates.push(adaptQuestion(row,{rng:this.rng}))}catch{}
   const fresh=candidates.filter(q=>!this.recent.includes(q.fingerprint));
   const pool=fresh.length?fresh:candidates;
   if(!pool.length)return this.missingCoverage(filters,difficulty);
