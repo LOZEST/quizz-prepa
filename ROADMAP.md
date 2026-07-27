@@ -66,3 +66,10 @@
 - [x] Ajouter l'assistant guidé de questions en quatre étapes et ses actions local-first.
 - [x] Préparer la page owner « Équipe et accès » sans clé secrète navigateur.
 - [ ] Valider l'ergonomie multipage et le parcours éditeur sur iPad réel.
+
+## V0.8 — Administration sécurisée
+- [x] Interface owner pour les invitations, rôles, suspensions et historique.
+- [x] Edge Function avec session vérifiée, rôle relu, CORS strict et limitation des invitations.
+- [x] Parcours d’acceptation d’invitation et choix du mot de passe.
+- [ ] Appliquer la migration et déployer l’Edge Function sur le projet Supabase.
+- [ ] Valider la livraison réelle des e-mails et la recette multi-compte.

@@ -1,0 +1,1 @@
+export function validatePassword(password,confirmation){if(typeof password!=='string'||password.length<10)return'Le mot de passe doit contenir au moins 10 caractères.';if(password.length>128)return'Le mot de passe est trop long.';if(password!==confirmation)return'Les deux mots de passe ne correspondent pas.';return''}

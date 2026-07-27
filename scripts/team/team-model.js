@@ -1,0 +1,5 @@
+export const roleLabel=role=>({user:'Utilisateur',admin:'Administrateur',owner:'Propriétaire'})[role]||'Utilisateur';
+export const statusLabel=status=>({active:'Actif','invitation-pending':'Invitation en attente',suspended:'Suspendu'})[status]||status;
+export const initials=user=>(user.displayName||user.email||'?').split(/[\s@._-]+/).filter(Boolean).slice(0,2).map(x=>x[0].toUpperCase()).join('');
+export function counts(users){return{active:users.filter(x=>x.status==='active'&&x.role==='user').length,admin:users.filter(x=>x.role==='admin'&&x.status!=='suspended').length,pending:users.filter(x=>x.status==='invitation-pending').length,suspended:users.filter(x=>x.status==='suspended').length}}
+export function filterUsers(users,query,filter){const q=query.trim().toLocaleLowerCase('fr');return users.filter(x=>(!q||`${x.displayName} ${x.email}`.toLocaleLowerCase('fr').includes(q))&&(filter==='all'||filter==='user'&&x.role==='user'&&x.status!=='suspended'||filter==='admin'&&x.role==='admin'&&x.status!=='suspended'||x.status===filter))}

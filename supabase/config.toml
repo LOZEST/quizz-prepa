@@ -1,0 +1,5 @@
+[functions.team-admin]
+# The gateway verifies the user's Supabase JWT. The function verifies it again with
+# auth.getUser(token) before creating the service-role client.
+verify_jwt = true
+
