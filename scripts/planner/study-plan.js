@@ -1,5 +1,6 @@
 import{allNotions,COURSE_MAP}from'../course-map.js';
 const DAY=86_400_000;
+const PRIORITY={exam:0,review:1,weak:2,explore:3};
 const dateOnly=value=>{const d=new Date(value);return Number.isNaN(d.getTime())?null:new Date(d.getFullYear(),d.getMonth(),d.getDate())};
 export const dayKey=value=>{const d=dateOnly(value);if(!d)return'';return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
 const masteryFor=(state,id)=>state.masteryStates?.[id]||null;
@@ -26,6 +27,6 @@ export function buildAdaptivePlan({state,events=[],now=new Date(),days=14,maxPer
  for(const event of normalized){const exam=dateOnly(event.date),remaining=Math.ceil((exam-today)/DAY);if(remaining<0||remaining>45)continue;const targets=(chapters.get(event.chapterId)?.notionIds||[]).map(id=>notions.get(id)).filter(Boolean).sort((a,b)=>a.status.score-b.status.score);const available=Math.max(1,Math.min(days,remaining||1));targets.forEach((notion,index)=>{const slot=Math.min(available-1,Math.floor(index*available/Math.max(targets.length,1)));add(slot,task(notion,'exam',`${event.title} · ${remaining<=1?'échéance imminente':`dans ${remaining} jours`}`,20,event.id))})}
  let cursor=0;for(const notion of overview.weak){for(let attempt=0;attempt<slots.length;attempt++){const index=(cursor+attempt)%Math.min(7,slots.length);if(add(index,task(notion,'weak','Consolider un point faible',20))){cursor=index+1;break}}}
  let exploration=0;for(const notion of overview.unseen){if(exploration>=Math.min(5,slots.length))break;const index=Math.min(slots.length-1,exploration*2+1);if(add(index,task(notion,'explore','Découvrir une nouvelle notion',15)))exploration++}
- for(const slot of slots)slot.tasks.sort((a,b)=>({exam:0,review:1,weak:2,explore:3}[a.type]-({exam:0,review:1,weak:2,explore:3}[b.type]));
+ for(const slot of slots)slot.tasks.sort((a,b)=>(PRIORITY[a.type]??9)-(PRIORITY[b.type]??9));
  return{generatedAt:new Date(now).toISOString(),overview,events:normalized,days:slots};
 }
