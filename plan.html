@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f4f7fb">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles/shell.css">
+  <link rel="stylesheet" href="./styles/plan.css">
+  <title>Mon parcours · Quiz TSI</title>
+</head>
+<body class="page" data-page="plan">
+  <div data-loading class="loading-screen" role="status">Chargement de ton parcours…</div>
+  <div data-app-shell class="multipage-shell" hidden>
+    <aside data-sidebar class="sidebar" aria-label="Navigation principale">
+      <header class="nav-head"><div><strong data-nav-identity></strong><small><span data-nav-role></span> <span data-nav-offline hidden>· Hors connexion</span></small></div><button data-nav-close class="nav-close" aria-label="Fermer le menu">×</button></header>
+      <nav data-nav-main></nav>
+      <nav class="nav-bottom"><a data-nav-settings data-page="settings.html">⚙ <span>Réglages</span></a><button data-logout type="button">⇥ <span>Se déconnecter</span></button></nav>
+    </aside>
+    <main class="page-main plan-main">
+      <header class="page-header plan-hero">
+        <button data-menu-toggle class="menu-toggle" aria-label="Ouvrir le menu">☰</button>
+        <div><p class="eyebrow">Vue personnelle</p><h1>Mon parcours</h1><p data-page-subtitle>Ton niveau, tes priorités et ton plan de travail s’actualisent avec tes résultats.</p></div>
+        <button type="button" class="secondary" data-refresh>Actualiser</button>
+      </header>
+
+      <section class="plan-summary" data-plan-summary aria-label="Résumé du compte"></section>
+
+      <section class="plan-grid">
+        <article class="panel today-panel">
+          <header class="section-head"><div><p class="eyebrow">Aujourd’hui</p><h2>À faire maintenant</h2></div><span class="badge" data-today-duration></span></header>
+          <div data-today-tasks class="task-list"></div>
+        </article>
+        <article class="panel next-exam-panel">
+          <header class="section-head"><div><p class="eyebrow">Prochaine échéance</p><h2 data-next-event-title>Aucun examen enregistré</h2></div></header>
+          <p data-next-event-copy>Ajoute une date pour que le plan prépare automatiquement les chapitres concernés.</p>
+        </article>
+      </section>
+
+      <section class="panel">
+        <header class="section-head"><div><p class="eyebrow">Plan adaptatif</p><h2>Les 14 prochains jours</h2></div><small>Recalculé à partir de ta maîtrise actuelle.</small></header>
+        <div class="agenda" data-agenda></div>
+      </section>
+
+      <section class="plan-grid plan-lower">
+        <article class="panel">
+          <header class="section-head"><div><p class="eyebrow">Calendrier</p><h2>Ajouter une échéance</h2></div></header>
+          <form data-event-form class="event-form">
+            <label>Nom de l’échéance<input name="title" maxlength="120" placeholder="Examen de dérivation" required></label>
+            <div class="field-grid"><label>Date<input name="date" type="date" required></label><label>Type<select name="type"><option value="exam">Examen</option><option value="revision">Révision prévue</option><option value="chapter">Fin de chapitre</option></select></label></div>
+            <label>Chapitre<select name="chapterId" required></select></label>
+            <button class="primary" type="submit">Ajouter au calendrier</button>
+          </form>
+          <div data-event-list class="event-list"></div>
+        </article>
+        <article class="panel skills-panel">
+          <header class="section-head"><div><p class="eyebrow">Compétences</p><h2>Toutes les notions</h2></div></header>
+          <div class="skills-tools"><label>Rechercher<input data-skill-search type="search" placeholder="Dérivée, suite, fraction…"></label><label>Afficher<select data-skill-filter><option value="all">Toutes</option><option value="due">À revoir</option><option value="weak">Fragiles</option><option value="unseen">À explorer</option><option value="solid">Solides</option></select></label></div>
+          <div data-skills class="skills-list"></div>
+        </article>
+      </section>
+    </main>
+  </div>
+  <div data-toast-region class="toast-region" aria-live="polite"></div>
+  <script type="module" src="./scripts/pages/page-bootstrap.js"></script>
+</body>
+</html>
