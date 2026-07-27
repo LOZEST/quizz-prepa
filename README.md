@@ -93,3 +93,7 @@ L’accès utilise désormais Supabase Auth par e-mail/mot de passe, sans inscri
 ## Progression du compte Supabase
 
 La progression est maintenant synchronisée local-first entre les appareils d'un même compte. Les événements append-only sont envoyés par lots et récupérés avec un curseur serveur; maîtrise et révisions restent des données dérivées recalculées sur chaque appareil. Le quiz demeure utilisable hors connexion et les sauvegardes Google Drive restent indépendantes. Installation et recette : [`docs/SUPABASE-PROGRESS-SYNC.md`](docs/SUPABASE-PROGRESS-SYNC.md).
+
+## Banques de questions Supabase
+
+Une source locale-first additive permet désormais aux comptes de gérer leurs questions privées et aux administrateurs/propriétaires la banque commune. Cours, formules et modèles paramétrés sûrs rejoignent le quiz depuis le cache, sans retirer la banque statique. Voir [`docs/SUPABASE-QUESTION-BANKS.md`](docs/SUPABASE-QUESTION-BANKS.md), [`docs/QUESTION-EDITOR.md`](docs/QUESTION-EDITOR.md) et [`docs/PARAMETERIZED-QUESTIONS.md`](docs/PARAMETERIZED-QUESTIONS.md).

@@ -13,6 +13,7 @@ import{initSyncUI}from'./sync/ui.js';
 const $=id=>document.getElementById(id);
 let state=loadState(),current=null,hintUsed=false,correctionSeen=false,sessionAnswered=0,questionNumber=0;
 const engine=new QuizEngine();
+document.addEventListener('quiz-tsi-question-bank-ready',event=>engine.setDynamicProvider(event.detail.provider,event.detail.userId));
 const board=new DrawingBoard({canvas:$('board'),wrap:$('boardWrap'),hint:$('boardHint'),tool:$('toolSelect'),size:$('sizeRange'),grid:$('gridToggle'),straightToggle:$('straightToggle'),scribbleToggle:$('scribbleToggle'),onPlacementChange:updateShapePlacement});
 const testApp=new TestApp({root:$('testApp'),board,onFinalized:session=>{const events=createTestEvents(session,{deviceId:state.deviceId}),ids=new Set((state.masteryEvents||[]).map(e=>e.id));state=saveState({...state,masteryEvents:[...(state.masteryEvents||[]),...events.filter(e=>!ids.has(e.id))]});state=saveState({...state,masteryStates:rebuildMastery(state.masteryEvents,allNotions().map(n=>n.id))});updateStats();}});
 

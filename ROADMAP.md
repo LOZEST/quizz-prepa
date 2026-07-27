@@ -52,3 +52,10 @@
 - [x] Conserver une outbox hors connexion isolée et un curseur `server_seq`.
 - [x] Recalculer localement maîtrise et file de révision après fusion multi-appareils.
 - [ ] Valider la recette multi-appareils sur deux iPad réels.
+
+## V0.6 — Banques Supabase
+- [x] Questions communes et privées protégées par RLS.
+- [x] Cache local isolé, outbox et conflits optimistes.
+- [x] Questions de cours, formules et modèles paramétrés sans exécution de JavaScript.
+- [x] Source dynamique additive dans le quiz et fonctionnement hors connexion.
+- [ ] Valider la recette multi-compte et l'ergonomie complète sur iPad réel.
