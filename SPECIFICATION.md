@@ -91,3 +91,11 @@ Les contenus affichables séparent le texte des mathématiques dans une liste `s
 La politique exécutable de `scripts/pedagogy/level-policy.js` distingue application immédiate, exercice standard, reconnaissance de méthode et misconception. Une question de niveau 4 est invalide sans taxonomie, erreur tentante, conditions, explication, réflexe et oracle. Le registre désactive les modèles invalides et retourne `missing-coverage` si la sélection exacte n’est pas couverte.
 
 La correction d’un piège est révélée selon le workflow existant, puis expose des rubriques textuelles accessibles. Les variantes sont reproductibles par graine et identifiées par une signature portant sur formulation et paramètres mathématiques. Les identifiants récents de modèle, signature et taxonomie sont évités pendant la séance et journalisés localement sans prétendre diagnostiquer l’erreur manuscrite réelle.
+
+## 13. Tests notés sur 20 et sur 40
+
+Le mode d'évaluation est séparé du parcours de révision. Sa configuration choisit format, composition, niveau maximal, pièges, durée, ordre et graine. Le démarrage exige un blueprint versionné et valide dont les snapshots figent énoncé, correction, réponse attendue, métadonnées et barème. Le total est exactement 20 ou 40, en demi-points représentés par des unités entières.
+
+Pendant l'épreuve, indice, correction, explication du piège, autoévaluation et filtres pédagogiques sont indisponibles. Chaque question possède une scène vectorielle propre. Une échéance absolue rend le chrono résistant aux suspensions et rechargements. Remise et abandon sont explicites; une remise fige définitivement la copie.
+
+La correction est humaine et guidée, jamais issue d'une reconnaissance manuscrite. Elle accepte une saisie par critères ou directe, borne chaque note au barème, calcule pour /40 un équivalent exact /20 et produit des formulations prudentes par notion. Les sessions volumineuses résident dans IndexedDB; l'export/import JSON est versionné, borné et validé. Aucun résultat de test ne modifie encore l'algorithme de maîtrise.
