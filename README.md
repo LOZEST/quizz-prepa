@@ -101,3 +101,7 @@ Une source locale-first additive permet désormais aux comptes de gérer leurs q
 ## Interface multipage
 
 L'application est désormais organisée en pages statiques dédiées : tableau de bord, connexion, préparation de séance, quiz Apple Pencil, banque de questions, statistiques, réglages et équipe. Le shell commun garde une navigation courte et accessible, tandis que les réglages avancés restent sur leur page. Voir [`docs/MULTIPAGE-ARCHITECTURE.md`](docs/MULTIPAGE-ARCHITECTURE.md) et le [`guide rapide administrateur`](docs/ADMIN-QUICK-START.md).
+
+## Administration sécurisée de l’équipe
+
+Le propriétaire dispose de **Équipe et accès** pour inviter, attribuer le rôle utilisateur ou administrateur de contenu, suspendre/réactiver et consulter l’historique. Toutes les opérations privilégiées passent par l’Edge Function `team-admin`; le navigateur ne reçoit aucune clé serveur. Le déploiement Supabase reste manuel. Voir [`docs/TEAM-ADMINISTRATION.md`](docs/TEAM-ADMINISTRATION.md), [`docs/EDGE-FUNCTION-DEPLOYMENT.md`](docs/EDGE-FUNCTION-DEPLOYMENT.md) et [`docs/INVITATION-FLOW.md`](docs/INVITATION-FLOW.md).

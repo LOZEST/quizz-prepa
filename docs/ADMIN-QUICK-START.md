@@ -10,3 +10,7 @@
 8. Choisis **Enregistrer comme brouillon**, **Publier dans mes questions** ou, si le contenu convient à toute l'équipe, **Publier pour tous**.
 
 Aucun JSON ni SQL n'est nécessaire dans le parcours normal. En cas de doute, garde la question en brouillon afin de la relire plus tard.
+
+## Gérer les personnes
+
+Seul le propriétaire voit **Équipe et accès**. Il peut inviter un utilisateur ou un administrateur de contenu, modifier ensuite ce rôle et suspendre un compte sans supprimer ses données. La personne invitée choisit elle-même son mot de passe. Le guide pas à pas se trouve dans [TEAM-ADMINISTRATION.md](TEAM-ADMINISTRATION.md).

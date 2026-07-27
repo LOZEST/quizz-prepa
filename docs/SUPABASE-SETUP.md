@@ -20,3 +20,7 @@ Appliquer ensuite `supabase/migrations/20260727210000_progress_events.sql` depui
 ## Migration des banques de questions
 
 Après les migrations comptes et progression, ouvrir le **SQL Editor** du tableau de bord Supabase, copier intégralement `supabase/migrations/20260727220000_question_banks.sql`, relire le projet ciblé puis exécuter le script. Contrôler ensuite la table, les trois types, le trigger, RLS, les policies et les privilèges. Cette procédure documente l'opération : la migration n'a pas été appliquée par cette PR au projet Supabase réel.
+
+## Invitations et administration owner
+
+Appliquer la migration `20260728090000_team_administration.sql`, déployer `team-admin`, définir `APP_BASE_URL` et ajouter l’URL de retour exacte décrites dans [EDGE-FUNCTION-DEPLOYMENT.md](EDGE-FUNCTION-DEPLOYMENT.md). Cette configuration n’est pas appliquée automatiquement par le dépôt. Une configuration e-mail Supabase fonctionnelle est indispensable.
