@@ -11,6 +11,7 @@ export const superscript=n=>String(n).split('').map(c=>({'-':'⁻','0':'⁰','1'
 export const power=(base,exp)=>exp===1?base:`${base}^{${exp}}`;
 export const normalizeSpaces=s=>s.replace(/\+ −/g,'− ').replace(/\+ \+/g,'+ ').replace(/\s+/g,' ').trim();
 import{legacyHtmlToSegments,normalizeSegments,normalizeSteps}from'./math/math-segments.js';
+const sourceName=data=>data.generator||(/^(?:course|exercise)-/.test(String(data.id||''))?'course-bank':'fixed');
 export const createQuestion=data=>({
   id:data.id,
   fingerprint:data.fingerprint||data.id,
@@ -30,5 +31,5 @@ export const createQuestion=data=>({
   hiddenConceptContent:{segments:normalizeSegments(data.hiddenConceptContent?.segments||data.hiddenConcept||'')},
   oralFormulation:data.oralFormulation||'',
   oralFormulationContent:{segments:normalizeSegments(data.oralFormulationContent?.segments||data.oralFormulation||'')},
-  generator:data.generator||'fixed'
+  generator:sourceName(data)
 });
