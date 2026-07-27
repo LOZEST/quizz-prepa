@@ -66,10 +66,14 @@ Ces valeurs seront recalibrées après usage réel.
 - Export et import JSON manuels.
 
 ### Cible Drive
-- Google Apps Script héberge ou sert d’API au quiz.
-- `progression.json` contient l’état consolidé.
-- Google Sheets reçoit un journal lisible des tentatives.
-- Synchronisation locale d’abord, Drive ensuite, avec file d’attente hors connexion.
+- Google Apps Script sert une API versionnée protégée par une clé personnelle hashée côté serveur.
+- Une outbox IndexedDB enregistre chaque opération avant toute tentative réseau et conserve les échecs avec backoff.
+- Drive contient un manifest à révision monotone, les événements, entités, préférences et un snapshot contrôlés par SHA-256.
+- Les événements pédagogiques append-only restent la source de vérité ; brouillons divergents et UUID réutilisés avec un contenu différent produisent des conflits explicites.
+- Le code, KaTeX, les banques, ressources statiques et caches reconstructibles ne sont jamais synchronisés.
+- L'infrastructure n'est pas encore déclenchée automatiquement par l'interface et le fonctionnement hors connexion ne dépend d'aucun endpoint.
+
+Le protocole détaillé, la sécurité et le déploiement sont documentés dans `docs/sync-protocol.md`, `docs/sync-security.md` et `docs/apps-script-deployment.md`.
 
 ## 9. Extraction du cours
 L’extraction automatique propose des objets structurés : propriété, conditions, pièges, prérequis et types de questions. Toute donnée mathématique extraite du PDF doit être validée avant d’alimenter les questions. L’OCR du document n’est pas suffisamment fiable pour publier automatiquement les formules.

@@ -13,6 +13,7 @@ Première base GitHub-ready du projet défini dans la conversation.
 - Réussi sans indice = facile ; réussi avec indice = difficile.
 - Répétition espacée initiale.
 - Sauvegarde locale et export/import JSON.
+- Moteur de synchronisation local-first préparé : configuration locale, outbox IndexedDB persistante, client HTTPS abstrait et backend Google Apps Script Drive (sans lancement automatique depuis l’interface).
 - Mode d'évaluation séparé avec blueprints déterministes notés sur 20 ou 40, brouillon vectoriel par question, chrono résistant au rechargement et correction manuelle guidée.
 
 ## Installation sur GitHub Pages
@@ -29,6 +30,10 @@ Avec Node.js 20 ou plus récent :
 npm test
 npm run tests:coverage-report
 ```
+
+## Synchronisation Drive (infrastructure)
+
+La PWA reste intégralement utilisable hors connexion. La synchronisation n'est pas encore déclenchée par l'interface : la PR 7A fournit uniquement le protocole versionné, la file persistante, le client testable et l'API Apps Script. Consulter [`docs/sync-protocol.md`](docs/sync-protocol.md), [`docs/apps-script-deployment.md`](docs/apps-script-deployment.md) et [`docs/sync-security.md`](docs/sync-security.md).
 
 ## Contenu mathématique
 Les énoncés, indices et corrections acceptent des segments `{type: "text", value: "…"}` et `{type: "math", value: "…", display: true|false}`. Une correction peut fournir `{steps: [{segments: [...]}]}`. Les anciennes chaînes contenant des `<span class="math">…</span>` restent prises en charge temporairement, sans autoriser d’autre HTML. Si KaTeX refuse une formule, sa source est affichée et le quiz continue.
