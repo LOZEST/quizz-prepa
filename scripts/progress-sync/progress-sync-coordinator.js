@@ -1,0 +1,12 @@
+import{ProgressOutbox}from'./progress-outbox.js';import{safeSyncError}from'./progress-sync-errors.js';import{mergeProgress,validateRemoteRow}from'./progress-sync-state.js';
+export class ProgressSyncCoordinator{
+ constructor({workspace,client,loadState,saveState,notions,onStatus=()=>{},debounceMs=500}){this.workspace=workspace;this.client=client;this.loadState=loadState;this.saveState=saveState;this.notions=notions;this.onStatus=onStatus;this.outbox=new ProgressOutbox(workspace);this.generation=1;this.timer=null;this.running=null;this.debounceMs=debounceMs}
+ start(){const s=this.loadState();this.outbox.initialize(s.masteryEvents||[]);this.notify();return this}
+ stop(){this.generation++;clearTimeout(this.timer);this.timer=null;this.running=null}
+ enqueue(events){this.outbox.enqueue(events.map(e=>e.id));this.notify();this.schedule()}
+ schedule(){clearTimeout(this.timer);this.timer=setTimeout(()=>this.sync().catch(()=>{}),this.debounceMs)}
+ notify(status){this.onStatus({...this.outbox.read(),status})}
+ sync(){if(this.running)return this.running;const generation=this.generation;this.running=this.perform(generation).finally(()=>{if(generation===this.generation)this.running=null});return this.running}
+ async perform(generation){this.notify('syncing');try{let local=this.loadState(),meta=this.outbox.initialize(local.masteryEvents||[]);const queued=new Set(meta.eventIds),events=(local.masteryEvents||[]).filter(e=>queued.has(e.id));for(let i=0;i<events.length;i+=100){const batch=events.slice(i,i+100),ids=await this.client.push(batch);if(generation!==this.generation)return;this.outbox.confirm(ids)}let cursor=this.outbox.read().lastPulledServerSeq;while(true){const rows=await this.client.pull(cursor);if(generation!==this.generation)return;if(!rows.length)break;const valid=[];for(const row of rows){const reason=validateRemoteRow(row,new Set(this.notions.map(n=>n.id)));if(reason)this.outbox.quarantine(row,reason);else valid.push(row.event_payload)}local=mergeProgress(this.loadState(),valid,this.notions);this.saveState(local);if(generation!==this.generation)return;const state=this.outbox.read();state.lastPulledServerSeq=rows.at(-1).server_seq;this.outbox.write(state);cursor=state.lastPulledServerSeq;if(rows.length<this.client.pageSize)break}const done=this.outbox.read();done.lastSuccessfulSyncAt=new Date().toISOString();done.lastError=null;this.outbox.write(done);this.notify('synced')}catch(error){this.outbox.attempted(safeSyncError(error));this.notify('error');throw error}}
+}
+

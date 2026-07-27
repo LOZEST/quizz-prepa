@@ -89,3 +89,7 @@ Les formes suivent la scène lors d’une rotation ou d’un redimensionnement. 
 ## Comptes Supabase (fondation)
 
 L’accès utilise désormais Supabase Auth par e-mail/mot de passe, sans inscription publique. Les comptes sont créés ou invités par le propriétaire; les rôles `user`, `admin` et `owner` sont décidés en base. Après une première connexion, le dernier espace connu reste ouvrable hors connexion avec un avertissement explicite. Les données pédagogiques restent locales et isolées par UUID; elles ne sont pas encore envoyées à Supabase. Voir [`docs/SUPABASE-SETUP.md`](docs/SUPABASE-SETUP.md), [`docs/AUTH-SECURITY.md`](docs/AUTH-SECURITY.md) et [`docs/ACCOUNT-MIGRATION.md`](docs/ACCOUNT-MIGRATION.md).
+
+## Progression du compte Supabase
+
+La progression est maintenant synchronisée local-first entre les appareils d'un même compte. Les événements append-only sont envoyés par lots et récupérés avec un curseur serveur; maîtrise et révisions restent des données dérivées recalculées sur chaque appareil. Le quiz demeure utilisable hors connexion et les sauvegardes Google Drive restent indépendantes. Installation et recette : [`docs/SUPABASE-PROGRESS-SYNC.md`](docs/SUPABASE-PROGRESS-SYNC.md).

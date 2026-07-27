@@ -12,3 +12,7 @@ L’application statique utilise `@supabase/supabase-js` v2 et seulement l’URL
 7. Installer la PWA sur iPad, se connecter une fois, passer en mode avion et vérifier le bandeau hors connexion.
 
 Désactiver les inscriptions publiques dans les réglages Auth du projet. Les invitations et créations restent réservées au propriétaire via le tableau de bord.
+
+## Progression personnelle
+
+Appliquer ensuite `supabase/migrations/20260727210000_progress_events.sql` depuis **SQL Editor**. Cette migration append-only est détaillée dans [`SUPABASE-PROGRESS-SYNC.md`](SUPABASE-PROGRESS-SYNC.md). Elle ne requiert ni nouvelle dépendance npm ni clé autre que la publishable key déjà configurée.

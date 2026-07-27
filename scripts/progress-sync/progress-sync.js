@@ -1,0 +1,6 @@
+import{activeWorkspace}from'../workspace/user-workspace.js';import{loadState,saveState}from'../storage.js';import{allNotions}from'../course-map.js';import{ProgressSyncClient}from'./progress-sync-client.js';import{ProgressSyncCoordinator}from'./progress-sync-coordinator.js';import{bindProgressSyncUI}from'./progress-sync-ui.js';
+let current,unbind;
+export function startProgressSync({userId,supabase}){stopProgressSync();const coordinator=new ProgressSyncCoordinator({workspace:activeWorkspace(),client:new ProgressSyncClient(supabase,userId),loadState,saveState:state=>{const saved=saveState(state,{notifyProgress:false});document.dispatchEvent(new CustomEvent('quiz-tsi-progress-merged',{detail:{state:saved}}));return saved},notions:allNotions()}).start();current=coordinator;unbind=bindProgressSyncUI(coordinator);document.addEventListener('quiz-tsi-progress-events',onEvents);window.addEventListener('online',onOnline);document.addEventListener('quiz-tsi-account-leaving',stopProgressSync,{once:true});coordinator.schedule();return coordinator}
+function onEvents(event){current?.enqueue(event.detail?.events||[])}function onOnline(){current?.schedule()}
+export function stopProgressSync(){document.removeEventListener('quiz-tsi-progress-events',onEvents);window.removeEventListener('online',onOnline);current?.stop();unbind?.();current=null;unbind=null}
+
