@@ -25,8 +25,8 @@ jobs:
           npm run verify > /tmp/quiz-tsi-verify.log 2>&1
           status=$?
           if [ "$status" -ne 0 ]; then
-            echo "Verification failed. Relevant output:"
-            tail -n 180 /tmp/quiz-tsi-verify.log
+            echo "::error::Quiz TSI verification failed"
+            tail -n 28 /tmp/quiz-tsi-verify.log
             exit "$status"
           fi
-          tail -n 40 /tmp/quiz-tsi-verify.log
+          tail -n 12 /tmp/quiz-tsi-verify.log
