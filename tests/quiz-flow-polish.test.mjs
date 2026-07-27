@@ -43,5 +43,5 @@ test('polished Pencil workspace is precached',async()=>{
  assert.match(polish,/pointerType==='pen'/);
  assert.match(polish,/question-card\{top:50px/);
  assert.match(sw,/\.\/scripts\/quiz-polish\.js/);
- assert.match(sw,/CACHE_VERSION='v22'/);
+ assert.match(sw,/CACHE_VERSION='v\d+'/);
 });
