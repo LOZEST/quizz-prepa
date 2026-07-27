@@ -67,3 +67,12 @@ Ces contrôles matériels n’ont pas été exécutés dans l’environnement te
 - Pour une forme : Annuler, Rétablir, toucher son contour avec la gomme, Tout effacer, recharger la PWA et refaire une rotation.
 - Dans un test, insérer une forme sur deux questions, naviguer entre elles, rendre puis quitter : chaque brouillon doit rester isolé et le tableau normal doit être restauré.
 - Exporter puis importer la sauvegarde et confirmer que traits et formes restent vectoriels et présents hors connexion.
+
+## Placement de formes au Pencil
+
+1. Ouvrir le menu compact avec le bouton `○`, vérifier les neuf aperçus et les tailles Petite, Moyenne et Grande en orientations portrait et paysage.
+2. Choisir une forme : le statut VoiceOver doit annoncer « Placer : … ». Avant le contact du Pencil, Undo ne doit pas changer.
+3. Poser le Pencil, le déplacer sans varier la taille malgré la pression, puis le relever : l’aperçu pointillé doit suivre la pointe, devenir une forme nette et l’outil Stylo doit revenir automatiquement.
+4. Vérifier qu’un doigt ne pose ni ne déplace la forme et que le tableau ne fait pas défiler la page. Aucun Apple Pencil Hover ne doit être activé pour cette recette.
+5. Annuler avant le contact avec le bouton Formes, l’option d’annulation, Échap, puis Stylo/Gomme ; vérifier qu’aucun dessin ni historique n’est modifié.
+6. En test de chapitre, placer une forme dans deux brouillons, changer de question et revenir. Après remise, vérifier le mode lecture seule, puis quitter et confirmer que le tableau normal est intact.
