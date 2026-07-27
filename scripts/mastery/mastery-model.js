@@ -1,0 +1,1 @@
+export const emptyMastery=notionId=>({notionId,masteryScore:0,confidenceScore:0,stabilityDays:0,difficultyScore:5,nextReviewAt:null,lastReviewedAt:null,evidenceCount:0,recentEvidenceCount:0,distinctTemplateCount:0,distinctQuestionTypeCount:0,distinctLevelCount:0,successStreak:0,lapses:0,levelMastery:{1:null,2:null,3:null,4:null},status:'new',lastResult:null});

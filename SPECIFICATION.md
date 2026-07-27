@@ -99,3 +99,9 @@ Le mode d'évaluation est séparé du parcours de révision. Sa configuration ch
 Pendant l'épreuve, indice, correction, explication du piège, autoévaluation et filtres pédagogiques sont indisponibles. Chaque question possède une scène vectorielle propre. Une échéance absolue rend le chrono résistant aux suspensions et rechargements. Remise et abandon sont explicites; une remise fige définitivement la copie.
 
 La correction est humaine et guidée, jamais issue d'une reconnaissance manuscrite. Elle accepte une saisie par critères ou directe, borne chaque note au barème, calcule pour /40 un équivalent exact /20 et produit des formulations prudentes par notion. Les sessions volumineuses résident dans IndexedDB; l'export/import JSON est versionné, borné et validé. Aucun résultat de test ne modifie encore l'algorithme de maîtrise.
+
+## 14. Maîtrise adaptative (schéma 2)
+
+La section 7 décrivait la politique initiale désormais remplacée. La source de vérité est l’historique d’événements pédagogiques idempotents. Une autoévaluation produit `easy`, `hard`, `fragile` ou `failed`; `easy` avec indice est normalisé en `hard`. Correction seule, passage, séance abandonnée et test non finalisé sont neutres. L’état dérivé distingue score estimé, confiance, stabilité, difficulté personnelle, maîtrise par niveau et prochaine révision. Aucun libellé ne certifie une maîtrise définitive.
+
+Les résultats des tests sont pris question par question uniquement après finalisation. Une nouvelle correction supersède la preuve antérieure. Les agrégations excluent les notions sans données au lieu de leur attribuer zéro. Les algorithmes et limites sont spécifiés dans `docs/ADAPTIVE-MASTERY.md`.
