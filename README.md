@@ -13,6 +13,7 @@ Première base GitHub-ready du projet défini dans la conversation.
 - Réussi sans indice = facile ; réussi avec indice = difficile.
 - Répétition espacée initiale.
 - Sauvegarde locale et export/import JSON.
+- Mode d'évaluation séparé avec blueprints déterministes notés sur 20 ou 40, brouillon vectoriel par question, chrono résistant au rechargement et correction manuelle guidée.
 
 ## Installation sur GitHub Pages
 1. Copier tous les fichiers à la racine du dépôt.
@@ -26,6 +27,7 @@ Avec Node.js 20 ou plus récent :
 
 ```bash
 npm test
+npm run tests:coverage-report
 ```
 
 ## Contenu mathématique
@@ -43,6 +45,11 @@ Les énoncés, indices et corrections acceptent des segments `{type: "text", val
 - La synchronisation Drive est préparée mais pas encore branchée à l’interface.
 - Le contenu extrait du PDF doit être validé manuellement avant publication.
 - Le contenu historique est converti par une couche de compatibilité ; sa migration vers des segments LaTeX natifs reste progressive.
+- Le mode test ne reconnaît et ne note jamais l'écriture manuscrite ; les points sont saisis par l'élève ou une autre personne après remise.
+
+## Tests de chapitre
+
+Choisir **Test de chapitre** ouvre une préparation distincte. Le test fige questions, nombres, ordre, corrections et barèmes dans un blueprint signé. Les sessions et brouillons volumineux sont conservés dans IndexedDB, tandis que les préférences existantes restent dans `localStorage`. La documentation technique, les règles d'éligibilité et les limites se trouvent dans `docs/CHAPTER-TESTS.md`; la recette matérielle dans `docs/CHAPTER-TESTS-IPAD-CHECKLIST.md`.
 
 ## Prochaine étape recommandée
 Tester cette V0.1 sur l’iPad, puis corriger l’ergonomie avant d’ajouter la synchronisation Drive et d’élargir les générateurs.

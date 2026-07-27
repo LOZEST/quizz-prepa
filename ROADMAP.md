@@ -15,7 +15,8 @@
 - [x] Ajouter des variantes génératives « repérer l’erreur », « condition manquante » et « contre-exemple » pour les chapitres centraux.
 - [ ] Étendre les pièges aux 25 notions encore non couvertes.
 - [ ] Ajouter un tableau de bord par chapitre.
-- [ ] Ajouter une session de test chronométrée sans indice.
+- [x] Ajouter des tests de chapitre sur 20 et sur 40, avec chrono facultatif, brouillons isolés, remise et correction guidée.
+- [ ] Compléter les banques des notions signalées non composables par le rapport de couverture.
 
 ## V0.3 — Google Drive
 - [ ] Déployer l’application avec Google Apps Script.
