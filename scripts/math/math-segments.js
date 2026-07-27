@@ -12,14 +12,17 @@ export function cleanFrenchText(value){
   .replace(/\s*([;:?!])\s*/g,' $1 ')
   .replace(/([,.])(?=[A-Za-zÀ-ÿ])/g,'$1 ')
   .replace(/\s+([’'])/g,'$1')
+  .replace(/([^.?!:;])\s+(Condition importante|On obtient|La règle correcte|Il faut contrôler)\b/g,'$1. $2')
+  .replace(/»\s+(Repérer|Justifier|Expliquer)\b/g,'». $1')
   .trim();
 }
+function cleanChunk(raw){const source=String(raw??''),leading=/^[ \t]/.test(source),trailing=/[ \t]$/.test(source),cleaned=cleanFrenchText(source);if(!cleaned)return'';return`${leading?' ':''}${cleaned}${trailing?' ':''}`}
 
 export function richTextToSegments(value){
  const source=decode(value),segments=[];
  const pattern=/\\\[([\s\S]*?)\\\]|\\\(([\s\S]*?)\\\)|(\n)/g;
  let offset=0,match;
- const pushText=raw=>{const cleaned=cleanFrenchText(raw);if(cleaned)segments.push(text(cleaned))};
+ const pushText=raw=>{const cleaned=cleanChunk(raw);if(cleaned)segments.push(text(cleaned))};
  while((match=pattern.exec(source))){
   if(match.index>offset)pushText(source.slice(offset,match.index));
   if(match[3])segments.push({type:SEGMENT_TYPES.BREAK});
