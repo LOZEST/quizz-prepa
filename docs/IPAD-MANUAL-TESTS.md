@@ -28,7 +28,9 @@ Ces contrôles nécessitent un iPad réel et un Apple Pencil. Ils restent à eff
 
 ## Gestes vectoriels
 
-- Tracer puis maintenir une ligne horizontale, verticale et oblique ; après environ 500 ms, vérifier l'aimantation et régler l'angle avant de relever le Pencil.
+- Activer « Maintenir pour tracer une forme parfaite », puis tracer et maintenir une ligne horizontale, verticale et oblique ; après environ 500 ms, vérifier l'aimantation et régler l'angle avant de relever le Pencil.
+- Tracer un cercle assez grand, presque fermé et régulier, puis maintenir le Pencil posé environ 500 ms : vérifier l’aperçu du cercle parfait avant de relever le stylet, puis Annuler/Rétablir et tourner l’iPad.
+- Vérifier qu’une lettre, une boucle ouverte et un petit gribouillage restent manuscrits, et qu’un cercle aimanté ne déclenche pas l’effacement par griffonnage.
 - Comparer un maintien trop court et un maintien suffisamment long.
 - Écrire `1`, un signe moins, une petite barre de fraction, `x` et une racine carrée : ces petits symboles ne doivent pas devenir des droites.
 - Griffonner rapidement sur un symbole puis sur une ligne entière : seuls les traits réellement recouverts doivent disparaître et une seule action Annuler doit tout restaurer.
