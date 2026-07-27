@@ -1,11 +1,13 @@
+import{createBoardShape}from'./board-shapes.js';
 const finite=n=>Number.isFinite(n);
 export const distance=(a,b)=>Math.hypot(b.x-a.x,b.y-a.y);
 const segmentDistance=(p,a,b)=>{const dx=b.x-a.x,dy=b.y-a.y,l=dx*dx+dy*dy;if(!l)return distance(p,a);const t=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/l));return distance(p,{x:a.x+t*dx,y:a.y+t*dy})};
 const bounds=points=>{const xs=points.map(p=>p.x),ys=points.map(p=>p.y);return{x:Math.min(...xs),y:Math.min(...ys),width:Math.max(...xs)-Math.min(...xs),height:Math.max(...ys)-Math.min(...ys)}};
 export function simplifyPoints(points,minDistance=0.7){if(points.length<3)return points.map(p=>({...p}));const kept=[{...points[0]}];for(let i=1;i<points.length-1;i++)if(distance(kept.at(-1),points[i])>=minDistance)kept.push({...points[i]});if(distance(kept.at(-1),points.at(-1))||kept.length===1)kept.push({...points.at(-1)});return kept}
 export function createStroke({id=globalThis.crypto?.randomUUID?.()||`stroke-${Date.now()}-${Math.random()}`,tool='pen',points,width=3,createdAt=Date.now(),type='free'}){const clean=simplifyPoints(points).map(p=>({x:Number(p.x),y:Number(p.y),pressure:finite(p.pressure)?Math.max(0,Math.min(1,p.pressure)):0.5,time:finite(p.time)?p.time:createdAt}));if(!clean.length||clean.some(p=>!finite(p.x)||!finite(p.y)))throw new TypeError('Coordonnées de trait invalides');return{id,tool,points:clean,width:Number(width),createdAt,type,bounds:bounds(clean)}}
-export function serializeScene(scene){return JSON.stringify({version:1,space:{...scene.space},strokes:scene.strokes.map(s=>createStroke(s))})}
-export function deserializeScene(value){const data=typeof value==='string'?JSON.parse(value):value;if(data?.version!==1||!finite(data.space?.width)||!finite(data.space?.height))throw new TypeError('Tableau vectoriel invalide');return{space:{width:data.space.width,height:data.space.height},strokes:(data.strokes||[]).map(createStroke)}}
+export const createVectorObject=value=>value?.type==='shape'?createBoardShape(value):createStroke(value);
+export function serializeScene(scene){return JSON.stringify({version:2,space:{...scene.space},objects:scene.strokes.map(createVectorObject)})}
+export function deserializeScene(value){const data=typeof value==='string'?JSON.parse(value):value;if(![1,2].includes(data?.version)||!finite(data.space?.width)||!finite(data.space?.height)||data.space.width<=0||data.space.height<=0)throw new TypeError('Tableau vectoriel invalide');const objects=data.version===1?(data.strokes||[]):data.objects;if(!Array.isArray(objects))throw new TypeError('Objets vectoriels invalides');return{space:{width:data.space.width,height:data.space.height},strokes:objects.map(createVectorObject)}}
 export function sceneTransform(space,width,height){const scale=Math.min(width/space.width,height/space.height);return{scale,offsetX:(width-space.width*scale)/2,offsetY:(height-space.height*scale)/2}}
 export function transformPoint(point,transform){return{x:point.x*transform.scale+transform.offsetX,y:point.y*transform.scale+transform.offsetY,pressure:point.pressure,time:point.time}}
 export function pathLength(points){let n=0;for(let i=1;i<points.length;i++)n+=distance(points[i-1],points[i]);return n}
@@ -20,7 +22,7 @@ export function detectScribble(gesture,existing){const box=gesture.bounds,area=M
 export class VectorHistory{
  constructor(strokes=[]){this.strokes=strokes;this.undoStack=[];this.redoStack=[]}
  perform(operation){this.#apply(operation,false);this.undoStack.push(operation);this.redoStack=[]}
- #apply(op,inverse){const remove=inverse?op.added:op.removed,add=inverse?op.removed:op.added;const ids=new Set(remove.map(s=>s.id));this.strokes=this.strokes.filter(s=>!ids.has(s.id));this.strokes.push(...add.map(s=>createStroke(s)))}
+ #apply(op,inverse){const remove=inverse?op.added:op.removed,add=inverse?op.removed:op.added;const ids=new Set(remove.map(s=>s.id));this.strokes=this.strokes.filter(s=>!ids.has(s.id));this.strokes.push(...add.map(createVectorObject))}
  undo(){const op=this.undoStack.pop();if(!op)return false;this.#apply(op,true);this.redoStack.push(op);return true}
  redo(){const op=this.redoStack.pop();if(!op)return false;this.#apply(op,false);this.undoStack.push(op);return true}
 }
