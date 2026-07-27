@@ -5,8 +5,9 @@ Cette procédure permet de revenir à une version stable sans supprimer l’hist
 ## Point stable actuel
 
 - Branche immuable : `backup/stable-2026-07-27-before-study-planner`
-- Commit : `7087dbff59341f82d1b2cc2ca9b5dddd10212489`
-- Cette branche ne doit recevoir aucun nouveau commit.
+- Commit : `b122bb5170aa3a4eb560bf74fa6ff87ebdd0574e`
+- Cette branche correspond au dernier point connu comme stable avant l’administration d’équipe et les prochaines améliorations.
+- Cette branche ne doit recevoir aucun nouveau commit fonctionnel.
 
 ## Règles de sécurité
 
