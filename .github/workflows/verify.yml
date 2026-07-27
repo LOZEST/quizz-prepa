@@ -18,4 +18,15 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run verify
+      - name: Run verification
+        shell: bash
+        run: |
+          set +e
+          npm run verify > /tmp/quiz-tsi-verify.log 2>&1
+          status=$?
+          if [ "$status" -ne 0 ]; then
+            echo "Verification failed. Relevant output:"
+            tail -n 180 /tmp/quiz-tsi-verify.log
+            exit "$status"
+          fi
+          tail -n 40 /tmp/quiz-tsi-verify.log
