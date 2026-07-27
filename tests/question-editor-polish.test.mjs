@@ -1,0 +1,17 @@
+import test from'node:test';
+import assert from'node:assert/strict';
+import{readFile}from'node:fs/promises';
+import{insertAtSelection,mathSnippet,parameterizedExample,pedagogicalError,variableDraft,variableSpec}from'../scripts/question-bank/editor-helpers.js';
+import{parseDomain,domainContains}from'../scripts/question-bank/domain-parser.js';
+import{validateQuestion}from'../scripts/question-bank/question-validator.js';
+import{cleanFrenchText,richTextToSegments}from'../scripts/math/math-segments.js';
+const read=file=>readFile(new URL(`../${file}`,import.meta.url),'utf8');
+const base={id:'11111111-1111-4111-8111-111111111111',author_id:'u1',scope:'private',status:'published',question_type:'course',title:'Question',part_id:'A',chapter_id:'powers',notion_id:'powers-product',difficulty:1,prompt_content:{segments:[{type:'text',value:'Énoncer la propriété.'}]},hint_content:{segments:[{type:'text',value:'Observer les exposants.'}]},correction_content:{steps:[{segments:[{type:'text',value:'On additionne les exposants.'}]}]},hidden_concept_content:null,oral_formulation_content:null,variable_spec:null,tags:[],version:1};
+
+test('insertion preserves the cursor position',()=>{const result=insertAtSelection('abc',1,2,'XYZ');assert.deepEqual(result,{value:'aXYZc',start:4,end:4})});
+test('math snippets and parameterized example use renderable delimiters',()=>{assert.match(mathSnippet(),/\\\(/);assert.match(mathSnippet({display:true}),/\\\[/);const example=parameterizedExample('a');assert.match(example.prompt,/{{a}}/);assert.match(example.correction,/\\frac/)});
+test('variable drafts become valid mathematical domains',()=>{const integer=variableSpec({...variableDraft({},0),name:'a',type:'nonzero',minimum:-5,maximum:5,excluded:'1; 2'});const domain=parseDomain(integer.domain);assert.equal(domainContains(domain,0),false);assert.equal(domainContains(domain,1),false);assert.equal(integer.sampling.mode,'integer');const list=variableSpec({name:'b',type:'list',values:'1; 3; 8'});assert.equal(list.sampling.mode,'finite-set');assert.deepEqual(list.sampling.values,[1,3,8])});
+test('Reflexe prepa rejects prose course questions',()=>{assert.match(pedagogicalError('course',3),/calculs et aux formules/);const result=validateQuestion({...base,difficulty:3});assert.equal(result.valid,false);assert.match(result.errors.join(' '),/Réflexe prépa/)});
+test('formula questions require actual mathematics',()=>{assert.equal(validateQuestion({...base,question_type:'formula'}).valid,false);const formula={...base,question_type:'formula',prompt_content:{segments:[{type:'text',value:'Donner \\(a^m a^n=a^{m+n}\\).'}]}};assert.equal(validateQuestion(formula).valid,true)});
+test('spacing around mathematical segments and generated clauses remains readable',()=>{const segments=richTextToSegments('Calculer \\(x^2\\) puis conclure.');assert.equal(segments[0].value,'Calculer ');assert.equal(segments[2].value,' puis conclure.');assert.equal(cleanFrenchText('On applique la règle On obtient 2.'),'On applique la règle. On obtient 2.')});
+test('editor exposes field-aware math tools and variable previews',async()=>{const source=await read('scripts/pages/questions-page.js');for(const marker of['data-add-inline','data-add-display','data-example','10 variantes contrôlées','variableSpec','data-level-warning'])assert.match(source,new RegExp(marker));assert.doesNotMatch(source,/alert\(|confirm\(/)});
