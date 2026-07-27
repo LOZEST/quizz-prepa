@@ -12,7 +12,22 @@ export const power=(base,exp)=>exp===1?base:`${base}^{${exp}}`;
 export const normalizeSpaces=s=>s.replace(/\+ −/g,'− ').replace(/\+ \+/g,'+ ').replace(/\s+/g,' ').trim();
 import{legacyHtmlToSegments,normalizeSegments,normalizeSteps}from'./math/math-segments.js';
 const sourceName=data=>data.generator||(/^(?:course|exercise)-/.test(String(data.id||''))?'course-bank':'fixed');
-export const createQuestion=data=>({
+const terminal=value=>/[.!?…»](?:<\/span>)?$/.test(String(value||'').trim());
+const sentence=value=>{const text=String(value||'').trim();return!text||terminal(text)?text:`${text}.`};
+export function polishCoursePrompt(value){let text=String(value||'').trim();const rules=[
+ [/^Domaine de\s+(.+)$/i,'Déterminer le domaine de définition de $1'],
+ [/^Signe de\s+(.+)$/i,'Déterminer le signe de $1'],
+ [/^Variations? de\s+(.+)$/i,'Étudier les variations de $1'],
+ [/^Tangente à\s+(.+)$/i,'Déterminer l’équation de la tangente à $1'],
+ [/^Primitive de\s+(.+)$/i,'Déterminer une primitive de $1'],
+ [/^Limite de\s+(.+)$/i,'Calculer la limite de $1'],
+ [/^Coordonnées pour\s+(.+)$/i,'Donner les coordonnées du point associé à $1'],
+ [/^Maximum de\s+(.+)$/i,'Déterminer le maximum de $1'],
+ [/^Minimum de\s+(.+)$/i,'Déterminer le minimum de $1'],
+ [/^Somme des\s+(.+)$/i,'Calculer la somme des $1']
+ ];for(const[pattern,replacement]of rules)if(pattern.test(text)){text=text.replace(pattern,replacement);break}return sentence(text)}
+export function polishCourseSentence(value){return sentence(String(value||'').replace(/»\s+(Repérer|Justifier|Expliquer)\b/g,'». $1').replace(/([^.?!:;])\s+(Condition importante|On obtient|La règle correcte|Il faut contrôler)\b/g,'$1. $2'))}
+export const createQuestion=data=>{const generator=sourceName(data),course=generator==='course-bank',questionHtml=course?polishCoursePrompt(data.questionHtml):data.questionHtml,hint=course?polishCourseSentence(data.hint):data.hint,correctionHtml=course?polishCourseSentence(data.correctionHtml):data.correctionHtml,hiddenConcept=course?polishCourseSentence(data.hiddenConcept):data.hiddenConcept||'',oralFormulation=data.oralFormulation||'';return{
   id:data.id,
   fingerprint:data.fingerprint||data.id,
   partId:data.partId,
@@ -21,15 +36,15 @@ export const createQuestion=data=>({
   difficulty:data.difficulty||1,
   kind:data.kind||'Exercice généré',
   category:data.category,
-  questionHtml:data.questionHtml,
-  question:{segments:normalizeSegments(data.question?.segments||legacyHtmlToSegments(data.questionHtml||''))},
-  hint:data.hint,
-  hintContent:{segments:normalizeSegments(data.hintContent?.segments||legacyHtmlToSegments(data.hint||''))},
-  correctionHtml:data.correctionHtml,
-  correction:{steps:normalizeSteps(data.correction?.steps||legacyHtmlToSegments(data.correctionHtml||''))},
-  hiddenConcept:data.hiddenConcept||'',
-  hiddenConceptContent:{segments:normalizeSegments(data.hiddenConceptContent?.segments||data.hiddenConcept||'')},
-  oralFormulation:data.oralFormulation||'',
-  oralFormulationContent:{segments:normalizeSegments(data.oralFormulationContent?.segments||data.oralFormulation||'')},
-  generator:sourceName(data)
-});
+  questionHtml,
+  question:{segments:normalizeSegments(data.question?.segments||legacyHtmlToSegments(questionHtml||''))},
+  hint,
+  hintContent:{segments:normalizeSegments(data.hintContent?.segments||legacyHtmlToSegments(hint||''))},
+  correctionHtml,
+  correction:{steps:normalizeSteps(data.correction?.steps||legacyHtmlToSegments(correctionHtml||''))},
+  hiddenConcept,
+  hiddenConceptContent:{segments:normalizeSegments(data.hiddenConceptContent?.segments||hiddenConcept||'')},
+  oralFormulation,
+  oralFormulationContent:{segments:normalizeSegments(data.oralFormulationContent?.segments||oralFormulation||'')},
+  generator
+ }};
