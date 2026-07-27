@@ -3,8 +3,8 @@
 Rapport généré par `npm run tests:coverage-report`. Aucun fallback hors périmètre ni doublon de template n'est autorisé.
 
 - Questions adaptées : **506**
-- Chapitres composables sur 20 : **16/16**
-- Chapitres composables sur 40 : **16/16**
+- Chapitres composables sur 20 : **15/16**
+- Chapitres composables sur 40 : **1/16**
 
 ## Lecture du /40
 
