@@ -9,7 +9,7 @@
 5. Accepter l'autorisation Google Drive demandée. Vérifier qu'un seul dossier `Quiz TSI Sync` existe.
 6. Choisir **Déployer → Nouveau déploiement → Application Web**, exécuter en tant que propriétaire et limiter l'accès selon le compte utilisé.
 7. Copier l'URL du déploiement et la désigner uniquement par `VOTRE_URL_APPS_SCRIPT` dans les procédures.
-8. Tester l'état public sans donnée personnelle : ouvrir `VOTRE_URL_APPS_SCRIPT`, puis envoyer un POST `health` avec la clé dans le corps :
+8. Dans la PWA, saisir `VOTRE_URL_APPS_SCRIPT` et `VOTRE_CLE_DE_SYNCHRONISATION`, tester puis enregistrer. Pour un diagnostic en ligne de commande, envoyer un POST `health` avec la clé dans le corps :
 
 ```sh
 curl -X POST 'VOTRE_URL_APPS_SCRIPT' \
@@ -24,4 +24,5 @@ curl -X POST 'VOTRE_URL_APPS_SCRIPT' \
 - deux clients concurrents pour vérifier `LockService`, mauvaise révision et conflits de brouillons ;
 - inspection des checksums après modification/corruption volontaire d'un fichier ;
 - comportement aux quotas Drive/Apps Script et à un verrou de plus de 30 secondes ;
-- pull après plusieurs révisions et restauration manuelle contrôlée d'un snapshot (la future interface reste hors périmètre).
+- pull après plusieurs révisions, sauvegardes Drive et restauration contrôlée depuis l'interface ;
+- toute la [recette matérielle 7B](SYNC-MANUAL-TESTS.md).

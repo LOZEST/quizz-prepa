@@ -7,3 +7,8 @@ Apps Script génère la clé avec `generateSyncKey()` et ne retourne sa valeur c
 L'API impose une liste blanche d'actions, n'utilise ni `eval`, ni chemin Drive client, ni `fileId` client. Les données, versions, tailles, checksums, UUID, dates et nombres sont validés avant écriture. Les identifiants Drive du manifest sont produits exclusivement par le serveur.
 
 Codes structurés : `NETWORK_OFFLINE`, `AUTH_INVALID`, `ENDPOINT_INVALID`, `PROTOCOL_MISMATCH`, `SCHEMA_MISMATCH`, `PAYLOAD_TOO_LARGE`, `CHECKSUM_INVALID`, `SERVER_CONFLICT`, `DRIVE_UNAVAILABLE`, `QUOTA_EXCEEDED`, `APPS_SCRIPT_ERROR`, `LOCAL_STORAGE_ERROR`, `REMOTE_DATA_CORRUPTED`.
+
+
+## Interface 7B
+
+L'interface masque une clé enregistrée et exige l'action **Remplacer la clé** pour la modifier. Le diagnostic ne contient que `keyConfigured: true|false` et `endpointConfigured: true|false`; il exclut valeurs, URL, hash, tokens, réponses détaillées et traits. Supprimer la configuration locale ne touche jamais Drive.

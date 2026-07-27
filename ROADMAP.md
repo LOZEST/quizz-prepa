@@ -21,9 +21,9 @@
 ## V0.3 — Google Drive
 - [x] Préparer le moteur local-first, l'outbox, le protocole et le backend Apps Script/Drive.
 - [ ] Déployer et valider réellement l’application Google Apps Script.
-- [ ] Connecter les mutations de l'interface et afficher les conflits entre iPad et ordinateur.
-- [ ] Ajouter les sauvegardes/restaurations manuelles et leur interface.
-- [ ] Afficher la dernière synchronisation.
+- [x] Connecter l'interface et afficher les conflits entre iPad et ordinateur.
+- [x] Ajouter les sauvegardes/restaurations manuelles et leur interface.
+- [x] Afficher l'état et la dernière synchronisation.
 
 ## V0.4 — Extraction du cours
 - [ ] Importer un document de cours.

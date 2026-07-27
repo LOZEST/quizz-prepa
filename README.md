@@ -13,7 +13,7 @@ Première base GitHub-ready du projet défini dans la conversation.
 - Réussi sans indice = facile ; réussi avec indice = difficile.
 - Répétition espacée initiale.
 - Sauvegarde locale et export/import JSON.
-- Moteur de synchronisation local-first préparé : configuration locale, outbox IndexedDB persistante, client HTTPS abstrait et backend Google Apps Script Drive (sans lancement automatique depuis l’interface).
+- Synchronisation Drive facultative : configuration et test de connexion, déclenchement manuel/automatique regroupé, état, conflits, diagnostics expurgés et sauvegardes complètes ou légères.
 - Mode d'évaluation séparé avec blueprints déterministes notés sur 20 ou 40, brouillon vectoriel par question, chrono résistant au rechargement et correction manuelle guidée.
 
 ## Installation sur GitHub Pages
@@ -31,9 +31,9 @@ npm test
 npm run tests:coverage-report
 ```
 
-## Synchronisation Drive (infrastructure)
+## Synchronisation Drive
 
-La PWA reste intégralement utilisable hors connexion. La synchronisation n'est pas encore déclenchée par l'interface : la PR 7A fournit uniquement le protocole versionné, la file persistante, le client testable et l'API Apps Script. Consulter [`docs/sync-protocol.md`](docs/sync-protocol.md), [`docs/apps-script-deployment.md`](docs/apps-script-deployment.md) et [`docs/sync-security.md`](docs/sync-security.md).
+La PWA reste intégralement utilisable hors connexion et Google reste facultatif. Le menu propose configuration, test, synchronisation, conflits, sauvegardes et diagnostic. Commencer par [`docs/google-drive-sync.md`](docs/google-drive-sync.md), puis consulter le [protocole](docs/sync-protocol.md), le [déploiement](docs/apps-script-deployment.md), les [conflits](docs/sync-conflicts.md), les [sauvegardes](docs/sync-backups.md), la [reprise](docs/sync-recovery.md) et la [sécurité](docs/sync-security.md).
 
 ## Contenu mathématique
 Les énoncés, indices et corrections acceptent des segments `{type: "text", value: "…"}` et `{type: "math", value: "…", display: true|false}`. Une correction peut fournir `{steps: [{segments: [...]}]}`. Les anciennes chaînes contenant des `<span class="math">…</span>` restent prises en charge temporairement, sans autoriser d’autre HTML. Si KaTeX refuse une formule, sa source est affichée et le quiz continue.
@@ -47,7 +47,7 @@ Les énoncés, indices et corrections acceptent des segments `{type: "text", val
 
 ## Limites actuelles
 - La page ne lit pas automatiquement l’écriture manuscrite.
-- La synchronisation Drive est préparée mais pas encore branchée à l’interface.
+- Le déploiement Apps Script et la recette multi-appareils/iPad restent à valider réellement ; la PR doit rester en brouillon jusque-là.
 - Le contenu extrait du PDF doit être validé manuellement avant publication.
 - Le contenu historique est converti par une couche de compatibilité ; sa migration vers des segments LaTeX natifs reste progressive.
 - Le mode test ne reconnaît et ne note jamais l'écriture manuscrite ; les points sont saisis par l'élève ou une autre personne après remise.
