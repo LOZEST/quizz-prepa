@@ -30,3 +30,11 @@ jobs:
             exit "$status"
           fi
           tail -n 12 /tmp/quiz-tsi-verify.log
+      - name: Upload verification log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-log
+          path: /tmp/quiz-tsi-verify.log
+          if-no-files-found: error
+          retention-days: 3
