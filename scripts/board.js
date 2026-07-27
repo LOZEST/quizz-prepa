@@ -23,7 +23,7 @@ export class DrawingBoard{
  undo(){if(this.history.undo()){this.redraw();this.persist()}}
  redo(){if(this.history.redo()){this.redraw();this.persist()}}
  clear(store=true){this.cancelShapePlacement();const removed=[...this.history.strokes];if(store&&removed.length)this.history.perform({added:[],removed});else if(!store)this.history=new VectorHistory();this.redraw();this.persist()}
- capture(){return JSON.parse(serializeScene({space:this.space,strokes:this.history.strokes}))}
- restore(scene){this.cancelShapePlacement();if(scene){const parsed=deserializeScene(scene);this.space=parsed.space;this.history=new VectorHistory(parsed.strokes)}else this.history=new VectorHistory();this.redraw()}
+ capture(){const parsed=deserializeScene({version:2,space:this.space,strokes:Array.isArray(this.history?.strokes)?this.history.strokes:[]},{fallbackSpace:this.space,tolerant:true});return{version:2,space:parsed.space,strokes:parsed.strokes}}
+ restore(scene){this.cancelShapePlacement();const parsed=deserializeScene(scene,{fallbackSpace:this.space,tolerant:true});this.space=parsed.space;this.history=new VectorHistory(parsed.strokes);this.redraw();return parsed}
  setReadOnly(value){this.cancelShapePlacement();this.readOnly=value===true;this.canvas.setAttribute('aria-readonly',String(this.readOnly))}
 }
