@@ -1,17 +1,5 @@
-# Connecteur Google Drive — étape suivante
+# Backend Google Apps Script
 
-Ce dossier prépare la synchronisation, mais la V0.1 utilise encore la sauvegarde locale.
+API Drive versionnée pour la synchronisation local-first. Voir [`../docs/apps-script-deployment.md`](../docs/apps-script-deployment.md), [`../docs/sync-protocol.md`](../docs/sync-protocol.md) et [`../docs/sync-security.md`](../docs/sync-security.md).
 
-## Déploiement prévu
-1. Créer un projet Google Apps Script.
-2. Copier `Code.gs` et `appsscript.json`.
-3. Déployer comme application web exécutée par l’utilisateur connecté.
-4. Héberger ensuite l’interface dans Apps Script ou ajouter un canal de communication sécurisé.
-5. Tester avec le compte Google Workspace de l’utilisateur : certaines politiques administrateur peuvent bloquer Drive ou Apps Script.
-
-## Données prévues
-- Dossier Drive : `Quiz_TSI`.
-- Fichier : `progression.json`.
-- Feuille : `Historique_Quiz_TSI`.
-
-Ne pas mettre une URL Apps Script secrète ou un jeton dans le dépôt public.
+Le dossier Drive `Quiz TSI Sync` et ses fichiers sont créés par le serveur. Aucun identifiant Drive ni secret n'est accepté depuis le client. Le backend n'est pas nécessaire au fonctionnement hors connexion.

@@ -19,10 +19,10 @@
 - [ ] Compléter les banques des notions signalées non composables par le rapport de couverture.
 
 ## V0.3 — Google Drive
-- [ ] Déployer l’application avec Google Apps Script.
-- [ ] Synchroniser `progression.json`.
-- [ ] Journaliser les tentatives dans Google Sheets.
-- [ ] Gérer les conflits entre iPad et ordinateur.
+- [x] Préparer le moteur local-first, l'outbox, le protocole et le backend Apps Script/Drive.
+- [ ] Déployer et valider réellement l’application Google Apps Script.
+- [ ] Connecter les mutations de l'interface et afficher les conflits entre iPad et ordinateur.
+- [ ] Ajouter les sauvegardes/restaurations manuelles et leur interface.
 - [ ] Afficher la dernière synchronisation.
 
 ## V0.4 — Extraction du cours
