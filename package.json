@@ -13,7 +13,6 @@
     "stability:audit": "node tools/stability-audit.mjs"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.0.0",
     "katex": "0.16.22"
   }
 }
