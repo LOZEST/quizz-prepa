@@ -18,7 +18,7 @@ La synchronisation est **facultative**, local-first et non temps réel. Quiz, ta
 12. Pour changer la clé, utiliser **Remplacer la clé**, tester et enregistrer.
 13. **Supprimer la configuration** efface seulement l'URL et la clé de cet appareil, jamais le dossier ou les sauvegardes Drive.
 
-Les actions Drive hors ligne affichent « Connexion Internet nécessaire ». Le diagnostic indique seulement la présence de l'endpoint/de la clé, jamais leurs valeurs.
+Les actions Drive hors ligne précisent que la connexion est nécessaire uniquement pour Google Drive et que le quiz reste disponible hors connexion. Le diagnostic indique seulement la présence de l'endpoint/de la clé, jamais leurs valeurs.
 
 ## États
 
