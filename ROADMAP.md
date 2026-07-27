@@ -11,12 +11,13 @@
 ## V0.2 — Qualité pédagogique
 - [x] Ajouter une politique validée des niveaux et des oracles pour la banque générative de pièges.
 - [ ] Étendre les validations mathématiques spécifiques à tous les générateurs historiques.
-- [ ] Étendre les questions de cours à toutes les notions.
+- [x] Étendre les questions de cours et les applications à toutes les notions, sans fallback générique.
 - [x] Ajouter des variantes génératives « repérer l’erreur », « condition manquante » et « contre-exemple » pour les chapitres centraux.
 - [ ] Étendre les pièges aux 25 notions encore non couvertes.
 - [ ] Ajouter un tableau de bord par chapitre.
 - [x] Ajouter des tests de chapitre sur 20 et sur 40, avec chrono facultatif, brouillons isolés, remise et correction guidée.
-- [ ] Compléter les banques des notions signalées non composables par le rapport de couverture.
+- [x] Rendre tous les chapitres actuels composables sur 20 et sur 40 selon le rapport reproductible.
+- [x] Ajouter la partie « Bases indispensables » et couvrir chacune de ses notions.
 
 ## V0.3 — Google Drive
 - [x] Préparer le moteur local-first, l'outbox, le protocole et le backend Apps Script/Drive.

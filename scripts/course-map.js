@@ -1,4 +1,16 @@
 export const COURSE_MAP=[
+ {id:'F',label:'Bases indispensables',chapters:[
+  {id:'fund-algebra',label:'Calcul algébrique',notions:[
+   {id:'fund-priorities',label:'Priorités opératoires'},{id:'fund-signs',label:'Règles de signes'},{id:'fund-distributivity',label:'Distributivité simple'},{id:'fund-double-distributivity',label:'Double distributivité'},{id:'fund-reduction',label:'Réduction d’expressions'},{id:'fund-common-factor',label:'Factorisation par facteur commun'}]},
+  {id:'fund-identities',label:'Identités remarquables',notions:[
+   {id:'fund-square-sum',label:'Carré d’une somme'},{id:'fund-square-difference',label:'Carré d’une différence'},{id:'fund-conjugates',label:'Produit de conjugués'},{id:'fund-identities-expand',label:'Développer avec une identité'},{id:'fund-identities-factor',label:'Factoriser avec une identité'},{id:'fund-identities-recognize',label:'Reconnaître une identité'},{id:'fund-identities-error',label:'Erreur classique sur 2ab'}]},
+  {id:'fund-fractions',label:'Fractions',notions:[
+   {id:'fund-fraction-add',label:'Addition et soustraction'},{id:'fund-fraction-product',label:'Multiplication'},{id:'fund-fraction-division',label:'Division'},{id:'fund-fraction-simplify',label:'Simplification'},{id:'fund-fraction-domain',label:'Dénominateurs non nuls'},{id:'fund-complex-fraction',label:'Fractions complexes simples'}]},
+  {id:'fund-powers-roots',label:'Puissances et racines',notions:[
+   {id:'fund-power-product',label:'Produit et quotient'},{id:'fund-power-nested',label:'Puissance d’une puissance'},{id:'fund-power-negative',label:'Exposants négatifs'},{id:'fund-square-root',label:'Racine carrée et conditions'},{id:'fund-root-square',label:'Différence entre √(a²) et a'}]},
+  {id:'fund-equations',label:'Équations et inéquations de base',notions:[
+   {id:'fund-linear-equation',label:'Équation du premier degré'},{id:'fund-zero-product',label:'Produit nul'},{id:'fund-zero-quotient',label:'Quotient nul'},{id:'fund-inequality-sign',label:'Sens d’une inégalité'},{id:'fund-sign-table',label:'Tableaux de signes simples'}]}
+ ]},
  {id:'A',label:'A — Puissances',chapters:[
   {id:'powers',label:'Puissances',notions:[
    {id:'powers-product',label:'Produit et quotient de puissances'},
