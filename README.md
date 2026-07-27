@@ -97,3 +97,7 @@ La progression est maintenant synchronisée local-first entre les appareils d'un
 ## Banques de questions Supabase
 
 Une source locale-first additive permet désormais aux comptes de gérer leurs questions privées et aux administrateurs/propriétaires la banque commune. Cours, formules et modèles paramétrés sûrs rejoignent le quiz depuis le cache, sans retirer la banque statique. Voir [`docs/SUPABASE-QUESTION-BANKS.md`](docs/SUPABASE-QUESTION-BANKS.md), [`docs/QUESTION-EDITOR.md`](docs/QUESTION-EDITOR.md) et [`docs/PARAMETERIZED-QUESTIONS.md`](docs/PARAMETERIZED-QUESTIONS.md).
+
+## Interface multipage
+
+L'application est désormais organisée en pages statiques dédiées : tableau de bord, connexion, préparation de séance, quiz Apple Pencil, banque de questions, statistiques, réglages et équipe. Le shell commun garde une navigation courte et accessible, tandis que les réglages avancés restent sur leur page. Voir [`docs/MULTIPAGE-ARCHITECTURE.md`](docs/MULTIPAGE-ARCHITECTURE.md) et le [`guide rapide administrateur`](docs/ADMIN-QUICK-START.md).

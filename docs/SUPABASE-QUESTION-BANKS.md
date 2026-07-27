@@ -13,3 +13,7 @@ Le cache local est partitionné par UUID de compte. Les brouillons et opération
 5. Reconnecter A et synchroniser; passer à B et vérifier qu'aucune donnée de A n'apparaît.
 6. Créer une paramétrée, générer dix variantes et vérifier domaines, contraintes et signatures distinctes.
 7. Provoquer une modification concurrente; vérifier les versions locale/distante et les choix « conserver la version distante » ou « dupliquer ma version comme nouveau brouillon ».
+
+## Interface multipage et synchronisation
+
+La banque dédiée conserve le modèle local-first : toute mutation est d'abord écrite dans `QuestionCache`, accompagnée d'une opération idempotente `QuestionOutbox`, puis envoyée par `QuestionSync` avec la version attendue. Un conflit ne remplace jamais silencieusement la version distante. Les rôles masquent les actions nécessairement refusées, sans remplacer les politiques RLS.

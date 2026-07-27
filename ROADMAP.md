@@ -59,3 +59,10 @@
 - [x] Questions de cours, formules et modèles paramétrés sans exécution de JavaScript.
 - [x] Source dynamique additive dans le quiz et fonctionnement hors connexion.
 - [ ] Valider la recette multi-compte et l'ergonomie complète sur iPad réel.
+
+## V0.7 — Interface multipage
+- [x] Séparer le tableau de bord, la préparation, le quiz, la banque, les statistiques et les réglages.
+- [x] Ajouter une navigation commune compatible GitHub Pages et hors connexion.
+- [x] Ajouter l'assistant guidé de questions en quatre étapes et ses actions local-first.
+- [x] Préparer la page owner « Équipe et accès » sans clé secrète navigateur.
+- [ ] Valider l'ergonomie multipage et le parcours éditeur sur iPad réel.
