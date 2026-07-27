@@ -1,0 +1,5 @@
+import test from'node:test';import assert from'node:assert/strict';import katex from'katex';
+import{TRAP_TEMPLATES}from'../scripts/traps/templates/catalog.js';
+const commands=['\\dfrac','^','_','\\sqrt','\\lvert','\\cos','\\mathbb'];
+test('toutes les formules générées sont acceptées par KaTeX local',()=>{let joined='';for(const template of TRAP_TEMPLATES){const q=template.generate(42);for(const content of [q.question,...q.correction.steps])for(const segment of content.segments||[]){if(segment.type==='math'){joined+=segment.value;katex.renderToString(segment.value,{throwOnError:true})}}}for(const command of commands.slice(0,2))assert.ok(joined.includes(command),`notation absente : ${command}`)});
+test('la banque exerce fractions verticales, exposants, indices, trigonométrie et ensembles',()=>{const source=Array.from({length:25},(_,i)=>TRAP_TEMPLATES[i].generate(i+10)).map(q=>JSON.stringify(q.question)).join('');for(const pattern of [/\\dfrac/,/\^/,/_/,/\\cos/,/\\mathbb/])assert.match(source,pattern)});

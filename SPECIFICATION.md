@@ -85,3 +85,9 @@ L’extraction automatique propose des objets structurés : propriété, conditi
 
 ## 11. Format mathématique
 Les contenus affichables séparent le texte des mathématiques dans une liste `segments`. Un segment `text` est toujours inséré comme texte DOM ; un segment `math` contient uniquement une source LaTeX KaTeX et peut activer `display`. Les corrections utilisent une liste `steps`, chaque étape contenant ses propres segments. Le moteur commun rend questions, indices, corrections, notion cachée et formulation attendue. Une chaîne historique est normalisée sans interpréter de HTML arbitraire. Toute erreur KaTeX produit un fallback textuel repérable par `data-math-fallback="true"` sans interrompre le parcours.
+
+## 12. Validation des niveaux et pièges génératifs
+
+La politique exécutable de `scripts/pedagogy/level-policy.js` distingue application immédiate, exercice standard, reconnaissance de méthode et misconception. Une question de niveau 4 est invalide sans taxonomie, erreur tentante, conditions, explication, réflexe et oracle. Le registre désactive les modèles invalides et retourne `missing-coverage` si la sélection exacte n’est pas couverte.
+
+La correction d’un piège est révélée selon le workflow existant, puis expose des rubriques textuelles accessibles. Les variantes sont reproductibles par graine et identifiées par une signature portant sur formulation et paramètres mathématiques. Les identifiants récents de modèle, signature et taxonomie sont évités pendant la séance et journalisés localement sans prétendre diagnostiquer l’erreur manuscrite réelle.

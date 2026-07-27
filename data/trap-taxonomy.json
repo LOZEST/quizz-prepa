@@ -1,0 +1,316 @@
+[
+  {
+    "id": "illegal-cancellation",
+    "name": "Simplification interdite",
+    "description": "Simplifier des termes séparés par une somme.",
+    "temptingMistake": "Simplifier des termes séparés par une somme.",
+    "correctProperty": "On ne simplifie que des facteurs communs.",
+    "generalReflex": "Factoriser avant de simplifier.",
+    "chapters": [
+      "factorisation",
+      "rational"
+    ]
+  },
+  {
+    "id": "wrong-reciprocal",
+    "name": "Mauvais inverse",
+    "description": "Retourner le mauvais facteur dans une division.",
+    "temptingMistake": "Retourner le mauvais facteur dans une division.",
+    "correctProperty": "Diviser par une fraction revient à multiplier par son inverse.",
+    "generalReflex": "Seul le diviseur est inversé.",
+    "chapters": [
+      "rational"
+    ]
+  },
+  {
+    "id": "missing-domain-condition",
+    "name": "Domaine oublié",
+    "description": "Oublier une valeur interdite après simplification.",
+    "temptingMistake": "Oublier une valeur interdite après simplification.",
+    "correctProperty": "Le domaine se détermine sur l’expression initiale.",
+    "generalReflex": "Domaine avant simplification.",
+    "chapters": [
+      "rational",
+      "domains"
+    ]
+  },
+  {
+    "id": "false-distributivity",
+    "name": "Fausse distributivité",
+    "description": "Distribuer abusivement une fonction sur une somme.",
+    "temptingMistake": "Distribuer abusivement une fonction sur une somme.",
+    "correctProperty": "Carré, racine et logarithme ne sont pas distributifs sur une somme.",
+    "generalReflex": "Tester avec de petits nombres.",
+    "chapters": [
+      "powers",
+      "factorisation",
+      "domains"
+    ]
+  },
+  {
+    "id": "sign-error",
+    "name": "Erreur de signe",
+    "description": "Perdre un signe lors d’une transformation.",
+    "temptingMistake": "Perdre un signe lors d’une transformation.",
+    "correctProperty": "Chaque changement de signe doit être justifié.",
+    "generalReflex": "Isoler puis vérifier le signe.",
+    "chapters": [
+      "rational",
+      "trigonometry",
+      "differential"
+    ]
+  },
+  {
+    "id": "divide-by-expression",
+    "name": "Division par une expression",
+    "description": "Diviser sans vérifier que l’expression est non nulle.",
+    "temptingMistake": "Diviser sans vérifier que l’expression est non nulle.",
+    "correctProperty": "Toute division exige un diviseur non nul.",
+    "generalReflex": "Traiter le cas nul avant de diviser.",
+    "chapters": [
+      "equations",
+      "trigonometry"
+    ]
+  },
+  {
+    "id": "converse-confusion",
+    "name": "Propriété et réciproque",
+    "description": "Utiliser une réciproque non établie.",
+    "temptingMistake": "Utiliser une réciproque non établie.",
+    "correctProperty": "Une implication ne garantit pas sa réciproque.",
+    "generalReflex": "Écrire le sens de l’implication.",
+    "chapters": [
+      "derivatives",
+      "sequences"
+    ]
+  },
+  {
+    "id": "necessary-vs-sufficient",
+    "name": "Nécessaire ou suffisant",
+    "description": "Prendre une condition nécessaire pour une condition suffisante.",
+    "temptingMistake": "Prendre une condition nécessaire pour une condition suffisante.",
+    "correctProperty": "Vérifier séparément nécessité et suffisance.",
+    "generalReflex": "Demander : cela suffit-il ?",
+    "chapters": [
+      "derivatives",
+      "sequences"
+    ]
+  },
+  {
+    "id": "derivative-zero-extremum",
+    "name": "Dérivée nulle et extremum",
+    "description": "Conclure à un extremum avec la seule égalité f′(a)=0.",
+    "temptingMistake": "Conclure à un extremum avec la seule égalité f′(a)=0.",
+    "correctProperty": "Il faut notamment étudier le changement de signe de f′.",
+    "generalReflex": "Contrôler le signe de f′ autour du point.",
+    "chapters": [
+      "derivatives"
+    ]
+  },
+  {
+    "id": "missing-inner-derivative",
+    "name": "Dérivée intérieure oubliée",
+    "description": "Oublier le facteur u′ dans une composée.",
+    "temptingMistake": "Oublier le facteur u′ dans une composée.",
+    "correctProperty": "(g∘u)′=(g′∘u)u′.",
+    "generalReflex": "Entourer la fonction intérieure.",
+    "chapters": [
+      "derivatives",
+      "primitives"
+    ]
+  },
+  {
+    "id": "quotient-derivative-error",
+    "name": "Dérivée d’un quotient",
+    "description": "Diviser les dérivées du numérateur et du dénominateur.",
+    "temptingMistake": "Diviser les dérivées du numérateur et du dénominateur.",
+    "correctProperty": "(u/v)′=(u′v-uv′)/v².",
+    "generalReflex": "Écrire la formule complète avant de calculer.",
+    "chapters": [
+      "derivatives"
+    ]
+  },
+  {
+    "id": "primitive-product-error",
+    "name": "Primitive d’un produit",
+    "description": "Multiplier deux primitives.",
+    "temptingMistake": "Multiplier deux primitives.",
+    "correctProperty": "La dérivation d’un produit comporte deux termes.",
+    "generalReflex": "Vérifier toute primitive en la dérivant.",
+    "chapters": [
+      "primitives"
+    ]
+  },
+  {
+    "id": "missing-absolute-value",
+    "name": "Valeur absolue logarithmique",
+    "description": "Écrire ln(u) au lieu de ln|u|.",
+    "temptingMistake": "Écrire ln(u) au lieu de ln|u|.",
+    "correctProperty": "Une primitive de u′/u est ln|u| sur un intervalle sans zéro.",
+    "generalReflex": "Valeur absolue et intervalle.",
+    "chapters": [
+      "primitives"
+    ]
+  },
+  {
+    "id": "index-shift",
+    "name": "Décalage d’indice",
+    "description": "Confondre u0, u1 et le nombre de termes.",
+    "temptingMistake": "Confondre u0, u1 et le nombre de termes.",
+    "correctProperty": "De up à un inclus, il y a n-p+1 termes.",
+    "generalReflex": "Dernier moins premier plus un.",
+    "chapters": [
+      "sequences"
+    ]
+  },
+  {
+    "id": "ratio-sign-condition",
+    "name": "Signe dans un quotient de suites",
+    "description": "Multiplier une inégalité par un terme de signe inconnu.",
+    "temptingMistake": "Multiplier une inégalité par un terme de signe inconnu.",
+    "correctProperty": "Le signe de un détermine le sens de l’inégalité.",
+    "generalReflex": "Signe avant quotient.",
+    "chapters": [
+      "sequences"
+    ]
+  },
+  {
+    "id": "monotonicity-confusion",
+    "name": "Variation et convergence",
+    "description": "Déduire la convergence de la seule monotonie ou bornitude.",
+    "temptingMistake": "Déduire la convergence de la seule monotonie ou bornitude.",
+    "correctProperty": "Une convergence demande des hypothèses conjointes adaptées.",
+    "generalReflex": "Citer toutes les hypothèses du théorème.",
+    "chapters": [
+      "sequences",
+      "limits"
+    ]
+  },
+  {
+    "id": "extraneous-solution",
+    "name": "Solution parasite",
+    "description": "Conserver une solution créée par une transformation non équivalente.",
+    "temptingMistake": "Conserver une solution créée par une transformation non équivalente.",
+    "correctProperty": "Toute solution issue d’une implication doit être vérifiée.",
+    "generalReflex": "Vérifier dans l’équation initiale.",
+    "chapters": [
+      "equations",
+      "domains"
+    ]
+  },
+  {
+    "id": "lost-solution",
+    "name": "Solution perdue",
+    "description": "Perdre une solution lors d’une division.",
+    "temptingMistake": "Perdre une solution lors d’une division.",
+    "correctProperty": "Le cas où le diviseur vaut zéro doit être traité séparément.",
+    "generalReflex": "Factoriser avant de diviser.",
+    "chapters": [
+      "equations"
+    ]
+  },
+  {
+    "id": "periodic-solutions",
+    "name": "Solutions périodiques",
+    "description": "Oublier une famille ou la périodicité.",
+    "temptingMistake": "Oublier une famille ou la périodicité.",
+    "correctProperty": "Les solutions trigonométriques sur R incluent k∈Z.",
+    "generalReflex": "Écrire la famille puis restreindre.",
+    "chapters": [
+      "trigonometry"
+    ]
+  },
+  {
+    "id": "logarithm-rule-confusion",
+    "name": "Règle fausse du logarithme",
+    "description": "Écrire ln(a+b)=ln(a)+ln(b).",
+    "temptingMistake": "Écrire ln(a+b)=ln(a)+ln(b).",
+    "correctProperty": "Le logarithme transforme un produit, pas une somme.",
+    "generalReflex": "Produit oui, somme non.",
+    "chapters": [
+      "domains",
+      "limits"
+    ]
+  },
+  {
+    "id": "exponent-rule-confusion",
+    "name": "Règles des puissances",
+    "description": "Additionner des exposants dans une somme ou une composition.",
+    "temptingMistake": "Additionner des exposants dans une somme ou une composition.",
+    "correctProperty": "Les exposants s’additionnent dans un produit de même base et se multiplient dans une puissance de puissance.",
+    "generalReflex": "Nommer l’opération avant la règle.",
+    "chapters": [
+      "powers"
+    ]
+  },
+  {
+    "id": "parameter-degenerate-case",
+    "name": "Paramètre dégénéré",
+    "description": "Oublier une valeur de paramètre qui change la nature du problème.",
+    "temptingMistake": "Oublier une valeur de paramètre qui change la nature du problème.",
+    "correctProperty": "Traiter séparément les coefficients susceptibles de s’annuler.",
+    "generalReflex": "Commencer par les cas qui annulent un coefficient.",
+    "chapters": [
+      "equations",
+      "differential"
+    ]
+  },
+  {
+    "id": "product-zero-condition",
+    "name": "Produit nul hors contexte",
+    "description": "Appliquer le produit nul alors que le produit n’est pas égal à zéro.",
+    "temptingMistake": "Appliquer le produit nul alors que le produit n’est pas égal à zéro.",
+    "correctProperty": "AB=0 équivaut à A=0 ou B=0.",
+    "generalReflex": "Mettre zéro d’un côté avant le produit nul.",
+    "chapters": [
+      "factorisation",
+      "equations"
+    ]
+  },
+  {
+    "id": "square-root-domain",
+    "name": "Domaine d’une racine",
+    "description": "Oublier que le radicand réel doit être positif ou nul.",
+    "temptingMistake": "Oublier que le radicand réel doit être positif ou nul.",
+    "correctProperty": "sqrt(u) existe sur R si u≥0.",
+    "generalReflex": "Écrire u≥0 avant tout calcul.",
+    "chapters": [
+      "domains"
+    ]
+  },
+  {
+    "id": "squaring-equivalence",
+    "name": "Carré non équivalent",
+    "description": "Élever au carré sans vérifier les signes ni les solutions.",
+    "temptingMistake": "Élever au carré sans vérifier les signes ni les solutions.",
+    "correctProperty": "Le carré peut introduire des solutions parasites.",
+    "generalReflex": "Vérifier toutes les solutions obtenues.",
+    "chapters": [
+      "equations",
+      "domains"
+    ]
+  },
+  {
+    "id": "missing-particular-solution",
+    "name": "Solution particulière oubliée",
+    "description": "Ne conserver que la solution homogène malgré un second membre non nul.",
+    "temptingMistake": "Écrire seulement la famille homogène.",
+    "correctProperty": "La solution générale est la somme d’une solution particulière et des solutions homogènes.",
+    "generalReflex": "Homogène plus particulière, puis vérification.",
+    "chapters": [
+      "differential"
+    ]
+  },
+  {
+    "id": "missing-integration-constant",
+    "name": "Constante d’intégration oubliée",
+    "description": "Donner une seule fonction au lieu de la famille de solutions.",
+    "temptingMistake": "Omettre la constante arbitraire.",
+    "correctProperty": "L’intégration introduit une constante, déterminée seulement par une condition initiale.",
+    "generalReflex": "Écrire C avant la condition initiale.",
+    "chapters": [
+      "primitives",
+      "differential"
+    ]
+  }
+]
