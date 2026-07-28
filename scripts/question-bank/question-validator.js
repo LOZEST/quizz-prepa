@@ -6,7 +6,7 @@ export const LIMITS={title:160,segments:40,segment:4000,steps:30,variables:12,co
 const segments=(content,errors,name)=>{if(content==null)return;if(!content||!Array.isArray(content.segments)||content.segments.length>LIMITS.segments)return errors.push(`${name} invalide`);for(const s of content.segments)if(!['text','math'].includes(s.type)||typeof s.value!=='string'||s.value.length>LIMITS.segment||/<[a-z!/]/i.test(s.value))errors.push(`${name} contient un segment interdit`)};
 const contentText=q=>[...(q.prompt_content?.segments||[]),...(q.correction_content?.steps||[]).flatMap(step=>step.segments||[])].map(segment=>segment.value||'').join(' ');
 const hasMath=q=>(q.prompt_content?.segments||[]).some(segment=>segment.type==='math')||(q.correction_content?.steps||[]).some(step=>(step.segments||[]).some(segment=>segment.type==='math'))||/\\\(|\\\[|[=≠≤≥<>×÷^_]|\\(?:frac|sqrt|sum|int|ln|exp)/.test(contentText(q));
-const canonicalType=q=>Number(q.difficulty)===3&&q.question_type!=='course'?'reflex':q.question_type;
+const canonicalType=q=>Number(q.difficulty)===3&&!['course','parameterized'].includes(q.question_type)?'reflex':q.question_type;
 export function validateQuestion(q,{publishing=q.status==='published'}={}){
  const errors=[];
  if(!q||JSON.stringify(q).length>LIMITS.json)return{valid:false,errors:['Question absente ou trop volumineuse']};
