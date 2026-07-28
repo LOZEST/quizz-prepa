@@ -1,1 +1,87 @@
-:root{--app-background:#f7f7f5;--surface:#fff;--surface-secondary:#f2f2f0;--text-primary:#1d1d1f;--text-secondary:#6e6e73;--separator:rgba(60,60,67,.14);--accent:#0a66d8;--danger:#c9342f;--success:#248a3d;--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px)}
+:root {
+  color-scheme: light;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+
+  --app-background: #f7f7f5;
+  --surface: #ffffff;
+  --surface-secondary: #f2f2f0;
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --separator: rgba(60, 60, 67, 0.14);
+  --accent: #0a66d8;
+  --accent-hover: #075bbf;
+  --danger: #c9342f;
+  --success: #248a3d;
+  --overlay: rgba(0, 0, 0, 0.18);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --surface-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+a,
+select,
+input[type="range"],
+input[type="checkbox"],
+input[type="radio"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+select:focus-visible,
+input:focus-visible,
+summary:focus-visible {
+  outline: 3px solid rgba(10, 102, 216, 0.25);
+  outline-offset: 2px;
+}
+
+.app-dialog {
+  width: min(420px, calc(100vw - 32px));
+  padding: 22px;
+  border: 1px solid var(--separator);
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--text-primary);
+  box-shadow: var(--surface-shadow);
+}
+
+.app-dialog::backdrop {
+  background: var(--overlay);
+}
+
+.app-dialog h2 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+}
+
+.app-dialog p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.app-dialog .dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
