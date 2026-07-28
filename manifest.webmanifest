@@ -1,7 +1,7 @@
 {
   "name": "Quiz TSI au stylet",
   "short_name": "Quiz TSI",
-  "start_url": "./index.html",
+  "start_url": "./quiz.html",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#f5f7fb",
