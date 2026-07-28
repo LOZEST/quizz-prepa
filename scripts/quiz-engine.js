@@ -11,41 +11,22 @@ import{odeGenerators}from'./generators/ode.js';
 import{trapRegistry}from'./traps/trap-registry.js';
 import{validateQuestionLevel}from'./pedagogy/level-validator.js';
 import{adaptQuestion,usableQuestions}from'./question-bank/question-adapter.js';
+import{QUESTION_TYPES,normalizeDifficulty,normalizeQuestion}from'./session/session-model.js';
 const GENERATORS=[...powerGenerators,...factorisationGenerators,...fractionGenerators,...quadraticGenerators,...sequenceGenerators,...derivativeGenerators,...primitiveGenerators,...trigonometryGenerators,...odeGenerators];
 const matches=(q,f)=>['partId','chapterId','notionId'].every(k=>!f[k]||f[k]==='all'||q[k]===f[k]);
-const textOf=q=>[q.kind,q.category,q.questionHtml,q.hint,q.correctionHtml,q.question?.segments?.map(s=>s.value).join(' '),q.correction?.steps?.flatMap(s=>s.segments||[]).map(s=>s.value).join(' ')].filter(Boolean).join(' ');
+const textOf=q=>[q.kind,q.category,q.questionHtml,q.hint,q.correctionHtml,q.question?.segments?.map(s=>s.value).join(' '),q.prompt_content?.segments?.map(s=>s.value).join(' '),q.correction?.steps?.flatMap(s=>s.segments||[]).map(s=>s.value).join(' ')].filter(Boolean).join(' ');
 const hasFormula=q=>/\\frac|\\sqrt|\\sum|\\int|[=≤≥≠×÷^_]|[⁰¹²³⁴⁵⁶⁷⁸⁹]/.test(textOf(q));
-const isCourse=q=>/cours|définition|propriété|théorème|formule/i.test(String(q.kind||''))||q.generator==='course-bank'||q.question_type==='course'||q.question_type==='formula';
-const focusedMode=mode=>mode==='course-short'||mode==='formula';
+function typeOf(q){const explicit=q.questionType||q.question_type;if(['formula','course','calculation','reflex'].includes(explicit))return explicit;if(explicit==='parameterized')return'calculation';if(Number(q.difficulty)===3)return'reflex';if(q.generator&&q.generator!=='course-bank')return'calculation';const label=String(q.kind||q.category||'');if(/application|calcul|exercice/i.test(label))return'calculation';if(/cours|définition|propriété|théorème/i.test(label)||q.generator==='course-bank')return'course';if(/formule/i.test(label)||hasFormula(q))return'formula';return'calculation'}
+const typeMatches=(q,type)=>!type||typeOf(q)===type;
+const reflexEligible=q=>!q.status&&textOf(q).replace(/<[^>]*>/g,' ').length<=300;
+const modeType=mode=>({formula:'formula','course-short':'course',reflex:'reflex'}[mode]);
 export class QuizEngine{
  constructor({dynamicProvider=()=>[],userId=null,rng=Math.random}={}){this.recent=[];this.dynamicProvider=dynamicProvider;this.userId=userId;this.rng=rng;this.trapSession={templates:[],signatures:[],taxonomies:[]}}
  setDynamicProvider(provider,userId){this.dynamicProvider=provider||(()=>[]);this.userId=userId}
- generate(filters,progress){
-  const mode=filters.mode||'smart',difficulty=filters.difficulty==='adaptive'?this.adaptiveDifficulty(filters.notionId,progress):Number(filters.difficulty);
-  if(difficulty===4&&!focusedMode(mode)){const question=trapRegistry.generate(filters,this.trapSession,Date.now());if(question.status==='missing-coverage')return question;this.rememberTrap(question);return question}
-  const candidates=[];
-  if(!focusedMode(mode))for(const gen of GENERATORS){for(let i=0;i<4;i++){try{const q=gen(difficulty),validation=validateQuestionLevel(q);if(!validation.valid)throw new TypeError(validation.errors.join(' '));if(matches(q,filters))candidates.push(q)}catch(error){const testRuntime=typeof process!=='undefined'&&process.env?.NODE_ENV!=='production',localDevelopment=globalThis.location?.hostname==='localhost';if(testRuntime||localDevelopment)console.error('Générateur exclu',gen.name,error);if(testRuntime)throw error}}}
-  for(const q of FIXED_QUESTIONS){
-   if(!matches(q,filters))continue;
-   if(mode==='course-short'&&!isCourse(q))continue;
-   if(mode==='formula'&&!hasFormula(q))continue;
-   if(difficulty===3&&!hasFormula(q))continue;
-   if(q.difficulty<=Math.max(2,difficulty))candidates.push(q);
-  }
-  for(const row of usableQuestions(this.dynamicProvider()||[],this.userId)){
-   if(!matches({partId:row.part_id,chapterId:row.chapter_id,notionId:row.notion_id},filters))continue;
-   if(mode==='course-short'&&!['course','formula'].includes(row.question_type))continue;
-   if(mode==='formula'&&row.question_type!=='formula')continue;
-   if(difficulty===3&&row.question_type==='course')continue;
-   if(row.difficulty<=Math.max(2,difficulty))try{candidates.push(adaptQuestion(row,{rng:this.rng}))}catch{}
-  }
-  const fresh=candidates.filter(q=>!this.recent.includes(q.fingerprint));
-  const pool=fresh.length?fresh:candidates;
-  if(!pool.length)return this.missingCoverage(filters,difficulty);
-  const q=pool[Math.floor(this.rng()*pool.length)];
-  this.recent.push(q.fingerprint);if(this.recent.length>20)this.recent.shift();return q;
- }
- rememberTrap(question){for(const [key,value,limit]of [['templates',question.templateId,8],['signatures',question.signature,24],['taxonomies',question.trap.taxonomyId,8]]){this.trapSession[key].push(value);if(this.trapSession[key].length>limit)this.trapSession[key].shift()}}
- adaptiveDifficulty(notionId,progress){const mastery=progress.masteryStates?.[notionId]?.masteryScore??progress.notions?.[notionId]?.mastery??0;if(mastery<30)return 1;if(mastery<55)return 2;if(mastery<78)return 3;return 4}
- missingCoverage(filters,difficulty){return{status:'missing-coverage',reason:'no-validated-question',partId:filters.partId,chapterId:filters.chapterId,notionId:filters.notionId,difficulty}}
+ generate(filters,progress){const questionType=filters.questionType||modeType(filters.mode)||null;if(questionType===QUESTION_TYPES.REFLEX)return this.generateReflex(filters,progress);const difficulty=filters.difficulty==='adaptive'?this.adaptiveDifficulty(filters.notionId,progress):normalizeDifficulty(filters.difficulty,{questionType});if(difficulty===4){const question=trapRegistry.generate(filters,this.trapSession,Date.now());if(question.status==='missing-coverage')return question;const normalized=normalizeQuestion({...question,questionType:typeOf(question)});if(questionType&&!typeMatches(normalized,questionType))return this.missingCoverage(filters,difficulty,questionType);this.rememberTrap(question);return normalized}return this.pickCandidates(filters,difficulty,questionType)}
+ generateReflex(filters){const levels=[1,2,4],start=Math.floor(this.rng()*levels.length);for(let offset=0;offset<levels.length;offset++){const level=levels[(start+offset)%levels.length];if(level===4){const trap=trapRegistry.generate(filters,this.trapSession,Date.now());if(!trap.status&&reflexEligible(trap)){this.rememberTrap(trap);return normalizeQuestion({...trap,questionType:'reflex',difficulty:3,masteryLevel:4})}}else{const picked=this.pickCandidates(filters,level,null,{reflex:true,allowMissing:false});if(picked)return normalizeQuestion({...picked,questionType:'reflex',difficulty:3,masteryLevel:level})}}return this.missingCoverage(filters,null,'reflex')}
+ pickCandidates(filters,difficulty,questionType,{reflex=false,allowMissing=true}={}){const candidates=[];for(const gen of GENERATORS)for(let i=0;i<4;i++)try{const q=gen(difficulty),validation=validateQuestionLevel(q);if(!validation.valid)throw new TypeError(validation.errors.join(' '));if(matches(q,filters)&&(!questionType||typeMatches(q,questionType))&&(!reflex||reflexEligible(q)))candidates.push(q)}catch(error){const testRuntime=typeof process!=='undefined'&&process.env?.NODE_ENV!=='production',localDevelopment=globalThis.location?.hostname==='localhost';if(testRuntime||localDevelopment)console.error('Générateur exclu',gen.name,error);if(testRuntime)throw error}for(const q of FIXED_QUESTIONS){if(!matches(q,filters)||questionType&&!typeMatches(q,questionType)||reflex&&!reflexEligible(q))continue;if(Number(q.difficulty)<=Math.max(2,difficulty))candidates.push(q)}for(const row of usableQuestions(this.dynamicProvider()||[],this.userId)){const adaptedMeta={partId:row.part_id,chapterId:row.chapter_id,notionId:row.notion_id,question_type:row.question_type,difficulty:row.difficulty,prompt_content:row.prompt_content};if(!matches(adaptedMeta,filters)||questionType&&!typeMatches(adaptedMeta,questionType)||reflex&&!reflexEligible(adaptedMeta))continue;if(Number(row.difficulty||2)<=Math.max(2,difficulty))try{candidates.push(adaptQuestion(row,{rng:this.rng}))}catch{}}const fresh=candidates.filter(q=>!this.recent.includes(q.fingerprint)),pool=fresh.length?fresh:candidates;if(!pool.length)return allowMissing?this.missingCoverage(filters,difficulty,questionType):null;const q=normalizeQuestion(pool[Math.floor(this.rng()*pool.length)]);this.recent.push(q.fingerprint);if(this.recent.length>20)this.recent.shift();return q}
+ rememberTrap(question){for(const[key,value,limit]of[['templates',question.templateId,8],['signatures',question.signature,24],['taxonomies',question.trap.taxonomyId,8]]){this.trapSession[key].push(value);if(this.trapSession[key].length>limit)this.trapSession[key].shift()}}
+ adaptiveDifficulty(notionId,progress){const mastery=progress.masteryStates?.[notionId]?.masteryScore??progress.notions?.[notionId]?.mastery??0;if(mastery<35)return 1;if(mastery<72)return 2;return 4}
+ missingCoverage(filters,difficulty,questionType){const result={status:'missing-coverage',reason:'no-validated-question',partId:filters.partId,chapterId:filters.chapterId,notionId:filters.notionId,difficulty};if(questionType)result.questionType=questionType;return result}
 }
