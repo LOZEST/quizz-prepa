@@ -10,7 +10,8 @@
     "mastery:coverage": "node tools/mastery-coverage.mjs",
     "audit:static": "node tools/static-audit.mjs",
     "verify": "npm test && npm run traps:coverage && npm run tests:coverage-report && npm run mastery:coverage && npm run audit:static",
-    "stability:audit": "node tools/stability-audit.mjs"
+    "stability:audit": "node tools/stability-audit.mjs",
+    "preview": "node tools/preview-server.mjs"
   },
   "dependencies": {
     "katex": "0.16.22"

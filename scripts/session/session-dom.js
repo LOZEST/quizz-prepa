@@ -1,13 +1,6 @@
 export function prepareSessionDom(){
- const app=document.getElementById('app');if(!app||document.getElementById('sessionSidebar'))return;
- if(!document.querySelector('link[href$="styles/session.css"]')){const link=document.createElement('link');link.rel='stylesheet';link.href='./styles/session.css';document.head.append(link)}
- app.classList.add('session-has-sidebar');
- const sidebar=document.createElement('aside');sidebar.id='sessionSidebar';sidebar.className='session-sidebar';sidebar.setAttribute('aria-label','Déroulement de la séance');sidebar.innerHTML='<header><div><small>Type de séance</small><h2 id="sessionModeTitle">Séance</h2></div><button id="sessionSidebarToggle" type="button" aria-label="Replier le déroulement">‹</button></header><p id="sessionPlanProgress" class="session-plan-progress"></p><ol id="sessionPlanList" class="session-plan-list"></ol><a class="session-change-link" href="./session.html">Changer de séance</a>';
- app.prepend(sidebar);document.getElementById('sessionSidebarToggle').addEventListener('click',()=>{const collapsed=sidebar.classList.toggle('collapsed');app.classList.toggle('session-sidebar-collapsed',collapsed);document.getElementById('sessionSidebarToggle').textContent=collapsed?'›':'‹';document.getElementById('sessionSidebarToggle').setAttribute('aria-label',collapsed?'Déplier le déroulement':'Replier le déroulement')});
- const meta=document.querySelector('.question-meta');if(meta){const timer=document.createElement('span');timer.id='questionTimer';timer.className='question-timer';timer.hidden=true;meta.append(timer)}
- const notion=document.getElementById('notionSelect')?.closest('label'),filters=document.getElementById('filters');if(filters&&!document.getElementById('questionTypeSelect')){const label=document.createElement('label');label.textContent='Type';const select=document.createElement('select');select.id='questionTypeSelect';for(const[value,text]of[['formula','Formules'],['course','Cours'],['calculation','Calcul'],['reflex','Réflexe']]){const option=document.createElement('option');option.value=value;option.textContent=text;select.append(option)}label.append(select);notion?.after(label)}
- const difficulty=document.getElementById('difficultySelect');if(difficulty){difficulty.replaceChildren(...[[1,'Fondamental'],[2,'Standard'],[4,'Piège']].map(([value,text])=>{const option=document.createElement('option');option.value=String(value);option.textContent=text;return option}))}
- document.getElementById('almostButton')?.remove();const evaluation=document.getElementById('evaluationButtons');if(evaluation)evaluation.querySelector('p').textContent='Après comparaison avec la correction :';
- const testLevel=document.querySelector('#testApp select[name="level"]');if(testLevel){testLevel.querySelector('option[value="3"]')?.remove();if(testLevel.value==='3')testLevel.value='2'}
+ const meta=document.querySelector('.question-meta');
+ if(meta&&!document.getElementById('questionTimer')){const timer=document.createElement('span');timer.id='questionTimer';timer.className='question-timer';timer.hidden=true;meta.append(timer)}
+ document.getElementById('almostButton')?.remove();
 }
 prepareSessionDom();
