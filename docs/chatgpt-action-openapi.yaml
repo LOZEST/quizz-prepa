@@ -1,0 +1,181 @@
+openapi: 3.1.0
+info:
+  title: Quiz TSI — Import de cours
+  version: 0.1.0
+  description: Ajoute, après confirmation de l’utilisateur, des questions privées en brouillon dans son compte Quiz TSI.
+servers:
+  - url: https://ntmuioktawzlxuuccrgi.supabase.co/functions/v1
+paths:
+  /chatgpt-import:
+    post:
+      operationId: importQuizTsiDrafts
+      summary: Enregistrer les brouillons validés par l’utilisateur
+      description: Utiliser uniquement après avoir affiché un aperçu complet et reçu une confirmation explicite. Tous les éléments sont forcés en portée privée et en statut brouillon côté serveur.
+      x-openai-isConsequential: true
+      security:
+        - quizTsiOAuth: [email]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportRequest'
+      responses:
+        '200':
+          description: Import créé ou repris sans doublon
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportResponse'
+        '400':
+          description: Contenu invalide
+        '401':
+          description: Compte Quiz TSI non connecté
+        '403':
+          description: Client OAuth non autorisé
+        '413':
+          description: Import trop volumineux
+        '502':
+          description: Écriture temporairement impossible
+components:
+  securitySchemes:
+    quizTsiOAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://ntmuioktawzlxuuccrgi.supabase.co/auth/v1/oauth/authorize
+          tokenUrl: https://ntmuioktawzlxuuccrgi.supabase.co/auth/v1/oauth/token
+          scopes:
+            email: Identifier le compte Quiz TSI qui reçoit les brouillons
+  schemas:
+    Segment:
+      type: object
+      additionalProperties: false
+      required: [type, value]
+      properties:
+        type:
+          type: string
+          enum: [text, math]
+        value:
+          type: string
+          maxLength: 4000
+        display:
+          type: boolean
+          description: Utiliser seulement pour les segments mathématiques centrés.
+    SegmentContent:
+      type: object
+      additionalProperties: false
+      required: [segments]
+      properties:
+        segments:
+          type: array
+          maxItems: 40
+          items:
+            $ref: '#/components/schemas/Segment'
+    CorrectionContent:
+      type: object
+      additionalProperties: false
+      required: [steps]
+      properties:
+        steps:
+          type: array
+          minItems: 1
+          maxItems: 30
+          items:
+            $ref: '#/components/schemas/SegmentContent'
+    DraftQuestion:
+      type: object
+      additionalProperties: false
+      required: [title, part_id, chapter_id, notion_id, question_type, difficulty, prompt_content, correction_content]
+      properties:
+        title:
+          type: string
+          maxLength: 160
+        part_id:
+          type: string
+          maxLength: 80
+        chapter_id:
+          type: string
+          maxLength: 80
+        notion_id:
+          type: string
+          maxLength: 80
+        question_type:
+          type: string
+          enum: [course, formula, calculation, reflex]
+        difficulty:
+          description: 1 Fondamental, 2 Standard, 4 Piège. Mettre null pour reflex.
+          oneOf:
+            - type: integer
+              enum: [1, 2, 4]
+            - type: 'null'
+        category:
+          type: [string, 'null']
+          maxLength: 120
+        prompt_content:
+          $ref: '#/components/schemas/SegmentContent'
+        hint_content:
+          oneOf:
+            - $ref: '#/components/schemas/SegmentContent'
+            - type: 'null'
+        correction_content:
+          $ref: '#/components/schemas/CorrectionContent'
+        hidden_concept_content:
+          oneOf:
+            - $ref: '#/components/schemas/SegmentContent'
+            - type: 'null'
+        oral_formulation_content:
+          oneOf:
+            - $ref: '#/components/schemas/SegmentContent'
+            - type: 'null'
+        tags:
+          type: array
+          maxItems: 18
+          items:
+            type: string
+            maxLength: 60
+    ImportRequest:
+      type: object
+      additionalProperties: false
+      required: [import_id, items]
+      properties:
+        import_id:
+          type: string
+          pattern: '^[A-Za-z0-9_-]{8,80}$'
+          description: Identifiant stable et unique créé une seule fois pour cet import. Réutiliser le même identifiant en cas de nouvel essai.
+        source_title:
+          type: string
+          maxLength: 160
+        items:
+          type: array
+          minItems: 1
+          maxItems: 30
+          items:
+            $ref: '#/components/schemas/DraftQuestion'
+    ImportResponse:
+      type: object
+      required: [ok, import_id, created_count, existing_count, total_count, drafts, review_url]
+      properties:
+        ok:
+          type: boolean
+        import_id:
+          type: string
+        created_count:
+          type: integer
+        existing_count:
+          type: integer
+        total_count:
+          type: integer
+        drafts:
+          type: array
+          items:
+            type: object
+            required: [id, title]
+            properties:
+              id:
+                type: string
+              title:
+                type: string
+        review_url:
+          type: string
+          format: uri
