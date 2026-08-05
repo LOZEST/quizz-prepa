@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="./styles/shell.css">
+  <title>Autoriser ChatGPT · Quiz TSI</title>
+</head>
+<body class="page">
+  <main class="invite-page">
+    <section class="invite-card" aria-labelledby="oauth-title">
+      <div class="invite-logo" aria-hidden="true">Q</div>
+      <p class="badge">Connexion sécurisée</p>
+      <h1 id="oauth-title">Relier ChatGPT à Quiz TSI</h1>
+      <p id="oauth-status">Vérification de la demande d’autorisation…</p>
+
+      <form id="oauth-login-form" hidden>
+        <p>Connecte-toi avec le compte Quiz TSI dans lequel les brouillons devront être ajoutés.</p>
+        <label>
+          Adresse e-mail
+          <input name="email" type="email" autocomplete="username" required>
+        </label>
+        <label>
+          Mot de passe
+          <input name="password" type="password" autocomplete="current-password" required>
+        </label>
+        <button class="primary" type="submit">Se connecter</button>
+      </form>
+
+      <section id="oauth-consent" hidden aria-labelledby="oauth-client-name">
+        <h2 id="oauth-client-name">Import Quiz TSI</h2>
+        <p>Cette connexion autorise ChatGPT à créer uniquement des brouillons privés dans ta banque de questions.</p>
+        <dl>
+          <dt>Application</dt>
+          <dd id="oauth-client">—</dd>
+          <dt>Retour</dt>
+          <dd id="oauth-redirect">—</dd>
+          <dt>Autorisations demandées</dt>
+          <dd><ul id="oauth-scopes"></ul></dd>
+        </dl>
+        <p><strong>ChatGPT ne reçoit jamais ton mot de passe.</strong> Les contenus importés restent en brouillon jusqu’à ta validation dans Quiz TSI.</p>
+        <div class="actions-row">
+          <button id="oauth-deny" class="secondary" type="button">Refuser</button>
+          <button id="oauth-approve" class="primary" type="button">Autoriser</button>
+        </div>
+      </section>
+
+      <p id="oauth-error" class="form-error" role="alert" aria-live="assertive"></p>
+      <p><a href="./privacy-chatgpt-import.html">Confidentialité de l’import ChatGPT</a></p>
+    </section>
+  </main>
+  <script type="module" src="./scripts/auth/oauth-consent-page.js"></script>
+</body>
+</html>
