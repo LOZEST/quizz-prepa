@@ -1,0 +1,208 @@
+{
+  "version": "2026-08-05",
+  "parts": [
+    {
+      "id": "F",
+      "label": "Bases indispensables",
+      "chapters": [
+        {
+          "id": "fund-algebra",
+          "label": "Calcul algébrique",
+          "notions": [
+            ["fund-priorities", "Priorités opératoires"],
+            ["fund-signs", "Règles de signes"],
+            ["fund-distributivity", "Distributivité simple"],
+            ["fund-double-distributivity", "Double distributivité"],
+            ["fund-reduction", "Réduction d’expressions"],
+            ["fund-common-factor", "Factorisation par facteur commun"]
+          ]
+        },
+        {
+          "id": "fund-identities",
+          "label": "Identités remarquables",
+          "notions": [
+            ["fund-square-sum", "Carré d’une somme"],
+            ["fund-square-difference", "Carré d’une différence"],
+            ["fund-conjugates", "Produit de conjugués"],
+            ["fund-identities-expand", "Développer avec une identité"],
+            ["fund-identities-factor", "Factoriser avec une identité"],
+            ["fund-identities-recognize", "Reconnaître une identité"],
+            ["fund-identities-error", "Erreur classique sur 2ab"]
+          ]
+        },
+        {
+          "id": "fund-fractions",
+          "label": "Fractions",
+          "notions": [
+            ["fund-fraction-add", "Addition et soustraction"],
+            ["fund-fraction-product", "Multiplication"],
+            ["fund-fraction-division", "Division"],
+            ["fund-fraction-simplify", "Simplification"],
+            ["fund-fraction-domain", "Dénominateurs non nuls"],
+            ["fund-complex-fraction", "Fractions complexes simples"]
+          ]
+        },
+        {
+          "id": "fund-powers-roots",
+          "label": "Puissances et racines",
+          "notions": [
+            ["fund-power-product", "Produit et quotient"],
+            ["fund-power-nested", "Puissance d’une puissance"],
+            ["fund-power-negative", "Exposants négatifs"],
+            ["fund-square-root", "Racine carrée et conditions"],
+            ["fund-root-square", "Différence entre √(a²) et a"]
+          ]
+        },
+        {
+          "id": "fund-equations",
+          "label": "Équations et inéquations de base",
+          "notions": [
+            ["fund-linear-equation", "Équation du premier degré"],
+            ["fund-zero-product", "Produit nul"],
+            ["fund-zero-quotient", "Quotient nul"],
+            ["fund-inequality-sign", "Sens d’une inégalité"],
+            ["fund-sign-table", "Tableaux de signes simples"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A",
+      "label": "A — Puissances",
+      "chapters": [
+        {
+          "id": "powers",
+          "label": "Puissances",
+          "notions": [
+            ["powers-product", "Produit et quotient de puissances"],
+            ["powers-nested", "Puissance d’une puissance"],
+            ["powers-negative", "Exposants négatifs et conditions"],
+            ["powers-multivariable", "Expressions à plusieurs variables"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "label": "B — Polynômes et fractions rationnelles",
+      "chapters": [
+        {
+          "id": "factorisation",
+          "label": "Factorisation",
+          "notions": [
+            ["factor-common", "Facteur commun"],
+            ["factor-identities", "Identités remarquables"],
+            ["factor-trinomial", "Trinômes et racines évidentes"]
+          ]
+        },
+        {
+          "id": "rational",
+          "label": "Fractions rationnelles",
+          "notions": [
+            ["fraction-domain", "Ensemble de définition"],
+            ["fraction-simplify", "Factoriser puis simplifier"],
+            ["fraction-sign", "Signe d’un quotient"]
+          ]
+        },
+        {
+          "id": "equations",
+          "label": "Équations et inéquations",
+          "notions": [
+            ["quadratic-solve", "Résolution du second degré"],
+            ["quadratic-sign", "Signe d’un trinôme"],
+            ["inequalities", "Inéquations et systèmes"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "label": "C — Suites",
+      "chapters": [
+        {
+          "id": "sequences",
+          "label": "Suites",
+          "notions": [
+            ["sequence-recognition", "Reconnaître une suite"],
+            ["sequence-variation", "Sens de variation"],
+            ["sequence-arithmetic", "Suites arithmétiques"],
+            ["sequence-geometric", "Suites géométriques"],
+            ["sequence-sums", "Sommes et nombre de termes"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "label": "D — Fonctions",
+      "chapters": [
+        {
+          "id": "domains",
+          "label": "Domaines de définition",
+          "notions": [
+            ["domain-quotient", "Quotients"],
+            ["domain-log", "Logarithmes"],
+            ["domain-composition", "Fonctions composées"]
+          ]
+        },
+        {
+          "id": "derivatives",
+          "label": "Dérivation",
+          "notions": [
+            ["derivative-basic", "Formules de base"],
+            ["derivative-product", "Produit et quotient"],
+            ["derivative-composite", "Composition"],
+            ["derivative-tangent", "Tangentes et approximation"],
+            ["derivative-variation", "Variations et extrema"]
+          ]
+        },
+        {
+          "id": "primitives",
+          "label": "Primitives",
+          "notions": [
+            ["primitive-basic", "Primitives usuelles"],
+            ["primitive-composite", "Reconnaissance u′uⁿ"],
+            ["primitive-log", "Reconnaissance u′/u"],
+            ["primitive-constant", "Condition initiale"]
+          ]
+        },
+        {
+          "id": "limits",
+          "label": "Limites et variations",
+          "notions": [
+            ["limit-polynomial", "Polynômes et terme dominant"],
+            ["limit-rational", "Quotients et formes indéterminées"],
+            ["limit-log-exp", "Logarithme et exponentielle"],
+            ["variation-table", "Tableaux de variations complets"]
+          ]
+        },
+        {
+          "id": "differential",
+          "label": "Équations différentielles",
+          "notions": [
+            ["ode-first", "Équation y′ = ay + b"],
+            ["ode-initial", "Condition initiale"],
+            ["ode-second-simple", "Équations avec dérivée seconde simple"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E",
+      "label": "E — Trigonométrie",
+      "chapters": [
+        {
+          "id": "trigonometry",
+          "label": "Trigonométrie",
+          "notions": [
+            ["trig-circle", "Cercle trigonométrique"],
+            ["trig-values", "Valeurs remarquables"],
+            ["trig-symmetry", "Symétries et périodicité"],
+            ["trig-equations", "Équations trigonométriques"],
+            ["trig-functions", "Courbes sinus et cosinus"]
+          ]
+        }
+      ]
+    }
+  ]
+}
