@@ -84,3 +84,16 @@ Ces contrôles matériels n’ont pas été exécutés dans l’environnement te
 - Créer chaque type de question, afficher KaTeX, générer dix variantes et vérifier que le JSON avancé reste fermé par défaut.
 - Couper le réseau puis ouvrir directement `questions.html` et `settings.html` après un premier chargement.
 - Vérifier au Pencil que la séparation des pages n'altère ni pression, ni gomme, ni rotation, ni brouillons de test.
+
+## Tableau blanc minimal et tiroir de séance
+
+- [ ] Ouvrir et fermer le tiroir au doigt, par le fond, par × et avec Échap.
+- [ ] Écrire en continu au Pencil tiroir fermé ; vérifier pression, gomme, annuler et rétablir.
+- [ ] Ouvrir le tiroir après avoir dessiné : aucun trait ne doit se déplacer ou se déformer.
+- [ ] Changer partie, chapitre, notion, type et difficulté : la question et le brouillon restent visibles ; les nouveaux réglages ne prennent effet qu'à **Suivante**.
+- [ ] Activer/désactiver la grille, changer l'épaisseur, les formes parfaites et la main dominante, puis relancer la PWA.
+- [ ] Vérifier portrait et paysage, les cibles tactiles et les zones de sécurité.
+- [ ] Choisir Réflexe : difficulté masquée et chronomètre de 60 secondes visible sur la question.
+- [ ] Ouvrir la correction puis vérifier que Réussi et Raté apparaissent seulement à ce moment.
+- [ ] Démarrer un test de chapitre sur 20 puis sur 40 et vérifier la confirmation interne de sortie.
+- [ ] Passer en mode avion après une première ouverture, terminer une question, fermer puis reprendre la PWA.
